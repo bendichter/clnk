@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BiteVue Admin Dashboard</title>
+    <title>Clnk Admin Dashboard</title>
+    <link rel="stylesheet" href="css/design-system.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Login Screen -->
     <div id="login-screen" class="screen active">
         <div class="login-container">
-            <h1>🍽️ BiteVue Admin</h1>
+            <h1>🥂 Clnk Admin</h1>
             <p>Content Moderation Dashboard</p>
             <form id="login-form">
                 <input type="password" id="admin-password" placeholder="Admin Password" required>
-                <button type="submit">Login</button>
+                <button type="submit" class="btn btn-primary">Login</button>
             </form>
             <div id="login-error" class="error-message"></div>
         </div>
@@ -24,13 +25,13 @@
     <div id="dashboard-screen" class="screen">
         <nav class="navbar">
             <div class="nav-brand">
-                <h2>🍽️ BiteVue Admin</h2>
+                <h2>🥂 Clnk Admin</h2>
             </div>
             <div class="nav-menu">
                 <button class="nav-btn active" data-tab="stats">Stats</button>
                 <button class="nav-btn" data-tab="reports">Reports</button>
                 <button class="nav-btn" data-tab="blocked">Blocked Users</button>
-                <button class="logout-btn" onclick="logout()">Logout</button>
+                <button class="logout-btn btn btn-outline" onclick="logout()">Logout</button>
             </div>
         </nav>
 
@@ -39,42 +40,42 @@
             <div id="stats-tab" class="tab-content active">
                 <h2>Overview Statistics</h2>
                 <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon">🍽️</div>
+                    <div class="stat-card card">
+                        <div class="stat-icon">🍸</div>
                         <div class="stat-info">
                             <h3 id="stat-restaurants">-</h3>
-                            <p>Restaurants</p>
+                            <p>Bars</p>
                         </div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">🥘</div>
+                    <div class="stat-card card">
+                        <div class="stat-icon">🍹</div>
                         <div class="stat-info">
                             <h3 id="stat-dishes">-</h3>
-                            <p>Dishes</p>
+                            <p>Cocktails</p>
                         </div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card card">
                         <div class="stat-icon">⭐</div>
                         <div class="stat-info">
                             <h3 id="stat-ratings">-</h3>
                             <p>Ratings</p>
                         </div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card card">
                         <div class="stat-icon">👥</div>
                         <div class="stat-info">
                             <h3 id="stat-users">-</h3>
                             <p>Users</p>
                         </div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card card">
                         <div class="stat-icon">🚨</div>
                         <div class="stat-info">
                             <h3 id="stat-reports">-</h3>
                             <p>Reports</p>
                         </div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card card">
                         <div class="stat-icon">🚫</div>
                         <div class="stat-info">
                             <h3 id="stat-blocks">-</h3>
@@ -89,11 +90,11 @@
                 <div class="tab-header">
                     <h2>Reported Reviews</h2>
                     <div class="filter-buttons">
-                        <button class="filter-btn active" data-filter="all">All</button>
-                        <button class="filter-btn" data-filter="pending">Pending</button>
-                        <button class="filter-btn" data-filter="reviewed">Reviewed</button>
-                        <button class="filter-btn" data-filter="dismissed">Dismissed</button>
-                        <button class="filter-btn" data-filter="actioned">Actioned</button>
+                        <button class="filter-btn btn btn-outline active" data-filter="all">All</button>
+                        <button class="filter-btn btn btn-outline" data-filter="pending">Pending</button>
+                        <button class="filter-btn btn btn-outline" data-filter="reviewed">Reviewed</button>
+                        <button class="filter-btn btn btn-outline" data-filter="dismissed">Dismissed</button>
+                        <button class="filter-btn btn btn-outline" data-filter="actioned">Actioned</button>
                     </div>
                 </div>
                 <div id="reports-list" class="reports-list">
@@ -113,7 +114,7 @@
 
     <!-- Report Detail Modal -->
     <div id="report-modal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content card">
             <span class="close-modal">&times;</span>
             <div id="modal-body"></div>
         </div>
