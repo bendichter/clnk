@@ -48,34 +48,28 @@ struct UserProfileView: View {
                             .padding(.horizontal, 24)
                     }
                     
-                    // Stats
+                    // Stats Row 1: Social
                     HStack(spacing: 32) {
+                        VStack(spacing: 4) {
+                            Text("\(userFollowersCount)")
+                                .font(.title3.weight(.bold))
+                            Text("Followers")
+                                .font(.caption)
+                                .foregroundStyle(AppTheme.textSecondary)
+                        }
+                        
+                        VStack(spacing: 4) {
+                            Text("\(userFollowingCount)")
+                                .font(.title3.weight(.bold))
+                            Text("Following")
+                                .font(.caption)
+                                .foregroundStyle(AppTheme.textSecondary)
+                        }
+                        
                         VStack(spacing: 4) {
                             Text("\(userReviews.count)")
                                 .font(.title3.weight(.bold))
                             Text("Reviews")
-                                .font(.caption)
-                                .foregroundStyle(AppTheme.textSecondary)
-                        }
-                        
-                        VStack(spacing: 4) {
-                            if averageRating > 0 {
-                                Text(String(format: "%.1f", averageRating))
-                                    .font(.title3.weight(.bold))
-                            } else {
-                                Text("—")
-                                    .font(.title3.weight(.bold))
-                                    .foregroundStyle(AppTheme.textSecondary)
-                            }
-                            Text("Avg Rating")
-                                .font(.caption)
-                                .foregroundStyle(AppTheme.textSecondary)
-                        }
-                        
-                        VStack(spacing: 4) {
-                            Text("\(totalPhotos)")
-                                .font(.title3.weight(.bold))
-                            Text("Photos")
                                 .font(.caption)
                                 .foregroundStyle(AppTheme.textSecondary)
                         }
@@ -218,6 +212,20 @@ struct UserProfileView: View {
     
     private var totalPhotos: Int {
         userReviews.reduce(0) { $0 + $1.photos.count }
+    }
+    
+    // Mock follower/following counts for demo
+    // In production, these would come from Supabase
+    private var userFollowersCount: Int {
+        // For demo: random-ish count based on user ID hash
+        let hash = userId.hashValue
+        return abs(hash % 500) + 10
+    }
+    
+    private var userFollowingCount: Int {
+        // For demo: random-ish count based on user ID hash
+        let hash = userId.hashValue
+        return abs((hash / 7) % 200) + 5
     }
 }
 
