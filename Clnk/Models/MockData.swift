@@ -1802,4 +1802,27 @@ struct MockData {
         }
         return ratings
     }
+    
+    // MARK: - Demo Following Data
+    
+    /// Users to auto-follow in demo mode (so Following tab has content)
+    static let demoFollowingUserIds: Set<UUID> = [
+        UUID(uuidString: "11111111-1111-1111-1111-111111111111")!, // Sarah Chen
+        UUID(uuidString: "22222222-2222-2222-2222-222222222222")!, // Mike Johnson
+    ]
+    
+    /// Get FollowUserInfo for demo following
+    static var demoFollowingUsers: [FollowUserInfo] {
+        users.filter { demoFollowingUserIds.contains($0.id) }.map { user in
+            FollowUserInfo(
+                id: user.id,
+                username: user.username,
+                fullName: user.fullName,
+                avatarEmoji: user.avatarEmoji,
+                avatarImageName: user.avatarImageName,
+                bio: user.bio,
+                followedAt: Calendar.current.date(byAdding: .day, value: -7, to: Date())!
+            )
+        }
+    }
 }

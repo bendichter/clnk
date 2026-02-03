@@ -1,13 +1,13 @@
-# 🍽️ Great Plate
+# 🥂 Clnk
 
-A social food discovery app for iOS that helps you find and share amazing dishes at restaurants.
+A social cocktail discovery app for iOS that helps you find and share amazing drinks at bars.
 
 ## Features
 
-- 🔍 Discover dishes and restaurants near you
-- ⭐ Rate and review dishes
-- 📸 Share photos of your food
-- 👥 Follow other food lovers
+- 🔍 Discover cocktails and bars near you
+- ⭐ Rate and review drinks
+- 📸 Share photos of your cocktails
+- 👥 Follow other cocktail enthusiasts
 - 🗺️ Explore with interactive maps
 - 🚨 Report inappropriate content
 - 🚫 Block users for a better experience
@@ -17,15 +17,20 @@ A social food discovery app for iOS that helps you find and share amazing dishes
 - **iOS App**: Swift, SwiftUI
 - **Backend**: Supabase (PostgreSQL, Auth, Storage)
 - **Admin Dashboard**: HTML/CSS/JavaScript
+- **Design System**: Teal & Sage color palette
 
 ## Getting Started
 
 ### iOS App
 
 1. Clone this repository
-2. Open `BiteVue.xcodeproj` in Xcode (project name not changed)
-3. Configure Supabase credentials in `BiteVue/Config.swift`
+2. Open `Clnk.xcodeproj` in Xcode
+3. Configure Supabase credentials in `Clnk/Config.swift`
 4. Build and run on simulator or device
+
+### Demo Mode
+
+The app includes a demo mode with mock data for testing without Supabase connection.
 
 ### Admin Dashboard
 
@@ -33,64 +38,40 @@ The admin dashboard is a web-based content moderation tool located in the `/admi
 
 **Access the dashboard:**
 - Development: Open `admin/index.html` in a web browser
-- Production: Can be deployed to GitHub Pages or any static hosting
+- Production: Deploy to any static hosting
 
 **Features:**
-- 📊 **Stats Overview**: View total restaurants, dishes, ratings, users, reports, and blocks
-- 🚨 **Reports Dashboard**: Manage reported reviews with actions to mark as reviewed, dismiss, or hide content
+- 📊 **Stats Overview**: View total bars, cocktails, ratings, users, reports, and blocks
+- 🚨 **Reports Dashboard**: Manage reported reviews
 - 🚫 **Blocked Users**: View all user block relationships
-- 🔐 **Simple Authentication**: Password-protected access (default: `greatplate2024`)
+- 🔐 **Simple Authentication**: Password-protected access
 
-**Dashboard Configuration:**
-- Supabase URL and anon key are configured in `admin/app.js`
-- Uses Supabase JS client (loaded via CDN)
-- No build step required - pure HTML/CSS/JS
+## Design System
 
-**To deploy admin dashboard to GitHub Pages:**
-```bash
-# Enable GitHub Pages in repo settings, set source to root/admin folder
-# Or use gh-pages branch:
-git subtree push --prefix admin origin gh-pages
-```
-
-**Security Note:** For production, replace the simple password authentication with Supabase Auth or implement proper admin role-based access control.
+The app uses a comprehensive teal & sage color palette. See:
+- `Clnk/Components/Colors.swift` - SwiftUI colors
+- `admin/css/design-system.css` - CSS variables
+- `admin/palette.html` - Visual preview
 
 ## Database Schema
 
 Key tables:
-- `restaurants` - Restaurant information
-- `dishes` - Dish details linked to restaurants
-- `ratings` - User ratings and reviews for dishes
+- `restaurants` - Bar information (named for Great Plate compatibility)
+- `dishes` - Cocktail details (named for Great Plate compatibility)
+- `ratings` - User ratings and reviews
 - `profiles` - User profiles
+- `user_follows` - Social following relationships
 - `reports` - Content moderation reports
 - `blocked_users` - User block relationships
 
-See `/database` and `/supabase` directories for schema details.
-
 ## Content Moderation
 
-Great Plate includes comprehensive content moderation features:
-
+Clnk includes comprehensive content moderation features:
 - Users can report inappropriate reviews
 - Admins review reports via the web dashboard
 - Reviews can be hidden from public view
 - Users can block other users
-- See `UGC_COMPLIANCE_README.md` for compliance details
-
-## Documentation
-
-- `UGC_COMPLIANCE_README.md` - User-generated content compliance
-- `UGC_IMPLEMENTATION_STATUS.md` - Implementation status of UGC features
-- `/docs` - Additional documentation
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
 
 ## License
 
-Copyright © 2024-2026 Great Plate. All rights reserved.
+Copyright © 2024-2026 Clnk. All rights reserved.

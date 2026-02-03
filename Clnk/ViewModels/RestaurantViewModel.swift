@@ -41,6 +41,11 @@ class RestaurantViewModel: ObservableObject {
         forceDemoMode = true
         self.restaurants = MockData.restaurants
         self.useMockDataFallback = true
+        
+        // Load demo following data
+        followingIds = MockData.demoFollowingUserIds
+        followingUsers = MockData.demoFollowingUsers
+        saveFollowing()
     }
     
     // Location-based properties
