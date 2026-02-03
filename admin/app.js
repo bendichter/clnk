@@ -1,4 +1,4 @@
-// BiteVue Admin Dashboard JavaScript
+// Clnk Admin Dashboard JavaScript
 
 // Supabase Configuration
 const SUPABASE_URL = 'https://kgfdwcsydjzioqdlovjy.supabase.co';
