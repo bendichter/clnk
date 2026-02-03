@@ -9,6 +9,7 @@ struct RestaurantDetailView: View {
     @State private var showAddDish = false
     @State private var showMenuUpload = false
     @State private var searchText = ""
+    @State private var showShareSheet = false
     @FocusState private var isSearchFocused: Bool
     
     var body: some View {
@@ -309,7 +310,7 @@ struct RestaurantDetailView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack(spacing: 12) {
                     Button {
-                        // Share action
+                        showShareSheet = true
                     } label: {
                         Image(systemName: "square.and.arrow.up")
                             .font(.body.weight(.semibold))
@@ -333,6 +334,13 @@ struct RestaurantDetailView: View {
         }
         .sheet(isPresented: $showMenuUpload) {
             MenuUploadView(restaurant: restaurant)
+        }
+        .sheet(isPresented: $showShareSheet) {
+            let deepLink = DeepLink.bar(id: restaurant.id)
+            ShareSheet(items: [
+                deepLink.shareText(barName: restaurant.name),
+                deepLink.url
+            ])
         }
     }
     

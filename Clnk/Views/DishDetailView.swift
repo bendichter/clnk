@@ -11,6 +11,7 @@ struct DishDetailView: View {
     @EnvironmentObject var restaurantViewModel: RestaurantViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
     @State private var showRatingSheet = false
+    @State private var showShareSheet = false
     @State private var selectedReviewSort: ReviewSort = .recent
     
     enum ReviewSort: String, CaseIterable {
@@ -222,7 +223,7 @@ struct DishDetailView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    // Share
+                    showShareSheet = true
                 } label: {
                     Image(systemName: "square.and.arrow.up")
                         .font(.body.weight(.semibold))
@@ -233,6 +234,13 @@ struct DishDetailView: View {
         .sheet(isPresented: $showRatingSheet) {
             RateDishView(dish: dish, restaurant: restaurant)
                 .presentationDetents([.large])
+        }
+        .sheet(isPresented: $showShareSheet) {
+            let deepLink = DeepLink.drink(barId: restaurant.id, drinkId: dish.id)
+            ShareSheet(items: [
+                deepLink.shareText(barName: restaurant.name, drinkName: dish.name),
+                deepLink.url
+            ])
         }
     }
     

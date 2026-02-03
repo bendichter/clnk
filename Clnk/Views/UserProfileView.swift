@@ -12,6 +12,7 @@ struct UserProfileView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @State private var showBlockAlert = false
     @State private var showUnblockAlert = false
+    @State private var showShareSheet = false
     
     private var isOwnProfile: Bool {
         authViewModel.currentUser?.id == userId
@@ -136,29 +137,46 @@ struct UserProfileView: View {
         .navigationBarTitleDisplayMode(.inline)
         .background(AppTheme.backgroundSecondary)
         .toolbar {
-            // UGC: Block/Unblock User (only for other users' profiles)
-            if !isOwnProfile {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
-                        if isBlocked {
-                            Button {
-                                showUnblockAlert = true
-                            } label: {
-                                Label("Unblock User", systemImage: "person.crop.circle.badge.checkmark")
-                            }
-                        } else {
-                            Button(role: .destructive) {
-                                showBlockAlert = true
-                            } label: {
-                                Label("Block User", systemImage: "hand.raised")
-                            }
-                        }
+            // Share profile
+            ToolbarItem(placement: .navigationBarTrailing) {
+                HStack(spacing: 12) {
+                    Button {
+                        showShareSheet = true
                     } label: {
-                        Image(systemName: "ellipsis.circle")
+                        Image(systemName: "square.and.arrow.up")
                             .font(.body.weight(.semibold))
+                    }
+                    
+                    // UGC: Block/Unblock User (only for other users' profiles)
+                    if !isOwnProfile {
+                        Menu {
+                            if isBlocked {
+                                Button {
+                                    showUnblockAlert = true
+                                } label: {
+                                    Label("Unblock User", systemImage: "person.crop.circle.badge.checkmark")
+                                }
+                            } else {
+                                Button(role: .destructive) {
+                                    showBlockAlert = true
+                                } label: {
+                                    Label("Block User", systemImage: "hand.raised")
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "ellipsis.circle")
+                                .font(.body.weight(.semibold))
+                        }
                     }
                 }
             }
+        }
+        .sheet(isPresented: $showShareSheet) {
+            let deepLink = DeepLink.profile(id: userId)
+            ShareSheet(items: [
+                deepLink.shareText(userName: userName),
+                deepLink.url
+            ])
         }
         .alert("Block \(userName)?", isPresented: $showBlockAlert) {
             Button("Cancel", role: .cancel) { }
