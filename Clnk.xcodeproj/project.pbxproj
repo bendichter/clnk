@@ -44,6 +44,7 @@
 		A11111110000000000000101 /* MenuExtractionReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000101 /* MenuExtractionReviewView.swift */; };
 		A11111110000000000000102 /* ClusteredMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000102 /* ClusteredMapView.swift */; };
 		A11111110000000000000200 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000200 /* Colors.swift */; };
+		A11111110000000000000201 /* FollowingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000201 /* FollowingListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 		A10000000000000000000101 /* MenuExtractionReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuExtractionReviewView.swift; sourceTree = "<group>"; };
 		A10000000000000000000102 /* ClusteredMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusteredMapView.swift; sourceTree = "<group>"; };
 		A10000000000000000000200 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		A10000000000000000000201 /* FollowingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +173,7 @@
 				A10000000000000000000100 /* MenuUploadView.swift */,
 				A10000000000000000000101 /* MenuExtractionReviewView.swift */,
 				A10000000000000000000102 /* ClusteredMapView.swift */,
+				A10000000000000000000201 /* FollowingListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 				A11111110000000000000016 /* MainTabView.swift in Sources */,
 				A11111110000000000000017 /* Theme.swift in Sources */,
 				A11111110000000000000200 /* Colors.swift in Sources */,
+				A11111110000000000000201 /* FollowingListView.swift in Sources */,
 				A11111110000000000000018 /* UserProfileView.swift in Sources */,
 				A11111110000000000000019 /* MapView.swift in Sources */,
 				A11111110000000000000020 /* LocationManager.swift in Sources */,

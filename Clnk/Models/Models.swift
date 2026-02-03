@@ -321,3 +321,29 @@ enum DietaryFilter: String, CaseIterable {
         }
     }
 }
+
+// MARK: - User Follow Model
+struct UserFollow: Identifiable, Codable, Equatable {
+    let id: UUID
+    let followerId: UUID    // The user who is following
+    let followingId: UUID   // The user being followed
+    let createdAt: Date
+    
+    init(id: UUID = UUID(), followerId: UUID, followingId: UUID, createdAt: Date = Date()) {
+        self.id = id
+        self.followerId = followerId
+        self.followingId = followingId
+        self.createdAt = createdAt
+    }
+}
+
+// MARK: - Follow User Info (for display)
+struct FollowUserInfo: Identifiable, Equatable {
+    let id: UUID
+    let username: String
+    let fullName: String
+    let avatarEmoji: String
+    let avatarImageName: String?
+    let bio: String?
+    let followedAt: Date
+}

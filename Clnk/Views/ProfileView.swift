@@ -103,14 +103,72 @@ struct ProfileView: View {
                         color: .red
                     )
                     
-                    StatCard(
-                        icon: "fork.knife",
-                        value: "\(restaurantViewModel.restaurants.count)",
-                        label: "Explored",
-                        color: .green
-                    )
+                    NavigationLink {
+                        FollowingListView()
+                    } label: {
+                        StatCard(
+                            icon: "person.2.fill",
+                            value: "\(restaurantViewModel.followingCount)",
+                            label: "Following",
+                            color: ClnkColors.Primary.shade500
+                        )
+                    }
+                    .buttonStyle(.plain)
                 }
                 .padding(.horizontal)
+                
+                // Following Section (if following anyone)
+                if restaurantViewModel.hasFollowing {
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack {
+                            SectionHeader(title: "Following")
+                            Spacer()
+                            NavigationLink {
+                                FollowingListView()
+                            } label: {
+                                Text("Manage")
+                                    .font(.subheadline.weight(.medium))
+                                    .foregroundStyle(ClnkColors.Accent.shade600)
+                            }
+                        }
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 16) {
+                                ForEach(restaurantViewModel.followingUsers.prefix(10)) { user in
+                                    NavigationLink {
+                                        UserProfileView(
+                                            userId: user.id,
+                                            userName: user.fullName,
+                                            userEmoji: user.avatarEmoji,
+                                            userAvatarImageName: user.avatarImageName,
+                                            userBio: user.bio
+                                        )
+                                    } label: {
+                                        VStack(spacing: 8) {
+                                            ProfileAvatarView(
+                                                emoji: user.avatarEmoji,
+                                                imageName: user.avatarImageName,
+                                                profileImageData: nil,
+                                                size: 56
+                                            )
+                                            Text(user.fullName.components(separatedBy: " ").first ?? user.username)
+                                                .font(.caption)
+                                                .foregroundStyle(AppTheme.textPrimary)
+                                                .lineLimit(1)
+                                        }
+                                        .frame(width: 72)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                            .padding(.horizontal)
+                        }
+                    }
+                    .padding(.vertical, 16)
+                    .background(AppTheme.backgroundPrimary)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .padding(.horizontal)
+                }
                 
                 // Recent Activity - Paginated Reviews
                 VStack(alignment: .leading, spacing: 16) {

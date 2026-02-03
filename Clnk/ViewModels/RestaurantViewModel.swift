@@ -719,4 +719,138 @@ class RestaurantViewModel: ObservableObject {
     func clearError() {
         errorMessage = nil
     }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // MARK: - Following System
+    // ═══════════════════════════════════════════════════════════════════
+    
+    @Published var followingIds: Set<UUID> = []  // Users the current user follows
+    @Published var followerIds: Set<UUID> = []   // Users following the current user
+    @Published var followingUsers: [FollowUserInfo] = []  // Detailed info about followed users
+    @Published var followerUsers: [FollowUserInfo] = []   // Detailed info about followers
+    
+    private let followingKey = "followingUserIds"
+    
+    // MARK: - Following Persistence
+    private func loadFollowing() {
+        if let data = UserDefaults.standard.data(forKey: followingKey),
+           let ids = try? JSONDecoder().decode(Set<UUID>.self, from: data) {
+            followingIds = ids
+        }
+    }
+    
+    private func saveFollowing() {
+        if let data = try? JSONEncoder().encode(followingIds) {
+            UserDefaults.standard.set(data, forKey: followingKey)
+        }
+    }
+    
+    // MARK: - Initialize Following (call this in init or after auth)
+    func initializeFollowing() {
+        loadFollowing()
+        loadFollowingUsersFromMock()
+    }
+    
+    // MARK: - Load Following Users (Mock Data for Demo)
+    private func loadFollowingUsersFromMock() {
+        // Convert followingIds to FollowUserInfo using MockData users
+        followingUsers = followingIds.compactMap { userId in
+            if let user = MockData.users.first(where: { $0.id == userId }) {
+                return FollowUserInfo(
+                    id: user.id,
+                    username: user.username,
+                    fullName: user.fullName,
+                    avatarEmoji: user.avatarEmoji,
+                    avatarImageName: user.avatarImageName,
+                    bio: user.bio,
+                    followedAt: Date()
+                )
+            }
+            return nil
+        }
+    }
+    
+    // MARK: - Check if Following
+    func isFollowing(_ userId: UUID) -> Bool {
+        followingIds.contains(userId)
+    }
+    
+    // MARK: - Follow User
+    func followUser(_ userId: UUID) {
+        guard !followingIds.contains(userId) else { return }
+        
+        followingIds.insert(userId)
+        saveFollowing()
+        loadFollowingUsersFromMock()
+        
+        // Sync with Supabase
+        Task {
+            do {
+                _ = try await service.followUser(userId: userId)
+                print("User followed successfully")
+            } catch SupabaseServiceError.notAuthenticated {
+                print("Follow saved locally - user not authenticated")
+            } catch {
+                print("Failed to sync follow: \(error)")
+            }
+        }
+        
+        objectWillChange.send()
+    }
+    
+    // MARK: - Unfollow User
+    func unfollowUser(_ userId: UUID) {
+        guard followingIds.contains(userId) else { return }
+        
+        followingIds.remove(userId)
+        saveFollowing()
+        followingUsers.removeAll { $0.id == userId }
+        
+        // Sync with Supabase
+        Task {
+            do {
+                _ = try await service.unfollowUser(userId: userId)
+                print("User unfollowed successfully")
+            } catch SupabaseServiceError.notAuthenticated {
+                print("Unfollow saved locally - user not authenticated")
+            } catch {
+                print("Failed to sync unfollow: \(error)")
+            }
+        }
+        
+        objectWillChange.send()
+    }
+    
+    // MARK: - Toggle Follow
+    func toggleFollow(_ userId: UUID) {
+        if isFollowing(userId) {
+            unfollowUser(userId)
+        } else {
+            followUser(userId)
+        }
+    }
+    
+    // MARK: - Following Count
+    var followingCount: Int {
+        followingIds.count
+    }
+    
+    // MARK: - Followers Count (placeholder for now)
+    var followersCount: Int {
+        followerIds.count
+    }
+    
+    // MARK: - Activity from Following
+    var followingActivity: [DishRating] {
+        guard !followingIds.isEmpty else { return [] }
+        
+        return recentActivity.filter { rating in
+            followingIds.contains(rating.userId) && !blockedUserIds.contains(rating.userId)
+        }
+    }
+    
+    // MARK: - Has Following (for Activity tab default)
+    var hasFollowing: Bool {
+        !followingIds.isEmpty
+    }
 }

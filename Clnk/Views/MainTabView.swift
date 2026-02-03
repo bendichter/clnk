@@ -189,45 +189,172 @@ struct SearchView: View {
 // MARK: - Activity View
 struct ActivityView: View {
     @EnvironmentObject var restaurantViewModel: RestaurantViewModel
+    @State private var selectedTab: ActivityTab = .following
     
-    // UGC: Filter out blocked users
-    private var filteredCommunityActivity: [DishRating] {
+    enum ActivityTab: String, CaseIterable {
+        case following = "Following"
+        case nearby = "Nearby"
+    }
+    
+    // UGC: Filter out blocked users from nearby
+    private var filteredNearbyActivity: [DishRating] {
         restaurantViewModel.recentActivity.filter { 
             !restaurantViewModel.blockedUserIds.contains($0.userId)
         }
     }
     
+    // Default to Following if user follows anyone, otherwise Nearby
+    private var effectiveDefaultTab: ActivityTab {
+        restaurantViewModel.hasFollowing ? .following : .nearby
+    }
+    
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                // Your Recent Ratings
-                if !restaurantViewModel.userRatings.isEmpty {
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Your Recent Ratings")
-                            .font(.headline)
-                            .padding(.horizontal)
-                        
-                        ForEach(Array(restaurantViewModel.userRatings.values).sorted { $0.date > $1.date }.prefix(5)) { rating in
-                            ActivityCard(rating: rating)
-                        }
-                    }
-                }
-                
-                // Community Activity (filtered to exclude blocked users)
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Community Activity")
-                        .font(.headline)
-                        .padding(.horizontal)
-                    
-                    ForEach(filteredCommunityActivity.prefix(15)) { rating in
-                        ActivityCard(rating: rating)
-                    }
+        VStack(spacing: 0) {
+            // Tab Picker
+            Picker("Activity", selection: $selectedTab) {
+                ForEach(ActivityTab.allCases, id: \.self) { tab in
+                    Text(tab.rawValue).tag(tab)
                 }
             }
-            .padding(.vertical)
+            .pickerStyle(.segmented)
+            .padding()
+            
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    // Your Recent Ratings (always show at top if any)
+                    if !restaurantViewModel.userRatings.isEmpty && selectedTab == .nearby {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Your Recent Ratings")
+                                .font(.headline)
+                                .padding(.horizontal)
+                            
+                            ForEach(Array(restaurantViewModel.userRatings.values).sorted { $0.date > $1.date }.prefix(5)) { rating in
+                                ActivityCard(rating: rating)
+                            }
+                        }
+                    }
+                    
+                    // Main Activity Content
+                    if selectedTab == .following {
+                        FollowingActivitySection()
+                    } else {
+                        NearbyActivitySection(ratings: filteredNearbyActivity)
+                    }
+                }
+                .padding(.vertical)
+            }
         }
         .navigationTitle(L10n.Activity.title)
         .background(AppTheme.backgroundSecondary)
+        .onAppear {
+            // Set default tab based on following status
+            if restaurantViewModel.hasFollowing {
+                selectedTab = .following
+            } else {
+                selectedTab = .nearby
+            }
+            // Initialize following data
+            restaurantViewModel.initializeFollowing()
+        }
+    }
+}
+
+// MARK: - Following Activity Section
+struct FollowingActivitySection: View {
+    @EnvironmentObject var restaurantViewModel: RestaurantViewModel
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("Following Activity")
+                    .font(.headline)
+                Spacer()
+                if !restaurantViewModel.followingIds.isEmpty {
+                    Text("\(restaurantViewModel.followingCount) following")
+                        .font(.caption)
+                        .foregroundStyle(AppTheme.textSecondary)
+                }
+            }
+            .padding(.horizontal)
+            
+            if restaurantViewModel.followingIds.isEmpty {
+                // Empty state - no one followed yet
+                VStack(spacing: 16) {
+                    Image(systemName: "person.2")
+                        .font(.system(size: 48))
+                        .foregroundStyle(ClnkColors.Primary.shade400)
+                    
+                    Text("Not following anyone yet")
+                        .font(.headline)
+                        .foregroundStyle(AppTheme.textPrimary)
+                    
+                    Text("Follow other cocktail enthusiasts to see their ratings and discoveries here!")
+                        .font(.subheadline)
+                        .foregroundStyle(AppTheme.textSecondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 32)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 60)
+            } else if restaurantViewModel.followingActivity.isEmpty {
+                // Following people but no activity yet
+                VStack(spacing: 16) {
+                    Image(systemName: "clock")
+                        .font(.system(size: 48))
+                        .foregroundStyle(ClnkColors.Sage.shade500)
+                    
+                    Text("No recent activity")
+                        .font(.headline)
+                        .foregroundStyle(AppTheme.textPrimary)
+                    
+                    Text("The people you follow haven't posted any ratings yet.")
+                        .font(.subheadline)
+                        .foregroundStyle(AppTheme.textSecondary)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 60)
+            } else {
+                ForEach(restaurantViewModel.followingActivity.prefix(20)) { rating in
+                    ActivityCard(rating: rating)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Nearby Activity Section
+struct NearbyActivitySection: View {
+    let ratings: [DishRating]
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Nearby Activity")
+                .font(.headline)
+                .padding(.horizontal)
+            
+            if ratings.isEmpty {
+                VStack(spacing: 16) {
+                    Image(systemName: "mappin.and.ellipse")
+                        .font(.system(size: 48))
+                        .foregroundStyle(ClnkColors.Accent.shade400)
+                    
+                    Text("No activity nearby")
+                        .font(.headline)
+                        .foregroundStyle(AppTheme.textPrimary)
+                    
+                    Text("Be the first to rate a cocktail in your area!")
+                        .font(.subheadline)
+                        .foregroundStyle(AppTheme.textSecondary)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 60)
+            } else {
+                ForEach(ratings.prefix(15)) { rating in
+                    ActivityCard(rating: rating)
+                }
+            }
+        }
     }
 }
 

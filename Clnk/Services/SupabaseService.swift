@@ -342,6 +342,31 @@ struct SupabaseBlockedUser: Codable, Identifiable {
     }
 }
 
+// MARK: - User Follow Models
+struct NewUserFollow: Codable {
+    let followerId: UUID
+    let followingId: UUID
+    
+    enum CodingKeys: String, CodingKey {
+        case followerId = "follower_id"
+        case followingId = "following_id"
+    }
+}
+
+struct SupabaseUserFollow: Codable, Identifiable {
+    let id: UUID
+    let followerId: UUID
+    let followingId: UUID
+    let createdAt: Date?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case followerId = "follower_id"
+        case followingId = "following_id"
+        case createdAt = "created_at"
+    }
+}
+
 struct NewReport: Codable {
     let reporterId: UUID
     let ratingId: UUID
@@ -1114,6 +1139,101 @@ final class SupabaseService: ObservableObject {
                 .execute()
             
             return true
+        } catch {
+            throw SupabaseServiceError.networkError(error)
+        }
+    }
+    
+    // MARK: - Following System
+    
+    /// Follow a user
+    func followUser(userId: UUID) async throws -> Bool {
+        guard let currentUserId = client.auth.currentUser?.id else {
+            throw SupabaseServiceError.notAuthenticated
+        }
+        
+        // Check if already following
+        let existing: [SupabaseUserFollow] = try await client
+            .from("user_follows")
+            .select()
+            .eq("follower_id", value: currentUserId.uuidString)
+            .eq("following_id", value: userId.uuidString)
+            .execute()
+            .value
+        
+        if !existing.isEmpty {
+            return true // Already following
+        }
+        
+        let newFollow = NewUserFollow(followerId: currentUserId, followingId: userId)
+        
+        do {
+            try await client
+                .from("user_follows")
+                .insert(newFollow)
+                .execute()
+            
+            return true
+        } catch {
+            throw SupabaseServiceError.networkError(error)
+        }
+    }
+    
+    /// Unfollow a user
+    func unfollowUser(userId: UUID) async throws -> Bool {
+        guard let currentUserId = client.auth.currentUser?.id else {
+            throw SupabaseServiceError.notAuthenticated
+        }
+        
+        do {
+            try await client
+                .from("user_follows")
+                .delete()
+                .eq("follower_id", value: currentUserId.uuidString)
+                .eq("following_id", value: userId.uuidString)
+                .execute()
+            
+            return true
+        } catch {
+            throw SupabaseServiceError.networkError(error)
+        }
+    }
+    
+    /// Fetch users the current user is following
+    func fetchFollowing() async throws -> [SupabaseUserFollow] {
+        guard let currentUserId = client.auth.currentUser?.id else {
+            throw SupabaseServiceError.notAuthenticated
+        }
+        
+        do {
+            let follows: [SupabaseUserFollow] = try await client
+                .from("user_follows")
+                .select()
+                .eq("follower_id", value: currentUserId.uuidString)
+                .execute()
+                .value
+            
+            return follows
+        } catch {
+            throw SupabaseServiceError.networkError(error)
+        }
+    }
+    
+    /// Fetch users following the current user
+    func fetchFollowers() async throws -> [SupabaseUserFollow] {
+        guard let currentUserId = client.auth.currentUser?.id else {
+            throw SupabaseServiceError.notAuthenticated
+        }
+        
+        do {
+            let follows: [SupabaseUserFollow] = try await client
+                .from("user_follows")
+                .select()
+                .eq("following_id", value: currentUserId.uuidString)
+                .execute()
+                .value
+            
+            return follows
         } catch {
             throw SupabaseServiceError.networkError(error)
         }

@@ -80,6 +80,29 @@ struct UserProfileView: View {
                         }
                     }
                     .padding(.top, 8)
+                    
+                    // Follow Button (only for other users)
+                    if !isOwnProfile {
+                        Button {
+                            restaurantViewModel.toggleFollow(userId)
+                        } label: {
+                            HStack(spacing: 8) {
+                                Image(systemName: restaurantViewModel.isFollowing(userId) ? "person.badge.minus" : "person.badge.plus")
+                                Text(restaurantViewModel.isFollowing(userId) ? "Following" : "Follow")
+                            }
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundColor(restaurantViewModel.isFollowing(userId) ? ClnkColors.Primary.shade700 : .white)
+                            .padding(.horizontal, 24)
+                            .padding(.vertical, 10)
+                            .background(
+                                restaurantViewModel.isFollowing(userId) 
+                                    ? ClnkColors.Sage.shade300 
+                                    : ClnkColors.Primary.shade600
+                            )
+                            .clipShape(Capsule())
+                        }
+                        .padding(.top, 12)
+                    }
                 }
                 .padding(.top, 20)
                 
