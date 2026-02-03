@@ -1,0 +1,34 @@
+# Snapshot configuration for automated screenshots
+
+# Devices to capture
+devices([
+  "iPhone 16 Pro Max",
+  "iPhone 16 Pro",
+  "iPhone SE (3rd generation)"
+])
+
+# Languages 
+languages([
+  "en-US"
+])
+
+# Xcode scheme
+scheme("BiteVueUITests")
+
+# Output directory
+output_directory("./Screenshots")
+
+# Clear old screenshots
+clear_previous_screenshots(true)
+
+# Override status bar for consistent screenshots
+override_status_bar(true)
+
+# Capture dark mode variants too
+# dark_mode(true)
+
+# Test without building (if already built)
+# test_without_building(true)
+
+# Number of concurrent simulators
+concurrent_simulators(true)

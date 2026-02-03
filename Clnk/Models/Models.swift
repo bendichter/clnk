@@ -1,0 +1,323 @@
+import Foundation
+import SwiftUI
+import CoreLocation
+
+// MARK: - User Model
+struct User: Identifiable, Codable, Equatable {
+    let id: UUID
+    var username: String
+    var email: String
+    var fullName: String
+    var avatarEmoji: String
+    var avatarImageName: String? // Name of profile image asset in Assets.xcassets
+    var profileImageData: Data? // Custom profile image data (from camera/photo library)
+    var bio: String // User's bio/about text
+    var joinDate: Date
+    var ratingsCount: Int
+    var favoriteRestaurants: [UUID]
+    
+    static func == (lhs: User, rhs: User) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    // Coding keys for backward compatibility
+    enum CodingKeys: String, CodingKey {
+        case id, username, email, fullName, avatarEmoji, avatarImageName, profileImageData, bio, joinDate, ratingsCount, favoriteRestaurants
+    }
+    
+    init(id: UUID, username: String, email: String, fullName: String, avatarEmoji: String, avatarImageName: String? = nil, profileImageData: Data? = nil, bio: String = "", joinDate: Date, ratingsCount: Int, favoriteRestaurants: [UUID]) {
+        self.id = id
+        self.username = username
+        self.email = email
+        self.fullName = fullName
+        self.avatarEmoji = avatarEmoji
+        self.avatarImageName = avatarImageName
+        self.profileImageData = profileImageData
+        self.bio = bio
+        self.joinDate = joinDate
+        self.ratingsCount = ratingsCount
+        self.favoriteRestaurants = favoriteRestaurants
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
+        username = try container.decode(String.self, forKey: .username)
+        email = try container.decode(String.self, forKey: .email)
+        fullName = try container.decode(String.self, forKey: .fullName)
+        avatarEmoji = try container.decode(String.self, forKey: .avatarEmoji)
+        avatarImageName = try container.decodeIfPresent(String.self, forKey: .avatarImageName)
+        profileImageData = try container.decodeIfPresent(Data.self, forKey: .profileImageData)
+        bio = try container.decodeIfPresent(String.self, forKey: .bio) ?? ""
+        joinDate = try container.decode(Date.self, forKey: .joinDate)
+        ratingsCount = try container.decode(Int.self, forKey: .ratingsCount)
+        favoriteRestaurants = try container.decode([UUID].self, forKey: .favoriteRestaurants)
+    }
+}
+
+// MARK: - Coordinate Model (for Codable support)
+struct Coordinate: Codable, Equatable, Hashable {
+    let latitude: Double
+    let longitude: Double
+    
+    var clLocationCoordinate2D: CLLocationCoordinate2D {
+        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+    
+    var clLocation: CLLocation {
+        CLLocation(latitude: latitude, longitude: longitude)
+    }
+    
+    init(latitude: Double, longitude: Double) {
+        self.latitude = latitude
+        self.longitude = longitude
+    }
+    
+    init(_ coordinate: CLLocationCoordinate2D) {
+        self.latitude = coordinate.latitude
+        self.longitude = coordinate.longitude
+    }
+}
+
+// MARK: - Restaurant Model
+struct Restaurant: Identifiable, Codable, Equatable, Hashable {
+    let id: UUID
+    var name: String
+    var cuisine: CuisineType
+    var description: String
+    var address: String
+    var coordinate: Coordinate
+    var priceRange: PriceRange
+    var imageEmoji: String
+    var headerColor: String
+    var dishes: [Dish]
+    var isFeatured: Bool
+    
+    /// Convenience accessor for CLLocationCoordinate2D
+    var locationCoordinate: CLLocationCoordinate2D {
+        coordinate.clLocationCoordinate2D
+    }
+    
+    var averageRating: Double {
+        let allRatings = dishes.flatMap { $0.ratings }
+        guard !allRatings.isEmpty else { return 0 }
+        return allRatings.reduce(0.0) { $0 + $1.rating } / Double(allRatings.count)
+    }
+    
+    var totalRatings: Int {
+        dishes.reduce(0) { $0 + $1.ratings.count }
+    }
+    
+    var topDishes: [Dish] {
+        dishes.filter { !$0.ratings.isEmpty }
+            .sorted { $0.averageRating > $1.averageRating }
+            .prefix(3)
+            .map { $0 }
+    }
+}
+
+// MARK: - Dish Model
+struct Dish: Identifiable, Codable, Equatable, Hashable {
+    let id: UUID
+    var name: String
+    var description: String
+    var price: Double
+    var category: DishCategory
+    var imageEmoji: String
+    var imageName: String? // Name of image asset in Assets.xcassets
+    var imageData: Data? // Custom image data from camera/photo library
+    var isPopular: Bool
+    var isSpicy: Bool
+    var isVegetarian: Bool
+    var isVegan: Bool
+    var isGlutenFree: Bool
+    var ratings: [DishRating]
+    
+    var averageRating: Double {
+        guard !ratings.isEmpty else { return 0 }
+        return ratings.reduce(0.0) { $0 + $1.rating } / Double(ratings.count)
+    }
+    
+    var formattedPrice: String {
+        String(format: "$%.2f", price)
+    }
+    
+    // Convenience initializer for backward compatibility
+    init(id: UUID, name: String, description: String, price: Double, category: DishCategory,
+         imageEmoji: String, imageName: String? = nil, imageData: Data? = nil, isPopular: Bool, isSpicy: Bool, isVegetarian: Bool,
+         isVegan: Bool = false, isGlutenFree: Bool = false, ratings: [DishRating]) {
+        self.id = id
+        self.name = name
+        self.description = description
+        self.price = price
+        self.category = category
+        self.imageEmoji = imageEmoji
+        self.imageName = imageName
+        self.imageData = imageData
+        self.isPopular = isPopular
+        self.isSpicy = isSpicy
+        self.isVegetarian = isVegetarian
+        self.isVegan = isVegan
+        self.isGlutenFree = isGlutenFree
+        self.ratings = ratings
+    }
+}
+
+// MARK: - Rating Model
+struct DishRating: Identifiable, Codable, Equatable, Hashable {
+    let id: UUID
+    let dishId: UUID
+    let userId: UUID
+    let userName: String
+    let userEmoji: String
+    var userAvatarImageName: String? // Name of profile image asset
+    var rating: Double // 1-5 simple star rating
+    var comment: String
+    var date: Date
+    var helpful: Int
+    var photos: [String] // photo identifiers/emojis
+}
+
+// MARK: - Enums
+enum CuisineType: String, Codable, CaseIterable {
+    case pizza = "Pizza"
+    case pasta = "Pasta"
+    case sushi = "Sushi"
+    case cafe = "Cafe"
+    case tacos = "Tacos"
+    case burgers = "Burgers"
+    case bbq = "BBQ"
+    case ramen = "Ramen"
+    case thai = "Thai"
+    case indian = "Indian"
+    case mediterranean = "Mediterranean"
+    case chinese = "Chinese"
+    case seafood = "Seafood"
+    case steakhouse = "Steakhouse"
+    case bakery = "Bakery"
+    
+    var emoji: String {
+        switch self {
+        case .pizza: return "🍕"
+        case .pasta: return "🍝"
+        case .sushi: return "🍣"
+        case .cafe: return "☕"
+        case .tacos: return "🌮"
+        case .burgers: return "🍔"
+        case .bbq: return "🍖"
+        case .ramen: return "🍜"
+        case .thai: return "🍛"
+        case .indian: return "🫓"
+        case .mediterranean: return "🥙"
+        case .chinese: return "🥡"
+        case .seafood: return "🦞"
+        case .steakhouse: return "🥩"
+        case .bakery: return "🥐"
+        }
+    }
+    
+    var accentColor: Color {
+        switch self {
+        case .pizza: return Color(red: 0.85, green: 0.35, blue: 0.15)
+        case .pasta: return Color(red: 0.0, green: 0.55, blue: 0.35)
+        case .sushi: return Color(red: 0.85, green: 0.25, blue: 0.35)
+        case .cafe: return Color(red: 0.45, green: 0.30, blue: 0.20)
+        case .tacos: return Color(red: 0.0, green: 0.55, blue: 0.45)
+        case .burgers: return Color(red: 0.75, green: 0.55, blue: 0.15)
+        case .bbq: return Color(red: 0.65, green: 0.25, blue: 0.15)
+        case .ramen: return Color(red: 0.85, green: 0.65, blue: 0.25)
+        case .thai: return Color(red: 0.55, green: 0.25, blue: 0.55)
+        case .indian: return Color(red: 0.85, green: 0.45, blue: 0.15)
+        case .mediterranean: return Color(red: 0.15, green: 0.55, blue: 0.65)
+        case .chinese: return Color(red: 0.85, green: 0.15, blue: 0.15)
+        case .seafood: return Color(red: 0.15, green: 0.45, blue: 0.65)
+        case .steakhouse: return Color(red: 0.55, green: 0.25, blue: 0.25)
+        case .bakery: return Color(red: 0.85, green: 0.65, blue: 0.45)
+        }
+    }
+}
+
+enum PriceRange: Int, Codable, CaseIterable {
+    case budget = 1
+    case moderate = 2
+    case upscale = 3
+    case fine = 4
+    
+    var display: String {
+        String(repeating: "$", count: rawValue)
+    }
+    
+    var description: String {
+        switch self {
+        case .budget: return "Budget-friendly"
+        case .moderate: return "Moderate"
+        case .upscale: return "Upscale"
+        case .fine: return "Fine Dining"
+        }
+    }
+}
+
+enum DishCategory: String, Codable, CaseIterable {
+    case appetizer = "Appetizers"
+    case soup = "Soups"
+    case salad = "Salads"
+    case main = "Main Courses"
+    case pasta = "Pasta"
+    case sushi = "Sushi & Sashimi"
+    case tacos = "Tacos & Burritos"
+    case pizza = "Pizza"
+    case seafood = "Seafood"
+    case dessert = "Desserts"
+    case drinks = "Drinks"
+    case sides = "Sides"
+    
+    var emoji: String {
+        switch self {
+        case .appetizer: return "🥟"
+        case .soup: return "🍲"
+        case .salad: return "🥗"
+        case .main: return "🍽️"
+        case .pasta: return "🍝"
+        case .sushi: return "🍣"
+        case .tacos: return "🌮"
+        case .pizza: return "🍕"
+        case .seafood: return "🦐"
+        case .dessert: return "🍰"
+        case .drinks: return "🍹"
+        case .sides: return "🍟"
+        }
+    }
+    
+    /// Sort order for natural meal progression (appetizers first, desserts/drinks last)
+    var sortOrder: Int {
+        switch self {
+        case .appetizer: return 0
+        case .soup: return 1
+        case .salad: return 2
+        case .sides: return 3
+        case .main: return 4
+        case .pasta: return 5
+        case .pizza: return 6
+        case .tacos: return 7
+        case .sushi: return 8
+        case .seafood: return 9
+        case .dessert: return 10
+        case .drinks: return 11
+        }
+    }
+}
+
+// MARK: - Dietary Filter Options
+enum DietaryFilter: String, CaseIterable {
+    case vegan = "Vegan"
+    case vegetarian = "Vegetarian"
+    case glutenFree = "Gluten-Free"
+    
+    var emoji: String {
+        switch self {
+        case .vegan: return "🌱"
+        case .vegetarian: return "🥬"
+        case .glutenFree: return "🌾"
+        }
+    }
+}

@@ -1,0 +1,202 @@
+/* 
+  Localizable.strings
+  Clnk
+
+  English (Base) localization
+*/
+
+// MARK: - Common
+"app.name" = "Clnk";
+"app.tagline" = "Find your next great drink";
+"common.cancel" = "Cancel";
+"common.save" = "Save";
+"common.done" = "Done";
+"common.delete" = "Delete";
+"common.edit" = "Edit";
+"common.search" = "Search";
+"common.loading" = "Loading...";
+"common.error" = "Error";
+"common.ok" = "OK";
+"common.all" = "All";
+"common.seeMap" = "See Map";
+
+// MARK: - Tab Bar
+"tab.explore" = "Explore";
+"tab.search" = "Search";
+"tab.map" = "Map";
+"tab.activity" = "Activity";
+"tab.profile" = "Profile";
+
+// MARK: - Login & Auth
+"login.title" = "Sign In";
+"login.email" = "Email";
+"login.emailPlaceholder" = "Enter your email";
+"login.password" = "Password";
+"login.passwordPlaceholder" = "Enter your password";
+"login.signIn" = "Sign In";
+"login.forgotPassword" = "Forgot Password?";
+"login.or" = "or";
+"login.createAccount" = "Create Account";
+"login.demoCredentials" = "Demo Credentials";
+"signup.title" = "Create Account";
+"signup.fullName" = "Full Name";
+"signup.username" = "Username";
+"signup.confirmPassword" = "Confirm Password";
+"signup.signUp" = "Sign Up";
+"signup.alreadyHaveAccount" = "Already have an account?";
+"auth.signOut" = "Sign Out";
+"auth.signOutConfirm" = "Are you sure you want to sign out?";
+
+// MARK: - Venue List (formerly Restaurant)
+"restaurants.greeting" = "Hello, %@!";
+"restaurants.whatToEat" = "What are you drinking tonight?";
+"restaurants.searchPlaceholder" = "Search bars or cocktails...";
+"restaurants.featured" = "✨ Featured";
+"restaurants.allRestaurants" = "All Bars";
+"restaurants.noResults" = "No bars found";
+"restaurants.noResultsMessage" = "Try adjusting your search or filters";
+"restaurants.dishCount" = "%d cocktails";
+"restaurants.dishCountSingular" = "1 cocktail";
+"restaurants.ratingsCount" = "(%d ratings)";
+"restaurants.topDish" = "🏆 Top drink: %@";
+
+// MARK: - Venue Detail
+"restaurant.about" = "About";
+"restaurant.topRated" = "🏆 Top Rated";
+"restaurant.menu" = "Cocktails";
+
+// MARK: - Cocktail Detail (formerly Dish)
+"dish.aboutThisDish" = "About This Cocktail";
+"dish.rateThisDish" = "Rate This Cocktail";
+"dish.youRatedThis" = "You rated this cocktail";
+"dish.updateRating" = "Update Rating";
+"dish.reviews" = "Reviews";
+"dish.noReviews" = "No reviews yet";
+"dish.noReviewsMessage" = "Be the first to review this cocktail!";
+"dish.seeAllReviews" = "See all %d reviews";
+"dish.helpful" = "Helpful";
+"dish.showMore" = "Show more";
+"dish.showLess" = "Show less";
+
+// MARK: - Rating
+"rating.rateYourExperience" = "Rate Your Experience";
+"rating.tapToRate" = "Tap to rate";
+"rating.excellent" = "Excellent!";
+"rating.veryGood" = "Very Good";
+"rating.good" = "Good";
+"rating.fair" = "Fair";
+"rating.poor" = "Poor";
+"rating.addComment" = "Add your thoughts...";
+"rating.submitRating" = "Submit Rating";
+"rating.thankYou" = "Thanks for rating!";
+
+// MARK: - Review Sorting
+"reviews.sortRecent" = "Recent";
+"reviews.sortHelpful" = "Most Helpful";
+"reviews.sortHighest" = "Highest";
+"reviews.sortLowest" = "Lowest";
+
+// MARK: - Drink Tags
+"tag.popular" = "Popular";
+"tag.spicy" = "Spicy";
+"tag.vegan" = "Vegan";
+"tag.vegetarian" = "Vegetarian";
+"tag.glutenFree" = "GF";
+
+// MARK: - Search
+"search.title" = "Search";
+"search.placeholder" = "Search cocktails, bars...";
+"search.trending" = "🔥 Trending Cocktails";
+"search.browseByCuisine" = "Browse by Style";
+"search.restaurants" = "Bars";
+"search.dishes" = "Cocktails";
+"search.at" = "at %@";
+
+// MARK: - Activity
+"activity.title" = "Activity";
+"activity.ratedADish" = "rated a cocktail";
+
+// MARK: - Profile
+"profile.title" = "Profile";
+"profile.memberSince" = "Member since %@";
+"profile.ratings" = "Ratings";
+"profile.favorites" = "Favorites";
+"profile.explored" = "Explored";
+"profile.yourRatings" = "Your Ratings";
+"profile.noRatingsYet" = "No ratings yet";
+"profile.noRatingsMessage" = "Start rating cocktails to see them here!";
+"profile.favoriteRestaurants" = "Favorite Bars";
+"profile.editProfile" = "Edit Profile";
+"profile.notifications" = "Notifications";
+"profile.helpSupport" = "Help & Support";
+"profile.about" = "About Clnk";
+"profile.version" = "Clnk v%@";
+"profile.personalInfo" = "Personal Information";
+"profile.chooseAvatar" = "Choose Your Avatar";
+
+// MARK: - Map View
+"map.title" = "Nearby";
+"map.searchThisArea" = "Search This Area";
+"map.useMyLocation" = "Use My Location";
+"map.changeLocation" = "Change Search Location";
+"map.searchRadius" = "Search Radius";
+"map.distance" = "%.1f mi away";
+"map.distanceKm" = "%.1f km away";
+"map.restaurants" = "%d bars nearby";
+"map.restaurantSingular" = "1 bar nearby";
+"map.noRestaurantsNearby" = "No bars nearby";
+"map.noRestaurantsMessage" = "Try expanding your search radius";
+"map.locationRequired" = "Location Required";
+"map.locationRequiredMessage" = "Enable location services to find bars near you.";
+"map.openSettings" = "Open Settings";
+"map.enterLocation" = "Enter a location";
+"map.currentLocation" = "Current Location";
+"map.searchLocation" = "Search Location";
+"map.setSearchCenter" = "Set as Search Center";
+"map.radiusMiles" = "%d miles";
+"map.radiusKm" = "%d km";
+
+// MARK: - Location Permissions
+"location.permissionTitle" = "Location Access";
+"location.permissionMessage" = "Clnk uses your location to find bars near you and show distances.";
+"location.enableLocation" = "Enable Location";
+"location.notNow" = "Not Now";
+"location.denied" = "Location access denied";
+"location.deniedMessage" = "You can enable location access in Settings.";
+
+// MARK: - Price Range
+"price.budget" = "Budget-friendly";
+"price.moderate" = "Moderate";
+"price.upscale" = "Upscale";
+"price.fine" = "Premium";
+
+// MARK: - Drink Types (formerly Cuisines)
+"cuisine.italian" = "Classic";
+"cuisine.japanese" = "Tiki";
+"cuisine.mexican" = "Modern";
+"cuisine.american" = "Whiskey";
+"cuisine.thai" = "Gin";
+"cuisine.indian" = "Vodka";
+"cuisine.french" = "Rum";
+"cuisine.chinese" = "Tequila";
+"cuisine.mediterranean" = "Wine";
+"cuisine.korean" = "Beer";
+
+// MARK: - Cocktail Categories (formerly Dish Categories)
+"category.appetizers" = "Signature";
+"category.soups" = "Classic";
+"category.salads" = "Seasonal";
+"category.mainCourses" = "Whiskey";
+"category.pasta" = "Gin";
+"category.sushi" = "Vodka";
+"category.tacos" = "Rum";
+"category.pizza" = "Tequila";
+"category.seafood" = "Wine";
+"category.desserts" = "Beer";
+"category.drinks" = "Mocktails";
+"category.sides" = "Shots";
+
+// MARK: - Empty States
+"empty.noRestaurants" = "No bars found";
+"empty.noResults" = "No results";
+"empty.tryAdjusting" = "Try adjusting your search or filters";

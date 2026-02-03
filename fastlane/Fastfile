@@ -1,0 +1,47 @@
+default_platform(:ios)
+
+platform :ios do
+  
+  desc "Capture screenshots for App Store"
+  lane :screenshots do
+    capture_screenshots(
+      project: "BiteVue.xcodeproj",
+      scheme: "BiteVue",
+      devices: [
+        "iPhone 16 Pro Max",
+        "iPhone 16 Plus", 
+        "iPhone SE (3rd generation)"
+      ],
+      languages: ["en-US"],
+      output_directory: "./Screenshots",
+      clear_previous_screenshots: false,
+      override_status_bar: true,
+      dark_mode: false,
+      skip_open_summary: true
+    )
+  end
+
+  desc "Upload to TestFlight"
+  lane :beta do
+    build_app(
+      scheme: "BiteVue",
+      export_method: "app-store"
+    )
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  desc "Build and archive for App Store"
+  lane :release do
+    build_app(
+      scheme: "BiteVue",
+      export_method: "app-store"
+    )
+    upload_to_app_store(
+      skip_metadata: true,
+      skip_screenshots: true
+    )
+  end
+
+end
