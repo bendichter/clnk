@@ -1,8 +1,8 @@
-# BiteVue App Store Screenshots - Status Report
+# Clnk App Store Screenshots - Status Report
 
 **Generated:** February 2, 2026  
-**Project:** BiteVue (Great Plate iOS App)  
-**Location:** `~/.openclaw/workspace/BiteVue/Screenshots/`
+**Project:** Clnk iOS App  
+**Location:** `~/.openclaw/workspace/Clnk/Screenshots/`
 
 ---
 
@@ -81,7 +81,7 @@ Ensure screenshots showcase:
 ### Option A: Interactive Script (Recommended)
 
 ```bash
-cd ~/.openclaw/workspace/BiteVue
+cd ~/.openclaw/workspace/Clnk
 ./auto_screenshot.sh
 ```
 
@@ -99,17 +99,17 @@ xcrun simctl boot "iPhone 16 Pro Max"
 
 # 2. Install app
 xcrun simctl install booted \
-  ~/.openclaw/workspace/BiteVue/DerivedData/Build/Products/Debug-iphonesimulator/BiteVue.app
+  ~/.openclaw/workspace/Clnk/DerivedData/Build/Products/Debug-iphonesimulator/Clnk.app
 
 # 3. Launch in demo mode
-xcrun simctl launch booted com.greatplate.app \
+xcrun simctl launch booted com.clnk.app \
   --args "--uitesting" "--demo-mode"
 
 # 4. Open Simulator app, navigate to desired screen
 
 # 5. Capture screenshot
 xcrun simctl io booted screenshot \
-  ~/.openclaw/workspace/BiteVue/Screenshots/6.7-inch/04_restaurant_detail.png
+  ~/.openclaw/workspace/Clnk/Screenshots/6.7-inch/04_restaurant_detail.png
 
 # 6. Repeat for each screen and device
 
@@ -207,12 +207,12 @@ All tools are ready to use:
 ### Directory Structure
 
 ```
-BiteVue/
+Clnk/
 ├── Screenshots/
 │   ├── 6.7-inch/          ✅ 4 screenshots (need 1-6 more)
 │   ├── 6.5-inch/          ⚠️ 3 screenshots (need 2-7 more)
 │   └── 5.5-inch/          ❌ 0 screenshots (need 5-10)
-├── BiteVueUITests/
+├── ClnkUITests/
 │   └── ScreenshotTests.swift  ✅ Ready (needs Xcode integration)
 ├── auto_screenshot.sh         ✅ Ready to use
 ├── resize_screenshots.sh      ✅ Ready to use
@@ -244,7 +244,7 @@ Before uploading to App Store Connect, verify:
 
 1. **Run interactive capture:**
    ```bash
-   cd ~/.openclaw/workspace/BiteVue
+   cd ~/.openclaw/workspace/Clnk
    ./auto_screenshot.sh
    ```
 

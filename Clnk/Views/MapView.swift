@@ -162,7 +162,7 @@ struct RestaurantMapMarker: View {
             ZStack {
                 // Background bubble
                 Circle()
-                    .fill(isSelected ? .orange : .white)
+                    .fill(isSelected ? AppTheme.primary : .white)
                     .frame(width: isSelected ? 50 : 40, height: isSelected ? 50 : 40)
                     .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
                 
@@ -174,7 +174,7 @@ struct RestaurantMapMarker: View {
             // Pin tail
             Image(systemName: "triangle.fill")
                 .font(.system(size: 10))
-                .foregroundColor(isSelected ? .orange : .white)
+                .foregroundColor(isSelected ? AppTheme.primary : .white)
                 .rotationEffect(.degrees(180))
                 .offset(y: -3)
                 .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
@@ -236,7 +236,7 @@ struct RestaurantMapCard: View {
                     if let distance = distance {
                         HStack(spacing: 4) {
                             Image(systemName: "location.fill")
-                                .foregroundStyle(.orange)
+                                .foregroundStyle(AppTheme.primary)
                             Text(L10n.Map.distance(distance))
                         }
                         .font(.caption)
@@ -277,7 +277,7 @@ struct LocationPermissionOverlay: View {
         VStack(spacing: 20) {
             Image(systemName: "location.slash.circle.fill")
                 .font(.system(size: 60))
-                .foregroundStyle(.orange)
+                .foregroundStyle(AppTheme.primary)
             
             Text(L10n.Map.locationRequired)
                 .font(.title2.weight(.bold))
@@ -322,7 +322,7 @@ struct RadiusPickerSheet: View {
                     
                     Text(L10n.Map.radiusMiles(Int(selectedRadius)))
                         .font(.largeTitle.weight(.bold))
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(AppTheme.primary)
                 }
                 .padding(.top, 20)
                 
@@ -337,7 +337,7 @@ struct RadiusPickerSheet: View {
                                 .foregroundStyle(selectedRadius == radius ? .white : AppTheme.textPrimary)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 14)
-                                .background(selectedRadius == radius ? .orange : AppTheme.backgroundSecondary)
+                                .background(selectedRadius == radius ? AppTheme.primary : AppTheme.backgroundSecondary)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
                     }
@@ -463,7 +463,7 @@ struct LocationSearchSheet: View {
                         } label: {
                             HStack(spacing: 12) {
                                 Image(systemName: "mappin.circle.fill")
-                                    .foregroundStyle(.orange)
+                                    .foregroundStyle(AppTheme.primary)
                                     .frame(width: 30)
                                 
                                 VStack(alignment: .leading, spacing: 2) {

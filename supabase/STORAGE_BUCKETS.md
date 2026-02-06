@@ -1,6 +1,6 @@
 # Supabase Storage Buckets Configuration
 
-This document describes the storage buckets used in the BiteVue app.
+This document describes the storage buckets used in the Clnk app.
 
 ## Buckets
 

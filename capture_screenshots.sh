@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Script to capture App Store screenshots for BiteVue
+# Script to capture App Store screenshots for Clnk
 
-SCREENSHOTS_DIR="$HOME/.openclaw/workspace/BiteVue/Screenshots"
-APP_BUNDLE_ID="com.greatplate.app"
+SCREENSHOTS_DIR="$HOME/.openclaw/workspace/Clnk/Screenshots"
+APP_BUNDLE_ID="com.clnk.app"
 
 # Device configurations: name|folder_name|required_width|required_height
 DEVICES=(
@@ -89,12 +89,12 @@ capture_for_device() {
   sleep 5
   
   # Install app
-  echo "Installing BiteVue..."
-  xcrun simctl install booted "$HOME/.openclaw/workspace/BiteVue/DerivedData/Build/Products/Debug-iphonesimulator/BiteVue.app"
+  echo "Installing Clnk..."
+  xcrun simctl install booted "$HOME/.openclaw/workspace/Clnk/DerivedData/Build/Products/Debug-iphonesimulator/Clnk.app"
   sleep 2
   
   # Launch app in demo mode
-  echo "Launching BiteVue in demo mode..."
+  echo "Launching Clnk in demo mode..."
   xcrun simctl launch booted "$APP_BUNDLE_ID" --args "--uitesting" "--demo-mode"
   sleep 5
   
@@ -140,7 +140,7 @@ resize_all() {
 # Show menu
 show_menu() {
   echo "=========================================="
-  echo "📸 BiteVue Screenshot Capture Tool"
+  echo "📸 Clnk Screenshot Capture Tool"
   echo "=========================================="
   echo ""
   echo "1. Capture screenshots for iPhone 16 Pro Max (6.7\")"

@@ -1,13 +1,13 @@
-# BiteVue App Store Screenshots
+# Clnk App Store Screenshots
 
-This directory contains App Store Connect-ready screenshots for Great Plate (BiteVue) iOS app.
+This directory contains App Store Connect-ready screenshots for Clnk iOS app.
 
 ## Quick Start
 
 **To complete the screenshot capture:**
 
 ```bash
-cd ~/.openclaw/workspace/BiteVue
+cd ~/.openclaw/workspace/Clnk
 ./auto_screenshot.sh
 ```
 

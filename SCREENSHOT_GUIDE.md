@@ -1,4 +1,4 @@
-# BiteVue App Store Screenshots Guide
+# Clnk App Store Screenshots Guide
 
 ## Current Status
 
@@ -25,7 +25,7 @@ Each device size class needs **5-10 high-quality screenshots** in the following 
 
 ## Required Screens to Capture
 
-To showcase BiteVue effectively, capture these screens:
+To showcase Clnk effectively, capture these screens:
 
 1. **✅ Home/Restaurant List** - Show nearby restaurants with ratings
 2. **Restaurant Detail** - Show a restaurant with top dishes, ratings
@@ -41,13 +41,13 @@ To showcase BiteVue effectively, capture these screens:
 ### Method 1: Interactive Script (Recommended)
 
 ```bash
-cd ~/.openclaw/workspace/BiteVue
+cd ~/.openclaw/workspace/Clnk
 ./auto_screenshot.sh
 ```
 
 This script will:
 1. Boot each simulator (iPhone 16 Pro Max, iPhone 16 Plus)
-2. Install and launch BiteVue in demo mode
+2. Install and launch Clnk in demo mode
 3. Prompt you to navigate to each screen
 4. Capture and properly resize screenshots
 5. Save to organized folders
@@ -59,13 +59,13 @@ This script will:
 xcrun simctl boot "iPhone 16 Pro Max"
 
 # 2. Install app
-xcrun simctl install booted ~/.openclaw/workspace/BiteVue/DerivedData/Build/Products/Debug-iphonesimulator/BiteVue.app
+xcrun simctl install booted ~/.openclaw/workspace/Clnk/DerivedData/Build/Products/Debug-iphonesimulator/Clnk.app
 
 # 3. Launch in demo mode (pre-populated with data)
-xcrun simctl launch booted com.greatplate.app --args "--uitesting" "--demo-mode"
+xcrun simctl launch booted com.clnk.app --args "--uitesting" "--demo-mode"
 
 # 4. Navigate to desired screen in Simulator window, then capture:
-xcrun simctl io booted screenshot ~/. openclaw/workspace/BiteVue/Screenshots/6.7-inch/02_restaurant_detail.png
+xcrun simctl io booted screenshot ~/. openclaw/workspace/Clnk/Screenshots/6.7-inch/02_restaurant_detail.png
 
 # 5. Repeat for each screen, incrementing filename numbers
 
@@ -139,16 +139,16 @@ This ensures all screenshots are exactly the right dimensions for App Store Conn
 To enable fully automated screenshot capture with Fastlane:
 
 1. **Add UI Test Target to Xcode Project**:
-   - Open `BiteVue.xcodeproj` in Xcode
+   - Open `Clnk.xcodeproj` in Xcode
    - File → New → Target → iOS UI Testing Bundle
-   - Name it `BiteVueUITests`
+   - Name it `ClnkUITests`
    
-2. **Replace the generated test file** with `BiteVueUITests/ScreenshotTests.swift` (already created)
+2. **Replace the generated test file** with `ClnkUITests/ScreenshotTests.swift` (already created)
 
 3. **Configure the scheme**:
    - Product → Scheme → Edit Scheme
    - Select "Test" action
-   - Add `BiteVueUITests` to test targets
+   - Add `ClnkUITests` to test targets
 
 4. **Update fastlane configuration** (already done in `fastlane/Fastfile`)
 
@@ -175,7 +175,7 @@ To enable fully automated screenshot capture with Fastlane:
 ## Files Created
 
 ```
-BiteVue/
+Clnk/
 ├── Screenshots/
 │   ├── 6.7-inch/          # iPhone Pro Max screenshots
 │   ├── 6.5-inch/          # iPhone Plus screenshots

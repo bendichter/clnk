@@ -9,7 +9,7 @@ struct ClaimRestaurantView: View {
             VStack(spacing: 24) {
                 Image(systemName: "building.2.fill")
                     .font(.system(size: 60))
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(AppTheme.primary)
                 
                 Text("Claim \(restaurant.name)")
                     .font(.title2.weight(.bold))
@@ -31,7 +31,7 @@ struct ClaimRestaurantView: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.orange)
+                        .background(AppTheme.primary)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
                 .padding(.horizontal)

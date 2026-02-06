@@ -28,8 +28,8 @@ struct DishImageView: View {
                     .fill(
                         LinearGradient(
                             colors: [
-                                Color.orange.opacity(0.4),
-                                Color.red.opacity(0.3)
+                                ClnkColors.Primary.shade500.opacity(0.4),
+                                ClnkColors.Accent.shade600.opacity(0.3)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
@@ -45,7 +45,7 @@ struct DishImageView: View {
 struct LargeDishImageView: View {
     let dish: Dish
     var height: CGFloat = 280
-    var accentColor: Color = .orange
+    var accentColor: Color = ClnkColors.Primary.shade500
     
     /// Returns true if the dish has an actual image (not just emoji)
     var hasImage: Bool {
@@ -268,9 +268,9 @@ struct PriceTag: View {
 struct TagChip: View {
     let text: String
     let icon: String?
-    var color: Color = .orange
-    
-    init(_ text: String, icon: String? = nil, color: Color = .orange) {
+    var color: Color = ClnkColors.Primary.shade500
+
+    init(_ text: String, icon: String? = nil, color: Color = ClnkColors.Primary.shade500) {
         self.text = text
         self.icon = icon
         self.color = color
@@ -300,18 +300,18 @@ struct DishTagsRow: View {
     var body: some View {
         HStack(spacing: 6) {
             if dish.isPopular {
-                TagChip("Popular", icon: "flame.fill", color: .orange)
+                TagChip("Popular", icon: "flame.fill", color: ClnkColors.Primary.shade500)
             }
             if dish.isSpicy {
                 TagChip("Spicy", icon: "flame", color: .red)
             }
             if dish.isVegan {
-                TagChip("Vegan", icon: "leaf.fill", color: .green)
+                TagChip("Zero-Proof", icon: "leaf.fill", color: .green)
             } else if dish.isVegetarian {
-                TagChip("Vegetarian", icon: "leaf", color: Color(red: 0.2, green: 0.6, blue: 0.3))
+                TagChip("Stirred", icon: "drop", color: Color(red: 0.55, green: 0.27, blue: 0.07))
             }
             if dish.isGlutenFree {
-                TagChip("GF", icon: nil, color: .orange)
+                TagChip("Shaken", icon: nil, color: ClnkColors.Primary.shade500)
             }
         }
     }
@@ -479,7 +479,7 @@ struct AvatarView: View {
     var imageName: String? = nil
     var profileImageData: Data? = nil
     var size: CGFloat = 40
-    var background: Color = .orange.opacity(0.2)
+    var background: Color = ClnkColors.Primary.shade500.opacity(0.2)
     
     var body: some View {
         Group {
@@ -527,7 +527,7 @@ struct ProfileAvatarView: View {
                         Circle()
                             .stroke(
                                 LinearGradient(
-                                    colors: [.orange.opacity(0.5), .red.opacity(0.5)],
+                                    colors: [ClnkColors.Primary.shade500.opacity(0.5), ClnkColors.Accent.shade600.opacity(0.5)],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 ),
@@ -544,7 +544,7 @@ struct ProfileAvatarView: View {
                         Circle()
                             .stroke(
                                 LinearGradient(
-                                    colors: [.orange.opacity(0.5), .red.opacity(0.5)],
+                                    colors: [ClnkColors.Primary.shade500.opacity(0.5), ClnkColors.Accent.shade600.opacity(0.5)],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 ),
@@ -556,7 +556,7 @@ struct ProfileAvatarView: View {
                     Circle()
                         .fill(
                             LinearGradient(
-                                colors: [.orange.opacity(0.3), .red.opacity(0.3)],
+                                colors: [ClnkColors.Primary.shade500.opacity(0.3), ClnkColors.Accent.shade600.opacity(0.3)],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             )
@@ -565,6 +565,70 @@ struct ProfileAvatarView: View {
                     
                     Text(emoji)
                         .font(.system(size: size * 0.5))
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Flavor Profile Bar
+struct FlavorProfileBar: View {
+    let label: String
+    let emoji: String
+    let value: Double  // 0.0 to 1.0
+    let color: Color
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Text(emoji)
+                .font(.caption)
+                .frame(width: 18)
+
+            Text(label)
+                .font(.caption2.weight(.medium))
+                .foregroundStyle(AppTheme.textSecondary)
+                .frame(width: 36, alignment: .leading)
+
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(AppTheme.backgroundSecondary)
+
+                    Capsule()
+                        .fill(color)
+                        .frame(width: geo.size.width * value)
+                }
+            }
+            .frame(height: 6)
+        }
+    }
+}
+
+// MARK: - Flavor Profile Summary
+struct FlavorProfileSummary: View {
+    let sweet: Double?
+    let salty: Double?
+    let bitter: Double?
+    let sour: Double?
+
+    private var hasAnyFlavor: Bool {
+        sweet != nil || salty != nil || bitter != nil || sour != nil
+    }
+
+    var body: some View {
+        if hasAnyFlavor {
+            VStack(spacing: 4) {
+                if let sweet = sweet {
+                    FlavorProfileBar(label: "Sweet", emoji: "🍬", value: sweet, color: .pink)
+                }
+                if let salty = salty {
+                    FlavorProfileBar(label: "Salty", emoji: "🧂", value: salty, color: .orange)
+                }
+                if let sour = sour {
+                    FlavorProfileBar(label: "Sour", emoji: "🍋", value: sour, color: .yellow)
+                }
+                if let bitter = bitter {
+                    FlavorProfileBar(label: "Bitter", emoji: "🫒", value: bitter, color: .green)
                 }
             }
         }
@@ -589,7 +653,7 @@ struct SectionHeader: View {
                 Button(action: onAction) {
                     Text(action)
                         .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(AppTheme.primary)
                 }
             }
         }

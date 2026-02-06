@@ -372,7 +372,11 @@ class RestaurantViewModel: ObservableObject {
         rating: Double,
         comment: String,
         photos: [String] = [],
-        photoData: [Data]? = nil
+        photoData: [Data]? = nil,
+        sweet: Double? = nil,
+        salty: Double? = nil,
+        bitter: Double? = nil,
+        sour: Double? = nil
     ) {
         // Create local rating immediately for responsiveness
         let newRating = DishRating(
@@ -385,7 +389,11 @@ class RestaurantViewModel: ObservableObject {
             comment: comment,
             date: Date(),
             helpful: 0,
-            photos: photos
+            photos: photos,
+            sweet: sweet,
+            salty: salty,
+            bitter: bitter,
+            sour: sour
         )
         
         // Store user's rating locally
@@ -445,25 +453,37 @@ class RestaurantViewModel: ObservableObject {
         restaurantId: UUID,
         rating: Double,
         comment: String,
-        photos: [String] = []
+        photos: [String] = [],
+        sweet: Double? = nil,
+        salty: Double? = nil,
+        bitter: Double? = nil,
+        sour: Double? = nil
     ) {
         // Find and update the rating in userRatings
         if var existingRating = userRatings[dishId] {
             existingRating.rating = rating
             existingRating.comment = comment
             existingRating.photos = photos
+            existingRating.sweet = sweet
+            existingRating.salty = salty
+            existingRating.bitter = bitter
+            existingRating.sour = sour
             userRatings[dishId] = existingRating
-            
+
             // Update the dish's ratings in our data
             if let restaurantIndex = restaurants.firstIndex(where: { $0.id == restaurantId }),
                let dishIndex = restaurants[restaurantIndex].dishes.firstIndex(where: { $0.id == dishId }),
                let ratingIndex = restaurants[restaurantIndex].dishes[dishIndex].ratings.firstIndex(where: { $0.id == ratingId }) {
-                
+
                 var updatedRating = restaurants[restaurantIndex].dishes[dishIndex].ratings[ratingIndex]
                 updatedRating.rating = rating
                 updatedRating.comment = comment
                 updatedRating.photos = photos
-                
+                updatedRating.sweet = sweet
+                updatedRating.salty = salty
+                updatedRating.bitter = bitter
+                updatedRating.sour = sour
+
                 restaurants[restaurantIndex].dishes[dishIndex].ratings[ratingIndex] = updatedRating
             }
         }

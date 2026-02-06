@@ -85,12 +85,12 @@ struct MenuUploadView: View {
             VStack(spacing: 12) {
                 Image(systemName: "doc.text.viewfinder")
                     .font(.system(size: 60))
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(AppTheme.primary)
                 
                 Text("Upload Your Menu")
                     .font(.title2.weight(.bold))
                 
-                Text("Take a photo of your menu and our AI will automatically extract all the dishes.")
+                Text("Take a photo of your menu and our AI will automatically extract all the cocktails.")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
@@ -115,7 +115,7 @@ struct MenuUploadView: View {
                         PhotosPicker(selection: $selectedItem, matching: .images) {
                             Text("Change Photo")
                                 .font(.subheadline)
-                                .foregroundStyle(.orange)
+                                .foregroundStyle(AppTheme.primary)
                         }
                         
                         Button {
@@ -162,13 +162,13 @@ struct MenuUploadView: View {
             } label: {
                 HStack {
                     Image(systemName: "wand.and.stars")
-                    Text("Extract Dishes")
+                    Text("Extract Cocktails")
                 }
                 .font(.headline)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(selectedImageData != nil ? Color.orange : Color.gray)
+                .background(selectedImageData != nil ? AppTheme.primary : Color.gray)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             }
             .disabled(selectedImageData == nil)

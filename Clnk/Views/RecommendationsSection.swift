@@ -15,7 +15,7 @@ struct RecommendationsSection: View {
                             .font(.title3)
                             .foregroundStyle(
                                 LinearGradient(
-                                    colors: [.orange, .pink],
+                                    colors: [ClnkColors.Primary.shade500, ClnkColors.Accent.shade600],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )
@@ -68,21 +68,21 @@ struct RecommendationsSection: View {
                 // Why these recommendations?
                 DisclosureGroup {
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("We analyzed your rating history to find dishes you'll love:")
+                        Text("We analyzed your rating history to find cocktails you'll love:")
                             .font(.caption)
                             .foregroundStyle(AppTheme.textSecondary)
                         
                         HStack(spacing: 8) {
                             Image(systemName: "star.fill")
-                                .foregroundStyle(.orange)
+                                .foregroundStyle(AppTheme.primary)
                             Text("Based on your \(restaurantViewModel.userRatings.count) ratings")
                         }
                         .font(.caption)
                         
                         HStack(spacing: 8) {
                             Image(systemName: "chart.line.uptrend.xyaxis")
-                                .foregroundStyle(.orange)
-                            Text("Similar to dishes you've rated highly")
+                                .foregroundStyle(AppTheme.primary)
+                            Text("Similar to cocktails you've rated highly")
                         }
                         .font(.caption)
                     }
@@ -94,7 +94,7 @@ struct RecommendationsSection: View {
                         Text("How do these recommendations work?")
                             .font(.caption.weight(.medium))
                     }
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(AppTheme.primary)
                 }
                 .padding(.horizontal)
             }
@@ -102,7 +102,7 @@ struct RecommendationsSection: View {
             .background(
                 LinearGradient(
                     colors: [
-                        Color.orange.opacity(0.05),
+                        AppTheme.primary.opacity(0.05),
                         Color.pink.opacity(0.05)
                     ],
                     startPoint: .topLeading,
@@ -114,7 +114,7 @@ struct RecommendationsSection: View {
                 RoundedRectangle(cornerRadius: 20)
                     .stroke(
                         LinearGradient(
-                            colors: [.orange.opacity(0.3), .pink.opacity(0.3)],
+                            colors: [ClnkColors.Primary.shade500.opacity(0.3), .pink.opacity(0.3)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ),
@@ -140,7 +140,7 @@ struct RecommendedDishCard: View {
         if score >= 0.8 {
             return .green
         } else if score >= 0.6 {
-            return .orange
+            return AppTheme.primary
         } else {
             return .blue
         }
@@ -237,7 +237,7 @@ struct RecommendedDishCard: View {
                     // Price
                     Text(dish.formattedPrice)
                         .font(.subheadline.weight(.bold))
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(AppTheme.primary)
                     
                     Spacer()
                     
@@ -260,12 +260,12 @@ struct RecommendedDishCard: View {
                 // Dietary Tags (compact)
                 HStack(spacing: 4) {
                     if dish.isVegan {
-                        DietaryTag(text: "Vegan", icon: "🌱")
+                        DietaryTag(text: "Zero-Proof", icon: "🌿")
                     } else if dish.isVegetarian {
-                        DietaryTag(text: "Veg", icon: "🥬")
+                        DietaryTag(text: "Stirred", icon: "🥄")
                     }
                     if dish.isGlutenFree {
-                        DietaryTag(text: "GF", icon: "🌾")
+                        DietaryTag(text: "Shaken", icon: "🧊")
                     }
                     if dish.isSpicy {
                         DietaryTag(text: "Spicy", icon: "🌶️")

@@ -2,16 +2,16 @@ import SwiftUI
 
 // MARK: - App Theme
 struct AppTheme {
-    // Brand Colors - Amber/Gold cocktail theme
+    // Brand Colors - Deep Teal cocktail theme
     static let primary = Color("AccentColor")
     static let primaryGradient = LinearGradient(
-        colors: [Color(red: 0.83, green: 0.65, blue: 0.45), Color(red: 0.95, green: 0.75, blue: 0.35)],
+        colors: [ClnkColors.Primary.shade800, ClnkColors.Accent.shade600],
         startPoint: .topLeading,
         endPoint: .bottomTrailing
     )
-    // Secondary burgundy/copper accent
+    // Secondary dark teal accent
     static let secondaryGradient = LinearGradient(
-        colors: [Color(red: 0.6, green: 0.15, blue: 0.2), Color(red: 0.75, green: 0.45, blue: 0.3)],
+        colors: [ClnkColors.Primary.shade900, ClnkColors.Primary.shade700],
         startPoint: .topLeading,
         endPoint: .bottomTrailing
     )

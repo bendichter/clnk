@@ -99,9 +99,9 @@
 // MARK: - Drink Tags
 "tag.popular" = "Popular";
 "tag.spicy" = "Spicy";
-"tag.vegan" = "Vegan";
-"tag.vegetarian" = "Vegetarian";
-"tag.glutenFree" = "GF";
+"tag.vegan" = "Zero-Proof";
+"tag.vegetarian" = "Stirred";
+"tag.glutenFree" = "Shaken";
 
 // MARK: - Search
 "search.title" = "Search";

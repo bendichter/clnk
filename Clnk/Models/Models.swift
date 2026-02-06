@@ -176,63 +176,46 @@ struct DishRating: Identifiable, Codable, Equatable, Hashable {
     var date: Date
     var helpful: Int
     var photos: [String] // photo identifiers/emojis
+    var sweet: Double?   // 0.0 to 1.0
+    var salty: Double?
+    var bitter: Double?
+    var sour: Double?
 }
 
 // MARK: - Enums
 enum CuisineType: String, Codable, CaseIterable {
-    case pizza = "Pizza"
-    case pasta = "Pasta"
-    case sushi = "Sushi"
-    case cafe = "Cafe"
-    case tacos = "Tacos"
-    case burgers = "Burgers"
-    case bbq = "BBQ"
-    case ramen = "Ramen"
-    case thai = "Thai"
-    case indian = "Indian"
-    case mediterranean = "Mediterranean"
-    case chinese = "Chinese"
-    case seafood = "Seafood"
-    case steakhouse = "Steakhouse"
-    case bakery = "Bakery"
-    
+    case classic = "Classic"
+    case whiskey = "Whiskey"
+    case tiki = "Tiki"
+    case wine = "Wine"
+    case dive = "Dive Bar"
+    case gin = "Gin"
+    case modern = "Modern"
+    case tequila = "Tequila"
+
     var emoji: String {
         switch self {
-        case .pizza: return "🍕"
-        case .pasta: return "🍝"
-        case .sushi: return "🍣"
-        case .cafe: return "☕"
-        case .tacos: return "🌮"
-        case .burgers: return "🍔"
-        case .bbq: return "🍖"
-        case .ramen: return "🍜"
-        case .thai: return "🍛"
-        case .indian: return "🫓"
-        case .mediterranean: return "🥙"
-        case .chinese: return "🥡"
-        case .seafood: return "🦞"
-        case .steakhouse: return "🥩"
-        case .bakery: return "🥐"
+        case .classic: return "🥃"
+        case .whiskey: return "🥃"
+        case .tiki: return "🍹"
+        case .wine: return "🍷"
+        case .dive: return "🍺"
+        case .gin: return "🍸"
+        case .modern: return "🧪"
+        case .tequila: return "🌵"
         }
     }
-    
+
     var accentColor: Color {
         switch self {
-        case .pizza: return Color(red: 0.85, green: 0.35, blue: 0.15)
-        case .pasta: return Color(red: 0.0, green: 0.55, blue: 0.35)
-        case .sushi: return Color(red: 0.85, green: 0.25, blue: 0.35)
-        case .cafe: return Color(red: 0.45, green: 0.30, blue: 0.20)
-        case .tacos: return Color(red: 0.0, green: 0.55, blue: 0.45)
-        case .burgers: return Color(red: 0.75, green: 0.55, blue: 0.15)
-        case .bbq: return Color(red: 0.65, green: 0.25, blue: 0.15)
-        case .ramen: return Color(red: 0.85, green: 0.65, blue: 0.25)
-        case .thai: return Color(red: 0.55, green: 0.25, blue: 0.55)
-        case .indian: return Color(red: 0.85, green: 0.45, blue: 0.15)
-        case .mediterranean: return Color(red: 0.15, green: 0.55, blue: 0.65)
-        case .chinese: return Color(red: 0.85, green: 0.15, blue: 0.15)
-        case .seafood: return Color(red: 0.15, green: 0.45, blue: 0.65)
-        case .steakhouse: return Color(red: 0.55, green: 0.25, blue: 0.25)
-        case .bakery: return Color(red: 0.85, green: 0.65, blue: 0.45)
+        case .classic: return Color(red: 0.55, green: 0.27, blue: 0.07)
+        case .whiskey: return Color(red: 0.72, green: 0.45, blue: 0.20)
+        case .tiki: return Color(red: 0.01, green: 0.33, blue: 0.32)
+        case .wine: return Color(red: 0.45, green: 0.18, blue: 0.22)
+        case .dive: return Color(red: 0.80, green: 0.52, blue: 0.25)
+        case .gin: return Color(red: 0.13, green: 0.55, blue: 0.13)
+        case .modern: return Color(red: 0.58, green: 0.0, blue: 0.83)
+        case .tequila: return Color(red: 0.85, green: 0.65, blue: 0.13)
         }
     }
 }
@@ -252,72 +235,53 @@ enum PriceRange: Int, Codable, CaseIterable {
         case .budget: return "Budget-friendly"
         case .moderate: return "Moderate"
         case .upscale: return "Upscale"
-        case .fine: return "Fine Dining"
+        case .fine: return "Premium"
         }
     }
 }
 
 enum DishCategory: String, Codable, CaseIterable {
-    case appetizer = "Appetizers"
-    case soup = "Soups"
-    case salad = "Salads"
-    case main = "Main Courses"
-    case pasta = "Pasta"
-    case sushi = "Sushi & Sashimi"
-    case tacos = "Tacos & Burritos"
-    case pizza = "Pizza"
-    case seafood = "Seafood"
-    case dessert = "Desserts"
-    case drinks = "Drinks"
-    case sides = "Sides"
-    
+    case classic = "Classic"
+    case signature = "Signature"
+    case tiki = "Tiki"
+    case seasonal = "Seasonal"
+    case whiskey = "Whiskey"
+    case modern = "Modern"
+
     var emoji: String {
         switch self {
-        case .appetizer: return "🥟"
-        case .soup: return "🍲"
-        case .salad: return "🥗"
-        case .main: return "🍽️"
-        case .pasta: return "🍝"
-        case .sushi: return "🍣"
-        case .tacos: return "🌮"
-        case .pizza: return "🍕"
-        case .seafood: return "🦐"
-        case .dessert: return "🍰"
-        case .drinks: return "🍹"
-        case .sides: return "🍟"
+        case .classic: return "🥃"
+        case .signature: return "✨"
+        case .tiki: return "🍹"
+        case .seasonal: return "🌸"
+        case .whiskey: return "🥃"
+        case .modern: return "🧪"
         }
     }
-    
-    /// Sort order for natural meal progression (appetizers first, desserts/drinks last)
+
     var sortOrder: Int {
         switch self {
-        case .appetizer: return 0
-        case .soup: return 1
-        case .salad: return 2
-        case .sides: return 3
-        case .main: return 4
-        case .pasta: return 5
-        case .pizza: return 6
-        case .tacos: return 7
-        case .sushi: return 8
-        case .seafood: return 9
-        case .dessert: return 10
-        case .drinks: return 11
+        case .classic: return 0
+        case .signature: return 1
+        case .tiki: return 2
+        case .seasonal: return 3
+        case .whiskey: return 4
+        case .modern: return 5
         }
     }
 }
 
-// MARK: - Dietary Filter Options
+// MARK: - Drink Filter Options
 enum DietaryFilter: String, CaseIterable {
-    case vegan = "Vegan"
-    case vegetarian = "Vegetarian"
-    case glutenFree = "Gluten-Free"
-    
+    case nonAlcoholic = "Non-Alcoholic"
+    case stirred = "Stirred"
+    case shaken = "Shaken"
+
     var emoji: String {
         switch self {
-        case .vegan: return "🌱"
-        case .vegetarian: return "🥬"
-        case .glutenFree: return "🌾"
+        case .nonAlcoholic: return "🌿"
+        case .stirred: return "🥄"
+        case .shaken: return "🧊"
         }
     }
 }

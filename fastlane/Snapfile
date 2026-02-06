@@ -13,7 +13,7 @@ languages([
 ])
 
 # Xcode scheme
-scheme("BiteVueUITests")
+scheme("ClnkUITests")
 
 # Output directory
 output_directory("./Screenshots")

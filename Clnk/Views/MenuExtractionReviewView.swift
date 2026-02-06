@@ -32,7 +32,7 @@ struct MenuExtractionReviewView: View {
                 HStack {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundStyle(.green)
-                    Text("\(extraction.extractedDishes.count) dishes found")
+                    Text("\(extraction.extractedDishes.count) cocktails found")
                         .font(.headline)
                 }
                 
@@ -125,12 +125,12 @@ struct MenuExtractionReviewView: View {
                             } else {
                                 Image(systemName: "plus.circle.fill")
                             }
-                            Text("Add \(selectedDishes.count) Dishes")
+                            Text("Add \(selectedDishes.count) Cocktails")
                         }
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(selectedDishes.isEmpty ? Color.gray : Color.orange)
+                        .background(selectedDishes.isEmpty ? Color.gray : AppTheme.primary)
                         .foregroundColor(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
@@ -228,7 +228,7 @@ struct ExtractedDishRow: View {
             Button(action: onToggle) {
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                     .font(.title2)
-                    .foregroundStyle(isSelected ? .orange : .secondary)
+                    .foregroundStyle(isSelected ? AppTheme.primary : .secondary)
             }
             .buttonStyle(.plain)
             
@@ -241,7 +241,7 @@ struct ExtractedDishRow: View {
                     if isDuplicate {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .font(.caption)
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(AppTheme.primary)
                     }
                 }
                 
@@ -275,9 +275,9 @@ struct ExtractedDishRow: View {
                 }
                 
                 if isDuplicate {
-                    Text("⚠️ A dish with this name already exists")
+                    Text("⚠️ A cocktail with this name already exists")
                         .font(.caption2)
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(AppTheme.primary)
                 }
             }
             
@@ -317,7 +317,7 @@ struct EditExtractedDishView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Dish Details") {
+                Section("Cocktail Details") {
                     TextField("Name", text: $dish.name)
                     TextField("Description", text: $dish.description, axis: .vertical)
                         .lineLimit(3...6)
@@ -389,7 +389,7 @@ struct EditExtractedDishView: View {
                     ))
                 }
             }
-            .navigationTitle("Edit Dish")
+            .navigationTitle("Edit Cocktail")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {

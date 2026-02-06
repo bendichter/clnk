@@ -178,15 +178,19 @@ struct SupabaseRating: Codable, Identifiable {
     let rating: Int
     let comment: String?
     let helpfulCount: Int?
+    let sweet: Double?
+    let salty: Double?
+    let bitter: Double?
+    let sour: Double?
     let createdAt: Date?
     let updatedAt: Date?
-    
+
     // Nested profile (when joined)
     var profile: SupabaseProfile?
-    
+
     // Nested photos (when joined)
     var photos: [SupabaseRatingPhoto]?
-    
+
     enum CodingKeys: String, CodingKey {
         case id
         case dishId = "dish_id"
@@ -194,6 +198,7 @@ struct SupabaseRating: Codable, Identifiable {
         case rating
         case comment
         case helpfulCount = "helpful_count"
+        case sweet, salty, bitter, sour
         case createdAt = "created_at"
         case updatedAt = "updated_at"
         case profile = "profiles"
@@ -275,12 +280,17 @@ struct NewRating: Codable {
     let userId: UUID
     let rating: Int
     let comment: String?
-    
+    let sweet: Double?
+    let salty: Double?
+    let bitter: Double?
+    let sour: Double?
+
     enum CodingKeys: String, CodingKey {
         case dishId = "dish_id"
         case userId = "user_id"
         case rating
         case comment
+        case sweet, salty, bitter, sour
     }
 }
 
@@ -404,6 +414,10 @@ struct SupabaseReport: Codable, Identifiable {
 struct RatingUpdate: Codable {
     let rating: Int
     let comment: String
+    let sweet: Double?
+    let salty: Double?
+    let bitter: Double?
+    let sour: Double?
 }
 
 // MARK: - Menu Upload Models
@@ -733,7 +747,11 @@ final class SupabaseService: ObservableObject {
             dishId: dishId,
             userId: userId,
             rating: rating,
-            comment: comment
+            comment: comment,
+            sweet: nil,
+            salty: nil,
+            bitter: nil,
+            sour: nil
         )
         
         do {
@@ -773,7 +791,7 @@ final class SupabaseService: ObservableObject {
             throw SupabaseServiceError.notAuthenticated
         }
         
-        let updateData = RatingUpdate(rating: rating, comment: comment ?? "")
+        let updateData = RatingUpdate(rating: rating, comment: comment ?? "", sweet: nil, salty: nil, bitter: nil, sour: nil)
         
         do {
             let updatedRating: SupabaseRating = try await client
@@ -1496,40 +1514,24 @@ extension SupabaseRestaurant {
                let type = CuisineType(rawValue: cuisine) {
                 return type
             }
-            // Infer from restaurant name as fallback
+            // Infer from bar name as fallback
             let nameLower = self.name.lowercased()
-            if nameLower.contains("pizza") || nameLower.contains("pizzeria") {
-                return .pizza
-            } else if nameLower.contains("pasta") || nameLower.contains("italian") || nameLower.contains("trattoria") || nameLower.contains("ristorante") {
-                return .pasta
-            } else if nameLower.contains("sushi") || nameLower.contains("sashimi") {
-                return .sushi
-            } else if nameLower.contains("ramen") || nameLower.contains("noodle house") {
-                return .ramen
-            } else if nameLower.contains("cafe") || nameLower.contains("café") || nameLower.contains("coffee") {
-                return .cafe
-            } else if nameLower.contains("taco") || nameLower.contains("taqueria") || nameLower.contains("burrito") {
-                return .tacos
-            } else if nameLower.contains("burger") {
-                return .burgers
-            } else if nameLower.contains("bbq") || nameLower.contains("barbecue") || nameLower.contains("smokehouse") {
-                return .bbq
-            } else if nameLower.contains("thai") || nameLower.contains("pad") {
-                return .thai
-            } else if nameLower.contains("indian") || nameLower.contains("curry") || nameLower.contains("tandoor") {
-                return .indian
-            } else if nameLower.contains("mediterranean") || nameLower.contains("greek") || nameLower.contains("falafel") {
-                return .mediterranean
-            } else if nameLower.contains("chinese") || nameLower.contains("dim sum") || nameLower.contains("wok") {
-                return .chinese
-            } else if nameLower.contains("seafood") || nameLower.contains("oyster") || nameLower.contains("crab") {
-                return .seafood
-            } else if nameLower.contains("steak") || nameLower.contains("steakhouse") || nameLower.contains("grill") {
-                return .steakhouse
-            } else if nameLower.contains("bakery") || nameLower.contains("pastry") || nameLower.contains("patisserie") {
-                return .bakery
+            if nameLower.contains("whiskey") || nameLower.contains("bourbon") || nameLower.contains("scotch") {
+                return .whiskey
+            } else if nameLower.contains("tiki") || nameLower.contains("tropical") || nameLower.contains("rum") {
+                return .tiki
+            } else if nameLower.contains("wine") || nameLower.contains("grape") || nameLower.contains("vineyard") {
+                return .wine
+            } else if nameLower.contains("dive") || nameLower.contains("pub") || nameLower.contains("tavern") {
+                return .dive
+            } else if nameLower.contains("gin") || nameLower.contains("botanical") {
+                return .gin
+            } else if nameLower.contains("craft") || nameLower.contains("modern") || nameLower.contains("molecular") || nameLower.contains("alchemist") {
+                return .modern
+            } else if nameLower.contains("tequila") || nameLower.contains("mezcal") || nameLower.contains("agave") {
+                return .tequila
             }
-            return .burgers
+            return .classic
         }()
         
         return Restaurant(
@@ -1554,7 +1556,7 @@ extension SupabaseRestaurant {
 extension SupabaseDish {
     /// Convert Supabase dish to app's Dish model
     func toDish() -> Dish {
-        let category = DishCategory(rawValue: self.category ?? "") ?? .main
+        let category = DishCategory(rawValue: self.category ?? "") ?? .classic
         let tags = self.dietaryTags ?? []
         
         return Dish(
@@ -1589,7 +1591,11 @@ extension SupabaseRating {
             comment: self.comment ?? "",
             date: self.createdAt ?? Date(),
             helpful: self.helpfulCount ?? 0,
-            photos: self.photos?.map { $0.photoUrl } ?? []
+            photos: self.photos?.map { $0.photoUrl } ?? [],
+            sweet: self.sweet,
+            salty: self.salty,
+            bitter: self.bitter,
+            sour: self.sour
         )
     }
 }

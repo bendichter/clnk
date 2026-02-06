@@ -1,4 +1,4 @@
-# UGC Compliance Implementation for BiteVue
+# UGC Compliance Implementation for Clnk
 
 ## Overview
 This implementation adds User-Generated Content (UGC) compliance features to meet App Store Guidelines 1.2, which requires apps with user-generated content to provide mechanisms for reporting, blocking, and filtering inappropriate content.
@@ -47,13 +47,13 @@ This implementation adds User-Generated Content (UGC) compliance features to mee
 ## Files Created
 
 ### Views
-1. **`BiteVue/Views/ReportReviewView.swift`**
+1. **`Clnk/Views/ReportReviewView.swift`**
    - Full-screen modal for reporting reviews
    - Radio button selection for report reasons
    - Text field for additional details
    - Preview of the review being reported
 
-2. **`BiteVue/Views/BlockedUsersView.swift`**
+2. **`Clnk/Views/BlockedUsersView.swift`**
    - List view of blocked users
    - Unblock functionality
    - Empty state UI
@@ -68,7 +68,7 @@ This implementation adds User-Generated Content (UGC) compliance features to mee
 ## Files Modified
 
 ### ViewModels
-1. **`BiteVue/ViewModels/RestaurantViewModel.swift`**
+1. **`Clnk/ViewModels/RestaurantViewModel.swift`**
    - Added `blockedUserIds: Set<UUID>`
    - Added `loadBlockedUsers()` / `saveBlockedUsers()`
    - Added `blockUser(_:)` / `unblockUser(_:)`
@@ -77,7 +77,7 @@ This implementation adds User-Generated Content (UGC) compliance features to mee
    - Added `filteredRatings(for:)` method
 
 ### Services
-2. **`BiteVue/Services/SupabaseService.swift`**
+2. **`Clnk/Services/SupabaseService.swift`**
    - Added UGC compliance models:
      - `NewBlockedUser`, `SupabaseBlockedUser`
      - `NewReport`, `SupabaseReport`
@@ -88,23 +88,23 @@ This implementation adds User-Generated Content (UGC) compliance features to mee
      - `reportReview(ratingId:reason:details:)`
 
 ### Views
-3. **`BiteVue/Views/DishDetailView.swift`**
+3. **`Clnk/Views/DishDetailView.swift`**
    - Added report menu to `ReviewCard`
    - Added `showReportSheet` state
    - Filter blocked users in `sortedRatings`
    - Sheet presentation for `ReportReviewView`
 
-4. **`BiteVue/Views/MainTabView.swift`**
+4. **`Clnk/Views/MainTabView.swift`**
    - Added report menu to `ActivityCard`
    - Added navigation to user profile from avatar
    - Filter blocked users in `ActivityView`
 
-5. **`BiteVue/Views/UserProfileView.swift`**
+5. **`Clnk/Views/UserProfileView.swift`**
    - Added block/unblock menu in toolbar
    - Added confirmation alerts
    - Filter out blocked users' reviews
 
-6. **`BiteVue/Views/ProfileView.swift`**
+6. **`Clnk/Views/ProfileView.swift`**
    - Added "Blocked Users" option in Settings
    - Sheet presentation for `BlockedUsersView`
 
@@ -178,9 +178,9 @@ The schema includes RLS policies that ensure:
 
 ### Build Command
 ```bash
-cd ~/.openclaw/workspace/BiteVue && \
-xcodebuild -project BiteVue.xcodeproj \
-  -scheme BiteVue \
+cd ~/.openclaw/workspace/Clnk && \
+xcodebuild -project Clnk.xcodeproj \
+  -scheme Clnk \
   -destination 'platform=iOS Simulator,name=iPhone 16' \
   build
 ```
@@ -209,7 +209,7 @@ xcodebuild -project BiteVue.xcodeproj \
 
 ✅ **"Published contact information so users can easily reach you"**
    - Add support email in Settings → Help & Support
-   - Recommended: support@bitevue.com
+   - Recommended: support@clnk.app
 
 ## Future Enhancements (Optional)
 
@@ -265,4 +265,4 @@ For issues or questions:
 4. Check console for sync errors
 
 ## License
-This implementation is part of BiteVue and follows the same license.
+This implementation is part of Clnk and follows the same license.

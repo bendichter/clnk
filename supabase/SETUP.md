@@ -1,9 +1,9 @@
-# BiteVue Supabase Setup
+# Clnk Supabase Setup
 
 ## 1. Create Project
 
 1. Go to [supabase.com](https://supabase.com) → New Project
-2. Name: `bitevue` (or whatever you like)
+2. Name: `clnk` (or whatever you like)
 3. Database password: **Save this somewhere safe!**
 4. Region: `us-east-1` (closest to Alexandria)
 5. Wait for project to spin up (~2 min)

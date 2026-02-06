@@ -43,7 +43,7 @@ struct ReportReviewView: View {
                                 .font(.title2.weight(.bold))
                         }
                         
-                        Text("Help us keep Great Plate safe and trustworthy by reporting reviews that violate our community guidelines.")
+                        Text("Help us keep Clnk safe and trustworthy by reporting reviews that violate our community guidelines.")
                             .font(.subheadline)
                             .foregroundStyle(AppTheme.textSecondary)
                             .lineSpacing(4)
@@ -112,7 +112,7 @@ struct ReportReviewView: View {
                                     HStack(spacing: 12) {
                                         Image(systemName: reason.icon)
                                             .font(.title3)
-                                            .foregroundStyle(selectedReason == reason ? .orange : AppTheme.textSecondary)
+                                            .foregroundStyle(selectedReason == reason ? AppTheme.primary : AppTheme.textSecondary)
                                             .frame(width: 28)
                                         
                                         Text(reason.rawValue)
@@ -123,7 +123,7 @@ struct ReportReviewView: View {
                                         
                                         if selectedReason == reason {
                                             Image(systemName: "checkmark.circle.fill")
-                                                .foregroundStyle(.orange)
+                                                .foregroundStyle(AppTheme.primary)
                                         } else {
                                             Circle()
                                                 .stroke(AppTheme.textTertiary, lineWidth: 2)
@@ -132,13 +132,13 @@ struct ReportReviewView: View {
                                     }
                                     .padding(16)
                                     .background(selectedReason == reason ? 
-                                        Color.orange.opacity(0.1) : 
+                                        AppTheme.primary.opacity(0.1) : 
                                         AppTheme.backgroundSecondary)
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 12)
                                             .stroke(selectedReason == reason ? 
-                                                .orange : 
+                                                AppTheme.primary : 
                                                 AppTheme.textTertiary.opacity(0.2), 
                                                 lineWidth: selectedReason == reason ? 2 : 1)
                                     )
@@ -175,7 +175,7 @@ struct ReportReviewView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
-                                    .stroke(isDetailsFocused ? .orange : AppTheme.textTertiary.opacity(0.2), lineWidth: isDetailsFocused ? 2 : 1)
+                                    .stroke(isDetailsFocused ? AppTheme.primary : AppTheme.textTertiary.opacity(0.2), lineWidth: isDetailsFocused ? 2 : 1)
                             )
                         }
                         .padding()

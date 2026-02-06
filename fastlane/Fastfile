@@ -5,8 +5,8 @@ platform :ios do
   desc "Capture screenshots for App Store"
   lane :screenshots do
     capture_screenshots(
-      project: "BiteVue.xcodeproj",
-      scheme: "BiteVue",
+      project: "Clnk.xcodeproj",
+      scheme: "Clnk",
       devices: [
         "iPhone 16 Pro Max",
         "iPhone 16 Plus", 
@@ -24,7 +24,7 @@ platform :ios do
   desc "Upload to TestFlight"
   lane :beta do
     build_app(
-      scheme: "BiteVue",
+      scheme: "Clnk",
       export_method: "app-store"
     )
     upload_to_testflight(
@@ -35,7 +35,7 @@ platform :ios do
   desc "Build and archive for App Store"
   lane :release do
     build_app(
-      scheme: "BiteVue",
+      scheme: "Clnk",
       export_method: "app-store"
     )
     upload_to_app_store(

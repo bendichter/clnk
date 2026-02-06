@@ -36,9 +36,9 @@ struct LoginView: View {
     private var backgroundGradient: some View {
         LinearGradient(
             colors: [
-                Color(red: 1.0, green: 0.4, blue: 0.3),
-                Color(red: 1.0, green: 0.55, blue: 0.25),
-                Color(red: 1.0, green: 0.65, blue: 0.2)
+                ClnkColors.Primary.shade800,
+                ClnkColors.Primary.shade600,
+                ClnkColors.Accent.shade600
             ],
             startPoint: animateGradient ? .topLeading : .bottomLeading,
             endPoint: animateGradient ? .bottomTrailing : .topTrailing
@@ -60,16 +60,16 @@ struct LoginView: View {
                     .fill(.white.opacity(0.2))
                     .frame(width: 120, height: 120)
                 
-                Text("🍽️")
+                Text("🍸")
                     .font(.system(size: 60))
             }
             
             VStack(spacing: 8) {
-                Text("Great Plate")
+                Text("Clnk")
                     .font(.system(size: 36, weight: .bold, design: .rounded))
                     .foregroundColor(.white)
-                
-                Text("Find your next great plate")
+
+                Text("Find your next great drink")
                     .font(.subheadline)
                     .foregroundColor(.white.opacity(0.9))
             }

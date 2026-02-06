@@ -79,8 +79,8 @@ struct RestaurantDetailView: View {
                             
                             // Dishes count
                             HStack(spacing: 6) {
-                                Image(systemName: "fork.knife")
-                                Text("\(restaurant.dishes.count) dishes")
+                                Image(systemName: "wineglass")
+                                Text("\(restaurant.dishes.count) cocktails")
                             }
                             .font(.subheadline)
                             .foregroundColor(.white.opacity(0.9))
@@ -108,14 +108,14 @@ struct RestaurantDetailView: View {
                         } label: {
                             HStack(spacing: 8) {
                                 Image(systemName: "mappin.circle.fill")
-                                    .foregroundStyle(.orange)
+                                    .foregroundStyle(AppTheme.primary)
                                 Text(restaurant.address)
                                     .font(.subheadline)
                                     .foregroundStyle(AppTheme.textSecondary)
                                 Spacer()
                                 Image(systemName: "arrow.up.forward")
                                     .font(.caption)
-                                    .foregroundStyle(.orange.opacity(0.7))
+                                    .foregroundStyle(AppTheme.primary.opacity(0.7))
                             }
                         }
                         .buttonStyle(.plain)
@@ -169,10 +169,10 @@ struct RestaurantDetailView: View {
                             } label: {
                                 HStack(spacing: 4) {
                                     Image(systemName: "plus.circle.fill")
-                                    Text("Add Dish")
+                                    Text("Add Cocktail")
                                 }
                                 .font(.subheadline.weight(.semibold))
-                                .foregroundStyle(.orange)
+                                .foregroundStyle(AppTheme.primary)
                             }
                         }
                         
@@ -183,7 +183,7 @@ struct RestaurantDetailView: View {
                                     Image(systemName: "magnifyingglass")
                                         .foregroundStyle(AppTheme.textTertiary)
                                     
-                                    TextField("Search dishes...", text: $searchText)
+                                    TextField("Search cocktails...", text: $searchText)
                                         .focused($isSearchFocused)
                                         .textFieldStyle(.plain)
                                         .font(.subheadline)
@@ -272,15 +272,15 @@ struct RestaurantDetailView: View {
                         if filteredDishes.isEmpty {
                             // Empty state
                             VStack(spacing: 16) {
-                                Image(systemName: restaurant.dishes.isEmpty ? "fork.knife" : "magnifyingglass")
+                                Image(systemName: restaurant.dishes.isEmpty ? "wineglass" : "magnifyingglass")
                                     .font(.system(size: 60))
                                     .foregroundStyle(AppTheme.textTertiary)
                                 
-                                Text(restaurant.dishes.isEmpty ? "No dishes yet" : "No dishes found")
+                                Text(restaurant.dishes.isEmpty ? "No cocktails yet" : "No cocktails found")
                                     .font(.headline)
                                     .foregroundStyle(AppTheme.textPrimary)
                                 
-                                Text(restaurant.dishes.isEmpty ? "Be the first to add a dish!" : "Try adjusting your search or filters")
+                                Text(restaurant.dishes.isEmpty ? "Be the first to add a cocktail!" : "Try adjusting your search or filters")
                                     .font(.subheadline)
                                     .foregroundStyle(AppTheme.textSecondary)
                                     .multilineTextAlignment(.center)
@@ -364,14 +364,14 @@ struct RestaurantDetailView: View {
             result = result.filter { $0.category == category }
         }
         
-        // Filter by dietary options
+        // Filter by drink options
         for filter in selectedDietaryFilters {
             switch filter {
-            case .vegan:
+            case .nonAlcoholic:
                 result = result.filter { $0.isVegan }
-            case .vegetarian:
-                result = result.filter { $0.isVegetarian || $0.isVegan }
-            case .glutenFree:
+            case .stirred:
+                result = result.filter { $0.isVegetarian }
+            case .shaken:
                 result = result.filter { $0.isGlutenFree }
             }
         }
@@ -389,13 +389,13 @@ struct RestaurantDetailView: View {
     private var availableDietaryFilters: [DietaryFilter] {
         var filters: [DietaryFilter] = []
         if restaurant.dishes.contains(where: { $0.isVegan }) {
-            filters.append(.vegan)
+            filters.append(.nonAlcoholic)
         }
-        if restaurant.dishes.contains(where: { $0.isVegetarian || $0.isVegan }) {
-            filters.append(.vegetarian)
+        if restaurant.dishes.contains(where: { $0.isVegetarian }) {
+            filters.append(.stirred)
         }
         if restaurant.dishes.contains(where: { $0.isGlutenFree }) {
-            filters.append(.glutenFree)
+            filters.append(.shaken)
         }
         return filters
     }
@@ -446,9 +446,9 @@ struct DietaryFilterChip: View {
     
     private var filterColor: Color {
         switch filter {
-        case .vegan: return .green
-        case .vegetarian: return Color(red: 0.2, green: 0.6, blue: 0.3)
-        case .glutenFree: return .orange
+        case .nonAlcoholic: return .green
+        case .stirred: return Color(red: 0.55, green: 0.27, blue: 0.07)
+        case .shaken: return AppTheme.primary
         }
     }
 }
@@ -471,7 +471,7 @@ struct CategoryPill: View {
             .foregroundStyle(isSelected ? .white : AppTheme.textPrimary)
             .padding(.horizontal, 14)
             .padding(.vertical, 8)
-            .background(isSelected ? Color.orange : AppTheme.backgroundPrimary)
+            .background(isSelected ? AppTheme.primary : AppTheme.backgroundPrimary)
             .clipShape(Capsule())
         }
     }
@@ -514,7 +514,7 @@ struct TopDishRow: View {
                     if dish.isPopular {
                         Image(systemName: "flame.fill")
                             .font(.caption)
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(AppTheme.primary)
                     }
                 }
                 
@@ -548,8 +548,8 @@ struct TopDishRow: View {
                             Text("🌶️")
                                 .font(.caption)
                         }
-                        if dish.isVegetarian {
-                            Text("🌱")
+                        if dish.isVegan {
+                            Text("🌿")
                                 .font(.caption)
                         }
                     }
@@ -606,7 +606,7 @@ struct DishCard: View {
                     if dish.isPopular {
                         Image(systemName: "flame.fill")
                             .font(.caption)
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(AppTheme.primary)
                     }
                 }
                 
@@ -640,8 +640,8 @@ struct DishCard: View {
                             Text("🌶️")
                                 .font(.caption)
                         }
-                        if dish.isVegetarian {
-                            Text("🌱")
+                        if dish.isVegan {
+                            Text("🌿")
                                 .font(.caption)
                         }
                     }

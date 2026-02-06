@@ -1,4 +1,4 @@
--- BiteVue Database Schema
+-- Clnk Database Schema
 -- Run this in Supabase SQL Editor
 
 -- ============================================

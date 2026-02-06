@@ -299,7 +299,7 @@ struct UserReviewCard: View {
                         }
                     }
                     .font(.caption.weight(isMarkedHelpful ? .semibold : .regular))
-                    .foregroundStyle(isMarkedHelpful ? .orange : AppTheme.textSecondary)
+                    .foregroundStyle(isMarkedHelpful ? AppTheme.primary : AppTheme.textSecondary)
                 }
                 .buttonStyle(.plain)
                 

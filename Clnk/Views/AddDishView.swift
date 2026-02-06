@@ -9,7 +9,7 @@ struct AddDishView: View {
     @State private var dishName = ""
     @State private var description = ""
     @State private var price = ""
-    @State private var selectedCategory: DishCategory = .main
+    @State private var selectedCategory: DishCategory = .classic
     @State private var isSpicy = false
     @State private var isVegetarian = false
     @State private var isVegan = false
@@ -70,7 +70,7 @@ struct AddDishView: View {
                             PhotosPicker(selection: $selectedItem, matching: .images) {
                                 Text("Change Photo")
                                     .font(.subheadline)
-                                    .foregroundStyle(.orange)
+                                    .foregroundStyle(AppTheme.primary)
                             }
                         }
                     }
@@ -79,8 +79,8 @@ struct AddDishView: View {
                     .padding(.vertical, 8)
                 }
                 
-                Section("Dish Details") {
-                    TextField("Dish Name", text: $dishName)
+                Section("Cocktail Details") {
+                    TextField("Cocktail Name", text: $dishName)
                     
                     TextField("Description", text: $description, axis: .vertical)
                         .lineLimit(3...6)
@@ -99,37 +99,37 @@ struct AddDishView: View {
                     }
                 }
                 
-                Section("Dietary Info") {
+                Section("Drink Info") {
                     Toggle(isOn: $isSpicy) {
                         HStack {
                             Text("🌶️")
                             Text("Spicy")
                         }
                     }
-                    
+
                     Toggle(isOn: $isVegetarian) {
                         HStack {
-                            Text("🥬")
-                            Text("Vegetarian")
+                            Text("🥄")
+                            Text("Stirred")
                         }
                     }
-                    
+
                     Toggle(isOn: $isVegan) {
                         HStack {
-                            Text("🌱")
-                            Text("Vegan")
+                            Text("🌿")
+                            Text("Non-Alcoholic")
                         }
                     }
-                    
+
                     Toggle(isOn: $isGlutenFree) {
                         HStack {
-                            Text("🌾")
-                            Text("Gluten-Free")
+                            Text("🧊")
+                            Text("Shaken")
                         }
                     }
                 }
             }
-            .navigationTitle("Add Dish")
+            .navigationTitle("Add Cocktail")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {

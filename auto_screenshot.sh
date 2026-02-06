@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# Automated screenshot capture for BiteVue
+# Automated screenshot capture for Clnk
 # This script launches the app and captures screenshots at intervals
 # Manual navigation is required between captures
 
 set -e
 
-SCREENSHOTS_DIR="$HOME/.openclaw/workspace/BiteVue/Screenshots"
-APP_BUNDLE_ID="com.greatplate.app"
-APP_PATH="$HOME/.openclaw/workspace/BiteVue/DerivedData/Build/Products/Debug-iphonesimulator/BiteVue.app"
+SCREENSHOTS_DIR="$HOME/.openclaw/workspace/Clnk/Screenshots"
+APP_BUNDLE_ID="com.clnk.app"
+APP_PATH="$HOME/.openclaw/workspace/Clnk/DerivedData/Build/Products/Debug-iphonesimulator/Clnk.app"
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -71,12 +71,12 @@ capture_device_screenshots() {
     sleep 3
     
     # Install app
-    log_info "Installing BiteVue..."
+    log_info "Installing Clnk..."
     xcrun simctl install booted "$APP_PATH"
     sleep 2
     
     # Launch app in demo mode
-    log_info "Launching BiteVue in demo mode..."
+    log_info "Launching Clnk in demo mode..."
     xcrun simctl launch booted "$APP_BUNDLE_ID" --args "--uitesting" "--demo-mode"
     sleep 6
     
@@ -137,7 +137,7 @@ capture_device_screenshots() {
 # Main execution
 echo ""
 echo "=========================================="
-echo "📸 BiteVue App Store Screenshot Generator"
+echo "📸 Clnk App Store Screenshot Generator"
 echo "=========================================="
 echo ""
 
@@ -145,8 +145,8 @@ echo ""
 if [ ! -d "$APP_PATH" ]; then
     log_warning "App not found at: $APP_PATH"
     log_info "Building app..."
-    cd "$HOME/.openclaw/workspace/BiteVue"
-    xcodebuild -project BiteVue.xcodeproj -scheme BiteVue -configuration Debug -sdk iphonesimulator -derivedDataPath ./DerivedData build
+    cd "$HOME/.openclaw/workspace/Clnk"
+    xcodebuild -project Clnk.xcodeproj -scheme Clnk -configuration Debug -sdk iphonesimulator -derivedDataPath ./DerivedData build
     log_success "Build complete"
 fi
 

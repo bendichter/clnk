@@ -56,8 +56,8 @@ The app uses a comprehensive teal & sage color palette. See:
 ## Database Schema
 
 Key tables:
-- `restaurants` - Bar information (named for Great Plate compatibility)
-- `dishes` - Cocktail details (named for Great Plate compatibility)
+- `venues` - Bar information
+- `cocktails` - Cocktail details
 - `ratings` - User ratings and reviews
 - `profiles` - User profiles
 - `user_follows` - Social following relationships

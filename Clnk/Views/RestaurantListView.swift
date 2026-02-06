@@ -144,7 +144,7 @@ struct RestaurantListView: View {
                                         Image(systemName: "chevron.down")
                                             .font(.caption.weight(.bold))
                                     }
-                                    .foregroundStyle(.orange)
+                                    .foregroundStyle(AppTheme.primary)
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 16)
                                     .background(AppTheme.backgroundPrimary)
@@ -190,9 +190,9 @@ struct FilterPill: View {
             .foregroundStyle(isSelected ? .white : AppTheme.textPrimary)
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
-            .background(isSelected ? Color.orange : AppTheme.backgroundPrimary)
+            .background(isSelected ? AppTheme.primary : AppTheme.backgroundPrimary)
             .clipShape(Capsule())
-            .shadow(color: isSelected ? .orange.opacity(0.3) : .clear, radius: 8, x: 0, y: 4)
+            .shadow(color: isSelected ? AppTheme.primary.opacity(0.3) : .clear, radius: 8, x: 0, y: 4)
         }
     }
 }
@@ -321,7 +321,7 @@ struct RestaurantCard: View {
                     if restaurant.isFeatured {
                         Image(systemName: "checkmark.seal.fill")
                             .font(.caption)
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(AppTheme.primary)
                     }
                 }
                 
@@ -366,7 +366,7 @@ struct RestaurantCard: View {
                             Text(distance)
                         }
                         .font(.caption)
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(AppTheme.primary)
                     }
                 }
                 

@@ -1,27 +1,27 @@
-# BiteVue Admin Dashboard - Implementation Summary
+# Clnk Admin Dashboard - Implementation Summary
 
 ## ✅ Completed Tasks
 
 ### 1. Dashboard Structure Created
-**Location:** `~/.openclaw/workspace/BiteVue/admin/`
+**Location:** `~/.openclaw/workspace/Clnk/admin/`
 
 Three core files created:
 - `index.html` (5.0 KB) - Main dashboard UI
-- `styles.css` (7.7 KB) - BiteVue-themed styling
+- `styles.css` (7.7 KB) - Clnk-themed styling
 - `app.js` (11 KB) - Supabase integration & logic
 
 ### 2. Features Implemented
 
 #### 🔐 Authentication
-- Simple password protection (default: `bitevue2024`)
+- Simple password protection (default: `clnk2024`)
 - Session-based auth using `sessionStorage`
 - Login/logout functionality
 - **Production Note:** Replace with Supabase Auth for security
 
 #### 📊 Stats Overview
 Displays real-time counts from Supabase:
-- 🍽️ Total restaurants
-- 🥘 Total dishes
+- 🍸 Total venues (bars)
+- 🍹 Total cocktails
 - ⭐ Total ratings
 - 👥 Total users
 - 🚨 Total reports
@@ -58,7 +58,7 @@ Full content moderation interface:
 ### 3. Design & Styling
 
 **Theme Consistency:**
-- Primary orange: `#FF6B35` (matches BiteVue brand)
+- Primary teal: `#035552` (matches Clnk brand)
 - Dark backgrounds: `#1a1a1a`, `#0f0f0f`
 - Card-based UI with `#2a2a2a` backgrounds
 - Clean, minimal design
@@ -79,10 +79,10 @@ Full content moderation interface:
 ### 4. Technical Implementation
 
 **Supabase Integration:**
-- Connected to: `https://kgfdwcsydjzioqdlovjy.supabase.co`
-- Using anon key from `BiteVue/Config.swift`
+- Connected to: `https://rbeuvvttiyxrdsgkrwaa.supabase.co`
+- Using anon key from `Clnk/Config.swift`
 - Queries tables:
-  - `restaurants`, `dishes`, `ratings`
+  - `venues`, `cocktails`, `ratings`
   - `profiles` (user data)
   - `reports` (content moderation)
   - `blocked_users` (block relationships)
@@ -132,7 +132,7 @@ Add admin dashboard for content moderation
 - Update main README with admin info
 ```
 
-**Pushed to:** `https://github.com/bendichter/BiteVue.git`
+**Pushed to:** `https://github.com/bendichter/Clnk.git`
 **Branch:** `main`
 
 ## 🎯 How It Works
@@ -181,7 +181,7 @@ cd admin && python3 -m http.server 8000
 ### GitHub Pages
 1. Go to repo settings
 2. Pages → Source: `main` branch, `/admin` folder
-3. Dashboard will be at: `https://bendichter.github.io/BiteVue/`
+3. Dashboard will be at: `https://bendichter.github.io/Clnk/`
 
 ### Other Hosting
 - **Netlify:** Drop `/admin` folder
@@ -234,7 +234,7 @@ Before marking complete:
 
 **To test manually:**
 1. Open `admin/index.html` in browser
-2. Login with password `bitevue2024`
+2. Login with password `clnk2024`
 3. Verify stats load from Supabase
 4. Check reports display correctly
 5. Test filtering (pending/reviewed/etc)
@@ -246,7 +246,7 @@ Before marking complete:
 **Login Screen:**
 ```
 ┌─────────────────────────────┐
-│     🍽️ BiteVue Admin       │
+│     🍸 Clnk Admin       │
 │  Content Moderation Portal  │
 │                             │
 │  [  Password Input      ]   │
@@ -257,8 +257,8 @@ Before marking complete:
 **Stats Overview:**
 ```
 ┌─────────┬─────────┬─────────┐
-│🍽️ 450  │🥘 2.3K  │⭐ 5.1K │
-│Restaurants│Dishes  │Ratings  │
+│🍸 450   │🍹 2.3K  │⭐ 5.1K │
+│Venues    │Cocktails│Ratings  │
 ├─────────┼─────────┼─────────┤
 │👥 1.2K  │🚨 23   │🚫 45   │
 │Users    │Reports  │Blocks   │
@@ -286,7 +286,7 @@ Before marking complete:
 All requested items completed:
 
 1. ✅ `admin/index.html` - Main dashboard (5.0 KB)
-2. ✅ `admin/styles.css` - BiteVue styling (7.7 KB)
+2. ✅ `admin/styles.css` - Clnk styling (7.7 KB)
 3. ✅ `admin/app.js` - Supabase logic (11 KB)
 4. ✅ README.md updated with admin info
 5. ✅ Committed: "Add admin dashboard for content moderation"
@@ -327,7 +327,7 @@ All requested items completed:
 
 ✅ **Functional:** All features work as specified  
 ✅ **Connected:** Supabase integration complete  
-✅ **Styled:** Matches BiteVue theme (orange + dark)  
+✅ **Styled:** Matches Clnk theme (teal + dark)  
 ✅ **Responsive:** Mobile-friendly design  
 ✅ **Documented:** README and testing guides  
 ✅ **Deployed:** Committed and pushed to GitHub  

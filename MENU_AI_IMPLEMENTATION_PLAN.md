@@ -1233,13 +1233,13 @@ async function loadMenuUploads() {
 ### New Files
 - `supabase/functions/extract-menu/index.ts`
 - `supabase/migrations/20260202_menu_ai.sql`
-- `BiteVue/Views/MenuUploadView.swift`
-- `BiteVue/Views/MenuExtractionReviewView.swift`
+- `Clnk/Views/MenuUploadView.swift`
+- `Clnk/Views/MenuExtractionReviewView.swift`
 - `admin/menus.js` (or add to app.js)
 
 ### Modified Files
-- `BiteVue/Services/SupabaseService.swift` (add menu methods)
-- `BiteVue/Views/RestaurantDetailView.swift` (add menu upload button)
+- `Clnk/Services/SupabaseService.swift` (add menu methods)
+- `Clnk/Views/RestaurantDetailView.swift` (add menu upload button)
 - `admin/index.html` (add menus tab)
 - `admin/app.js` (add menus functionality)
 - `admin/styles.css` (add menus styles)

@@ -1,4 +1,4 @@
--- UGC Compliance Database Schema for BiteVue
+-- UGC Compliance Database Schema for Clnk
 -- App Store Guidelines 1.2 Compliance
 -- Run this SQL in Supabase SQL Editor to create the required tables
 

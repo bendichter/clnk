@@ -1,6 +1,6 @@
 :root {
-    --primary: #FF6B35;
-    --primary-dark: #E55A2B;
+    --primary: #035552;
+    --primary-dark: #0B443D;
     --text-primary: #1a1a2e;
     --text-secondary: #4a4a68;
     --text-tertiary: #8888a0;
@@ -82,7 +82,7 @@ nav a:hover {
     justify-content: center;
     text-align: center;
     padding: 6rem 2rem 4rem;
-    background: linear-gradient(135deg, #fff5f0 0%, #fff 50%, #f0f7ff 100%);
+    background: linear-gradient(135deg, #E0F4F2 0%, #fff 50%, #f0f7ff 100%);
 }
 
 .hero-content {
@@ -93,7 +93,7 @@ nav a:hover {
     font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 1.5rem;
-    background: linear-gradient(135deg, var(--primary) 0%, #FF8F6B 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, #09817B 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -134,7 +134,7 @@ nav a:hover {
 .btn-primary:hover {
     background: var(--primary-dark);
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+    box-shadow: 0 10px 30px rgba(3, 85, 82, 0.3);
 }
 
 .btn-secondary {

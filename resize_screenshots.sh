@@ -6,7 +6,7 @@
 # - 6.5" Display (iPhone 14/15/16 Plus): 1284 x 2778 pixels  
 # - 5.5" Display (iPhone 8 Plus): 1242 x 2208 pixels
 
-SCREENSHOTS_DIR="$HOME/.openclaw/workspace/BiteVue/Screenshots"
+SCREENSHOTS_DIR="$HOME/.openclaw/workspace/Clnk/Screenshots"
 
 echo "=========================================="
 echo "📐 Resizing screenshots to App Store specs"

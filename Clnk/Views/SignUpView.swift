@@ -21,7 +21,7 @@ struct SignUpView: View {
                         Circle()
                             .fill(
                                 LinearGradient(
-                                    colors: [.orange.opacity(0.3), .red.opacity(0.3)],
+                                    colors: [ClnkColors.Primary.shade500.opacity(0.3), ClnkColors.Accent.shade600.opacity(0.3)],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )
@@ -32,10 +32,10 @@ struct SignUpView: View {
                             .font(.system(size: 50))
                     }
                     
-                    Text("Join Great Plate")
+                    Text("Join Clnk")
                         .font(.title.weight(.bold))
                     
-                    Text("Track the dishes you love")
+                    Text("Track the cocktails you love")
                         .font(.subheadline)
                         .foregroundStyle(AppTheme.textSecondary)
                 }
@@ -45,7 +45,7 @@ struct SignUpView: View {
                 HStack(spacing: 8) {
                     ForEach(0..<3) { step in
                         Capsule()
-                            .fill(step <= currentStep ? Color.orange : AppTheme.backgroundSecondary)
+                            .fill(step <= currentStep ? AppTheme.primary : AppTheme.backgroundSecondary)
                             .frame(height: 4)
                     }
                 }
@@ -140,7 +140,7 @@ struct SignUpView: View {
                                 HStack(spacing: 12) {
                                     Image(systemName: agreedToTerms ? "checkmark.square.fill" : "square")
                                         .font(.title3)
-                                        .foregroundStyle(agreedToTerms ? .orange : AppTheme.textTertiary)
+                                        .foregroundStyle(agreedToTerms ? AppTheme.primary : AppTheme.textTertiary)
                                     
                                     Text("I agree to the Terms of Service and Privacy Policy")
                                         .font(.subheadline)
@@ -206,7 +206,7 @@ struct SignUpView: View {
                             .foregroundStyle(AppTheme.textSecondary)
                         Text("Sign In")
                             .fontWeight(.semibold)
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(AppTheme.primary)
                     }
                     .font(.subheadline)
                 }

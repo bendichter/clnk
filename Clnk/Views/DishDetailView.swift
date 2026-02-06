@@ -49,7 +49,7 @@ struct DishDetailView: View {
                                     Text(restaurant.name)
                                         .font(.subheadline.weight(.medium))
                                 }
-                                .foregroundStyle(.orange)
+                                .foregroundStyle(AppTheme.primary)
                             }
                             
                             Text("•")
@@ -83,7 +83,7 @@ struct DishDetailView: View {
                                     .font(.system(size: 32, weight: .semibold, design: .rounded))
                                     .foregroundStyle(AppTheme.textSecondary)
                                 
-                                Text("Be the first to rate this dish")
+                                Text("Be the first to rate this cocktail")
                                     .font(.subheadline)
                                     .foregroundStyle(AppTheme.textTertiary)
                             }
@@ -98,7 +98,7 @@ struct DishDetailView: View {
                                 HStack {
                                     Image(systemName: "checkmark.circle.fill")
                                         .foregroundStyle(.green)
-                                    Text("You rated this dish")
+                                    Text("You rated this cocktail")
                                         .font(.subheadline.weight(.medium))
                                     Spacer()
                                     RatingBadge(rating: userRating.rating, size: .small)
@@ -109,7 +109,7 @@ struct DishDetailView: View {
                                 } label: {
                                     Text("Update Rating")
                                         .font(.subheadline.weight(.semibold))
-                                        .foregroundStyle(.orange)
+                                        .foregroundStyle(AppTheme.primary)
                                 }
                             }
                         } else {
@@ -118,7 +118,7 @@ struct DishDetailView: View {
                             } label: {
                                 HStack {
                                     Image(systemName: "star.fill")
-                                    Text("Rate This Dish")
+                                    Text("Rate This Cocktail")
                                 }
                             }
                             .buttonStyle(PrimaryButtonStyle())
@@ -129,9 +129,28 @@ struct DishDetailView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                     .shadow(color: AppTheme.cardShadow, radius: 12, x: 0, y: 6)
                     
+                    // Average Flavor Profile
+                    if let avgFlavor = averageFlavorProfile {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Average Flavor Profile")
+                                .font(.headline)
+
+                            FlavorProfileSummary(
+                                sweet: avgFlavor.sweet,
+                                salty: avgFlavor.salty,
+                                bitter: avgFlavor.bitter,
+                                sour: avgFlavor.sour
+                            )
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(20)
+                        .background(AppTheme.backgroundPrimary)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                    }
+
                     // Description
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("About This Dish")
+                        Text("About This Cocktail")
                             .font(.headline)
                         
                         Text(dish.description)
@@ -189,7 +208,7 @@ struct DishDetailView: View {
                             EmptyStateView(
                                 icon: "text.bubble",
                                 title: "No reviews yet",
-                                message: "Be the first to review this dish!"
+                                message: "Be the first to review this cocktail!"
                             )
                             .padding(.vertical, 20)
                         } else {
@@ -203,7 +222,7 @@ struct DishDetailView: View {
                                 } label: {
                                     Text("See all \(sortedRatings.count) reviews")
                                         .font(.subheadline.weight(.semibold))
-                                        .foregroundStyle(.orange)
+                                        .foregroundStyle(AppTheme.primary)
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding(.top, 8)
@@ -244,6 +263,19 @@ struct DishDetailView: View {
         }
     }
     
+    private var averageFlavorProfile: (sweet: Double, salty: Double, bitter: Double, sour: Double)? {
+        let ratingsWithFlavor = dish.ratings.filter {
+            $0.sweet != nil || $0.salty != nil || $0.bitter != nil || $0.sour != nil
+        }
+        guard !ratingsWithFlavor.isEmpty else { return nil }
+        let count = Double(ratingsWithFlavor.count)
+        let sweet = ratingsWithFlavor.compactMap(\.sweet).reduce(0, +) / count
+        let salty = ratingsWithFlavor.compactMap(\.salty).reduce(0, +) / count
+        let bitter = ratingsWithFlavor.compactMap(\.bitter).reduce(0, +) / count
+        let sour = ratingsWithFlavor.compactMap(\.sour).reduce(0, +) / count
+        return (sweet: sweet, salty: salty, bitter: bitter, sour: sour)
+    }
+
     private var sortedRatings: [DishRating] {
         // UGC: Filter out blocked users and ratings without comments
         let ratingsWithComments = dish.ratings.filter { 
@@ -348,7 +380,17 @@ struct ReviewCard: View {
                     .foregroundStyle(AppTheme.textPrimary)
                     .lineLimit(isExpanded ? nil : 3)
             }
-            
+
+            // Flavor Profile
+            if rating.sweet != nil || rating.salty != nil || rating.bitter != nil || rating.sour != nil {
+                FlavorProfileSummary(
+                    sweet: rating.sweet,
+                    salty: rating.salty,
+                    bitter: rating.bitter,
+                    sour: rating.sour
+                )
+            }
+
             // Photo Thumbnails
             if !rating.photos.isEmpty {
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -383,7 +425,7 @@ struct ReviewCard: View {
                             }
                         }
                         .font(.caption.weight(isMarkedHelpful ? .semibold : .regular))
-                        .foregroundStyle(isMarkedHelpful ? .orange : AppTheme.textSecondary)
+                        .foregroundStyle(isMarkedHelpful ? AppTheme.primary : AppTheme.textSecondary)
                     }
                     .buttonStyle(.plain)
                 }
@@ -398,7 +440,7 @@ struct ReviewCard: View {
                     } label: {
                         Text(isExpanded ? "Show less" : "Show more")
                             .font(.caption.weight(.medium))
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(AppTheme.primary)
                     }
                 }
             }

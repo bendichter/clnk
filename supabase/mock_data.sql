@@ -8,7 +8,7 @@ INSERT INTO venues (id, name, description, address, latitude, longitude, drink_t
 ('11111111-1111-1111-1111-111111111103', 'The Gin Garden', 'Botanical gin bar with garden patio seating', '789 Duke St, Alexandria, VA', 38.8065, -77.0502, 'Gin', '$$$', '🍸', '#228B22', false),
 
 -- Tiki Bars
-('11111111-1111-1111-1111-111111111104', 'Trader Vics Hideaway', 'Tropical paradise with rum cocktails and Polynesian vibes', '321 Harbor Dr, Alexandria, VA', 38.7989, -77.0412, 'Tiki', '$$', '🍹', '#FF6B35', true),
+('11111111-1111-1111-1111-111111111104', 'Trader Vics Hideaway', 'Tropical paradise with rum cocktails and Polynesian vibes', '321 Harbor Dr, Alexandria, VA', 38.7989, -77.0412, 'Tiki', '$$', '🍹', '#035552', true),
 ('11111111-1111-1111-1111-111111111105', 'Bamboo Lounge', 'Retro tiki bar with vintage decor and flaming drinks', '555 Pacific Ave, Alexandria, VA', 38.8102, -77.0521, 'Tiki', '$$', '🌴', '#FFD700', false),
 
 -- Modern/Craft Bars

@@ -1,5 +1,5 @@
 -- Clnk Database Schema
--- Cocktail rating app (fork of Great Plate)
+-- Cocktail rating app
 
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";

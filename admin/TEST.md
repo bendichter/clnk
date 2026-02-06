@@ -14,7 +14,7 @@
    ```
 
 2. **Login:**
-   - Default password: `bitevue2024`
+   - Default password: `clnk2024`
    - For production, change this in `app.js` or implement proper Supabase Auth
 
 3. **Test Features:**
@@ -27,12 +27,12 @@
 ## Supabase Connection
 
 The dashboard connects to:
-- **URL:** `https://kgfdwcsydjzioqdlovjy.supabase.co`
+- **URL:** `https://rbeuvvttiyxrdsgkrwaa.supabase.co`
 - **Tables used:** `restaurants`, `dishes`, `ratings`, `profiles`, `reports`, `blocked_users`
 
 ## What to Check
 
-1. **Login screen displays** with BiteVue branding (orange theme)
+1. **Login screen displays** with Clnk branding (teal theme)
 2. **Stats load correctly** from Supabase
 3. **Reports display** with all details:
    - Reporter username
@@ -55,7 +55,7 @@ The dashboard connects to:
 - Check that tables exist in Supabase
 
 **Can't login:**
-- Default password is `bitevue2024`
+- Default password is `clnk2024`
 - Check browser console
 
 **Reports not showing:**
@@ -68,7 +68,7 @@ The dashboard connects to:
 ```bash
 # In repo settings, enable GitHub Pages
 # Set source to: main branch / admin folder
-# Dashboard will be at: https://bendichter.github.io/BiteVue/
+# Dashboard will be at: https://bendichter.github.io/Clnk/
 ```
 
 ### Option 2: Netlify/Vercel

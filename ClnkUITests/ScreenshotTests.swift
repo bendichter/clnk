@@ -1,7 +1,7 @@
 import XCTest
 
 /// UI Tests that capture screenshots of every view for App Store submission
-/// Run with: xcodebuild test -project BiteVue.xcodeproj -scheme BiteVueUITests -destination 'platform=iOS Simulator,name=iPhone 16 Pro Max'
+/// Run with: xcodebuild test -project Clnk.xcodeproj -scheme ClnkUITests -destination 'platform=iOS Simulator,name=iPhone 16 Pro Max'
 /// Screenshots saved to: ~/Library/Developer/Xcode/DerivedData/.../Attachments/
 final class ScreenshotTests: XCTestCase {
     
@@ -29,7 +29,7 @@ final class ScreenshotTests: XCTestCase {
         // Also save to disk
         let filename = "\(name).png"
         if let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let screenshotsDir = docsDir.appendingPathComponent("BiteVue_Screenshots")
+            let screenshotsDir = docsDir.appendingPathComponent("Clnk_Screenshots")
             try? FileManager.default.createDirectory(at: screenshotsDir, withIntermediateDirectories: true)
             let fileURL = screenshotsDir.appendingPathComponent(filename)
             try? screenshot.pngRepresentation.write(to: fileURL)

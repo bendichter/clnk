@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
- * Populate Supabase with mock restaurant and dish data
+ * Populate Supabase with mock bar and cocktail data
  * Run with: node scripts/populate-supabase.js
  */
 
 require('dotenv').config();
 
-const SUPABASE_URL = process.env.SUPABASE_URL || 'https://kgfdwcsydjzioqdlovjy.supabase.co';
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://rbeuvvttiyxrdsgkrwaa.supabase.co';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!SUPABASE_SERVICE_KEY) {
@@ -21,312 +21,206 @@ const headers = {
     'Prefer': 'return=minimal'
 };
 
-// Restaurant data from MockData.swift
-const restaurants = [
+// Venue (bar) data matching mock_data.sql
+const venues = [
     {
-        id: 'aaaa0000-0000-0000-0000-000000000001',
-        name: 'Pupatella',
-        address: '5104 Wilson Blvd',
-        locality: 'Arlington',
-        region: 'VA',
-        postcode: '22203',
-        country: 'US',
-        formatted_address: '5104 Wilson Blvd, Arlington, VA 22203',
-        latitude: 38.8800,
-        longitude: -77.1150,
-        cuisine_type: 'Pizza',
-        is_user_submitted: false
-    },
-    {
-        id: 'aaaa0000-0000-0000-0000-000000000002',
-        name: 'Vermilion',
-        address: '1120 King St',
-        locality: 'Alexandria',
-        region: 'VA',
-        postcode: '22314',
-        country: 'US',
-        formatted_address: '1120 King St, Alexandria, VA 22314',
+        id: '11111111-1111-1111-1111-111111111101',
+        name: 'The Velvet Room',
+        description: 'Elegant speakeasy with classic cocktails and live jazz',
+        address: '123 Main St, Alexandria, VA',
         latitude: 38.8048,
+        longitude: -77.0469,
+        drink_type: 'Classic',
+        price_range: '$$$',
+        image_emoji: '🥃',
+        header_color: '#8B4513',
+        is_featured: true
+    },
+    {
+        id: '11111111-1111-1111-1111-111111111102',
+        name: 'Copper & Oak',
+        description: 'Whiskey-focused bar with 200+ bottles and craft cocktails',
+        address: '456 King St, Alexandria, VA',
+        latitude: 38.8051,
         longitude: -77.0428,
-        cuisine_type: 'American',
-        is_user_submitted: false
+        drink_type: 'Whiskey',
+        price_range: '$$$$',
+        image_emoji: '🥃',
+        header_color: '#B87333',
+        is_featured: true
     },
     {
-        id: 'aaaa0000-0000-0000-0000-000000000003',
-        name: 'Mai Thai',
-        address: '6 King St',
-        locality: 'Alexandria',
-        region: 'VA',
-        postcode: '22314',
-        country: 'US',
-        formatted_address: '6 King St, Alexandria, VA 22314',
-        latitude: 38.8027,
-        longitude: -77.0419,
-        cuisine_type: 'Thai',
-        is_user_submitted: false
+        id: '11111111-1111-1111-1111-111111111103',
+        name: 'The Gin Garden',
+        description: 'Botanical gin bar with garden patio seating',
+        address: '789 Duke St, Alexandria, VA',
+        latitude: 38.8065,
+        longitude: -77.0502,
+        drink_type: 'Gin',
+        price_range: '$$$',
+        image_emoji: '🍸',
+        header_color: '#228B22',
+        is_featured: false
     },
     {
-        id: 'aaaa0000-0000-0000-0000-000000000004',
-        name: 'Pho 75',
-        address: '1721 Wilson Blvd',
-        locality: 'Arlington',
-        region: 'VA',
-        postcode: '22209',
-        country: 'US',
-        formatted_address: '1721 Wilson Blvd, Arlington, VA 22209',
-        latitude: 38.8950,
-        longitude: -77.0750,
-        cuisine_type: 'Vietnamese',
-        is_user_submitted: false
+        id: '11111111-1111-1111-1111-111111111104',
+        name: 'Trader Vic\'s Hideaway',
+        description: 'Tropical paradise with rum cocktails and Polynesian vibes',
+        address: '321 Harbor Dr, Alexandria, VA',
+        latitude: 38.7989,
+        longitude: -77.0412,
+        drink_type: 'Tiki',
+        price_range: '$$',
+        image_emoji: '🍹',
+        header_color: '#035552',
+        is_featured: true
     },
     {
-        id: 'aaaa0000-0000-0000-0000-000000000005',
-        name: 'The Majestic',
-        address: '911 King St',
-        locality: 'Alexandria',
-        region: 'VA',
-        postcode: '22314',
-        country: 'US',
-        formatted_address: '911 King St, Alexandria, VA 22314',
-        latitude: 38.8050,
-        longitude: -77.0440,
-        cuisine_type: 'American',
-        is_user_submitted: false
+        id: '11111111-1111-1111-1111-111111111105',
+        name: 'Bamboo Lounge',
+        description: 'Retro tiki bar with vintage decor and flaming drinks',
+        address: '555 Pacific Ave, Alexandria, VA',
+        latitude: 38.8102,
+        longitude: -77.0521,
+        drink_type: 'Tiki',
+        price_range: '$$',
+        image_emoji: '🌴',
+        header_color: '#FFD700',
+        is_featured: false
     },
     {
-        id: 'aaaa0000-0000-0000-0000-000000000006',
-        name: 'Cava Mezze',
-        address: '527 King St',
-        locality: 'Alexandria',
-        region: 'VA',
-        postcode: '22314',
-        country: 'US',
-        formatted_address: '527 King St, Alexandria, VA 22314',
-        latitude: 38.8040,
-        longitude: -77.0450,
-        cuisine_type: 'Greek',
-        is_user_submitted: false
+        id: '11111111-1111-1111-1111-111111111106',
+        name: 'Molecule',
+        description: 'Molecular mixology and avant-garde cocktails',
+        address: '777 Innovation Way, Alexandria, VA',
+        latitude: 38.8156,
+        longitude: -77.0445,
+        drink_type: 'Modern',
+        price_range: '$$$$',
+        image_emoji: '🧪',
+        header_color: '#9400D3',
+        is_featured: true
     },
     {
-        id: 'aaaa0000-0000-0000-0000-000000000007',
-        name: 'Sushi Zen',
-        address: '2457 18th St NW',
-        locality: 'Washington',
-        region: 'DC',
-        postcode: '20009',
-        country: 'US',
-        formatted_address: '2457 18th St NW, Washington, DC 20009',
-        latitude: 38.9200,
-        longitude: -77.0420,
-        cuisine_type: 'Sushi',
-        is_user_submitted: false
+        id: '11111111-1111-1111-1111-111111111107',
+        name: 'The Alchemist',
+        description: 'Farm-to-glass cocktails with seasonal ingredients',
+        address: '888 Garden Ln, Alexandria, VA',
+        latitude: 38.8089,
+        longitude: -77.0389,
+        drink_type: 'Modern',
+        price_range: '$$$',
+        image_emoji: '⚗️',
+        header_color: '#4169E1',
+        is_featured: false
     },
     {
-        id: 'aaaa0000-0000-0000-0000-000000000008',
-        name: 'Taco Bamba',
-        address: '2190 Pimmit Dr',
-        locality: 'Falls Church',
-        region: 'VA',
-        postcode: '22043',
-        country: 'US',
-        formatted_address: '2190 Pimmit Dr, Falls Church, VA 22043',
-        latitude: 38.9020,
-        longitude: -77.1890,
-        cuisine_type: 'Mexican',
-        is_user_submitted: false
+        id: '11111111-1111-1111-1111-111111111108',
+        name: 'The Rusty Nail',
+        description: 'No-frills neighborhood bar with cheap drinks',
+        address: '999 Worker St, Alexandria, VA',
+        latitude: 38.7945,
+        longitude: -77.0567,
+        drink_type: 'Classic',
+        price_range: '$',
+        image_emoji: '🍺',
+        header_color: '#CD853F',
+        is_featured: false
     },
     {
-        id: 'aaaa0000-0000-0000-0000-000000000009',
-        name: 'Founding Farmers',
-        address: '1924 Pennsylvania Ave NW',
-        locality: 'Washington',
-        region: 'DC',
-        postcode: '20006',
-        country: 'US',
-        formatted_address: '1924 Pennsylvania Ave NW, Washington, DC 20006',
-        latitude: 38.9002,
-        longitude: -77.0421,
-        cuisine_type: 'American',
-        is_user_submitted: false
+        id: '11111111-1111-1111-1111-111111111109',
+        name: 'Grape & Grain',
+        description: 'Wine bar with curated selection and small plates',
+        address: '111 Vine St, Alexandria, VA',
+        latitude: 38.8112,
+        longitude: -77.0401,
+        drink_type: 'Wine',
+        price_range: '$$$',
+        image_emoji: '🍷',
+        header_color: '#722F37',
+        is_featured: false
     },
     {
-        id: 'aaaa0000-0000-0000-0000-000000000010',
-        name: 'Joe\'s Seafood',
-        address: '750 15th St NW',
-        locality: 'Washington',
-        region: 'DC',
-        postcode: '20005',
-        country: 'US',
-        formatted_address: '750 15th St NW, Washington, DC 20005',
-        latitude: 38.9010,
-        longitude: -77.0330,
-        cuisine_type: 'Seafood',
-        is_user_submitted: false
-    },
-    {
-        id: 'aaaa0000-0000-0000-0000-000000000011',
-        name: 'Le Diplomate',
-        address: '1601 14th St NW',
-        locality: 'Washington',
-        region: 'DC',
-        postcode: '20009',
-        country: 'US',
-        formatted_address: '1601 14th St NW, Washington, DC 20009',
-        latitude: 38.9120,
-        longitude: -77.0320,
-        cuisine_type: 'French',
-        is_user_submitted: false
-    },
-    {
-        id: 'aaaa0000-0000-0000-0000-000000000012',
-        name: 'Rasika',
-        address: '633 D St NW',
-        locality: 'Washington',
-        region: 'DC',
-        postcode: '20004',
-        country: 'US',
-        formatted_address: '633 D St NW, Washington, DC 20004',
-        latitude: 38.8952,
-        longitude: -77.0220,
-        cuisine_type: 'Indian',
-        is_user_submitted: false
-    },
-    {
-        id: 'aaaa0000-0000-0000-0000-000000000013',
-        name: 'Ben\'s Chili Bowl',
-        address: '1213 U St NW',
-        locality: 'Washington',
-        region: 'DC',
-        postcode: '20009',
-        country: 'US',
-        formatted_address: '1213 U St NW, Washington, DC 20009',
-        latitude: 38.9170,
-        longitude: -77.0285,
-        cuisine_type: 'American',
-        is_user_submitted: false
-    },
-    {
-        id: 'bbbb0000-0000-0000-0000-000000000014',
-        name: 'Taqueria Habanero',
-        address: '3710 14th St NW',
-        locality: 'Washington',
-        region: 'DC',
-        postcode: '20010',
-        country: 'US',
-        formatted_address: '3710 14th St NW, Washington, DC 20010',
-        latitude: 38.9328,
-        longitude: -77.0325,
-        cuisine_type: 'Mexican',
-        is_user_submitted: false
-    },
-    {
-        id: 'cccc0000-0000-0000-0000-000000000015',
-        name: 'Sushi Ogawa',
-        address: '2100 Connecticut Ave NW',
-        locality: 'Washington',
-        region: 'DC',
-        postcode: '20008',
-        country: 'US',
-        formatted_address: '2100 Connecticut Ave NW, Washington, DC 20008',
-        latitude: 38.9148,
-        longitude: -77.0476,
-        cuisine_type: 'Sushi',
-        is_user_submitted: false
+        id: '11111111-1111-1111-1111-111111111110',
+        name: 'Agave Dreams',
+        description: 'Mezcal and tequila specialists with 100+ bottles',
+        address: '222 Aztec Ave, Alexandria, VA',
+        latitude: 38.8034,
+        longitude: -77.0512,
+        drink_type: 'Tequila',
+        price_range: '$$',
+        image_emoji: '🌵',
+        header_color: '#DAA520',
+        is_featured: true
     }
 ];
 
-// Dish data - sample dishes for each restaurant
-const dishes = [
-    // Pupatella (aaaa0000-0000-0000-0000-000000000001)
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000001', name: 'Margherita DOC', description: 'San Marzano tomato, fresh mozzarella di bufala, basil, extra virgin olive oil', price: 20.59, category: 'Pizza', dietary_tags: ['vegetarian'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000001', name: 'Diavola', description: 'San Marzano tomato, fior di latte, spicy salame, Calabrian chili oil', price: 21.75, category: 'Pizza', dietary_tags: ['spicy'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000001', name: 'Pepperoni Pizza', description: 'San Marzano tomato, fior di latte, house-cured pepperoni', price: 19.38, category: 'Pizza', dietary_tags: [] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000001', name: 'Prosciutto Arugula', description: 'San Marzano tomato, fior di latte, prosciutto di Parma, arugula, Parmigiano', price: 21.88, category: 'Pizza', dietary_tags: [] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000001', name: 'Burrata Pizza', description: 'San Marzano tomato, fresh burrata, basil, extra virgin olive oil', price: 23.75, category: 'Pizza', dietary_tags: ['vegetarian'] },
-    
-    // Vermilion (aaaa0000-0000-0000-0000-000000000002)
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000002', name: 'Crispy Brussels Sprouts', description: 'Flash-fried with balsamic glaze and shaved Parmesan', price: 14.00, category: 'Appetizers', dietary_tags: ['vegetarian', 'gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000002', name: 'Pan-Seared Scallops', description: 'With cauliflower puree, brown butter, and capers', price: 36.00, category: 'Main Courses', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000002', name: 'Braised Short Rib', description: 'Red wine braised with root vegetables and horseradish cream', price: 38.00, category: 'Main Courses', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000002', name: 'Grilled Salmon', description: 'With lemon herb butter, asparagus, and fingerling potatoes', price: 32.00, category: 'Main Courses', dietary_tags: ['gluten-free'] },
-    
-    // Mai Thai (aaaa0000-0000-0000-0000-000000000003)
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000003', name: 'Pad Thai', description: 'Rice noodles with shrimp, egg, bean sprouts, peanuts', price: 16.95, category: 'Main Courses', dietary_tags: [] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000003', name: 'Green Curry', description: 'Coconut curry with Thai basil, bamboo, bell peppers', price: 17.95, category: 'Main Courses', dietary_tags: ['spicy', 'gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000003', name: 'Tom Yum Soup', description: 'Hot and sour soup with shrimp, mushrooms, lemongrass', price: 8.95, category: 'Soups', dietary_tags: ['spicy', 'gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000003', name: 'Mango Sticky Rice', description: 'Sweet sticky rice with fresh mango and coconut cream', price: 9.95, category: 'Desserts', dietary_tags: ['vegetarian', 'vegan', 'gluten-free'] },
-    
-    // Pho 75 (aaaa0000-0000-0000-0000-000000000004)
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000004', name: 'Pho Tai', description: 'Rice noodle soup with rare beef slices', price: 12.95, category: 'Soups', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000004', name: 'Pho Dac Biet', description: 'House special with rare beef, brisket, tripe, tendon', price: 14.95, category: 'Soups', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000004', name: 'Bun Bo Hue', description: 'Spicy beef noodle soup from Hue', price: 13.95, category: 'Soups', dietary_tags: ['spicy', 'gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000004', name: 'Spring Rolls', description: 'Fresh shrimp and pork rolls with peanut sauce', price: 6.95, category: 'Appetizers', dietary_tags: ['gluten-free'] },
-    
-    // The Majestic (aaaa0000-0000-0000-0000-000000000005)
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000005', name: 'Jumbo Lump Crab Cake', description: 'Maryland-style with remoulade and coleslaw', price: 28.00, category: 'Main Courses', dietary_tags: [] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000005', name: 'Fried Chicken', description: 'Buttermilk brined with honey hot sauce', price: 24.00, category: 'Main Courses', dietary_tags: [] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000005', name: 'Shrimp & Grits', description: 'With andouille sausage and tasso ham gravy', price: 26.00, category: 'Main Courses', dietary_tags: [] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000005', name: 'Deviled Eggs', description: 'With bacon and chives', price: 10.00, category: 'Appetizers', dietary_tags: ['gluten-free'] },
-    
-    // Cava Mezze (aaaa0000-0000-0000-0000-000000000006)
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000006', name: 'Lamb Chops', description: 'Grilled with tzatziki and Greek salad', price: 34.00, category: 'Main Courses', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000006', name: 'Spanakopita', description: 'Spinach and feta phyllo triangles', price: 12.00, category: 'Appetizers', dietary_tags: ['vegetarian'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000006', name: 'Hummus', description: 'Classic chickpea dip with warm pita', price: 10.00, category: 'Appetizers', dietary_tags: ['vegetarian', 'vegan'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000006', name: 'Grilled Octopus', description: 'With olive oil, lemon, and oregano', price: 18.00, category: 'Appetizers', dietary_tags: ['gluten-free'] },
-    
-    // Sushi Zen (aaaa0000-0000-0000-0000-000000000007)
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000007', name: 'Dragon Roll', description: 'Shrimp tempura, eel, avocado, eel sauce', price: 18.00, category: 'Sushi & Sashimi', dietary_tags: [] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000007', name: 'Salmon Sashimi', description: 'Fresh Atlantic salmon, 8 pieces', price: 16.00, category: 'Sushi & Sashimi', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000007', name: 'Spicy Tuna Roll', description: 'Fresh tuna with spicy mayo and scallions', price: 14.00, category: 'Sushi & Sashimi', dietary_tags: ['spicy'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000007', name: 'Edamame', description: 'Steamed soybeans with sea salt', price: 6.00, category: 'Appetizers', dietary_tags: ['vegetarian', 'vegan', 'gluten-free'] },
-    
-    // Taco Bamba (aaaa0000-0000-0000-0000-000000000008)
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000008', name: 'Al Pastor Tacos', description: 'Marinated pork with pineapple, onion, cilantro', price: 4.50, category: 'Tacos & Burritos', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000008', name: 'Carnitas Tacos', description: 'Slow-braised pork with salsa verde', price: 4.50, category: 'Tacos & Burritos', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000008', name: 'Birria Tacos', description: 'Braised beef with consomé for dipping', price: 5.50, category: 'Tacos & Burritos', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000008', name: 'Guacamole', description: 'Fresh made with chips', price: 8.00, category: 'Appetizers', dietary_tags: ['vegetarian', 'vegan', 'gluten-free'] },
-    
-    // Founding Farmers (aaaa0000-0000-0000-0000-000000000009)
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000009', name: 'Yankee Pot Roast', description: 'Slow-braised beef with root vegetables', price: 28.00, category: 'Main Courses', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000009', name: 'Fried Green Tomatoes', description: 'With pimento cheese and bacon jam', price: 14.00, category: 'Appetizers', dietary_tags: ['vegetarian'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000009', name: 'Cast Iron Chicken', description: 'With mashed potatoes and gravy', price: 24.00, category: 'Main Courses', dietary_tags: [] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000009', name: 'Apple Pie', description: 'Warm with vanilla ice cream', price: 10.00, category: 'Desserts', dietary_tags: ['vegetarian'] },
-    
-    // Joe's Seafood (aaaa0000-0000-0000-0000-000000000010)
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000010', name: 'Stone Crab Claws', description: 'Chilled with mustard sauce', price: 45.00, category: 'Seafood', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000010', name: 'Lobster Tail', description: 'Butter poached with drawn butter', price: 55.00, category: 'Seafood', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000010', name: 'Oysters on the Half Shell', description: 'East coast selection, half dozen', price: 24.00, category: 'Seafood', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000010', name: 'Key Lime Pie', description: 'House specialty with whipped cream', price: 12.00, category: 'Desserts', dietary_tags: ['vegetarian'] },
-    
-    // Le Diplomate (aaaa0000-0000-0000-0000-000000000011)
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000011', name: 'Steak Frites', description: 'Hanger steak with herb butter and fries', price: 34.00, category: 'Main Courses', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000011', name: 'French Onion Soup', description: 'Caramelized onions with Gruyère crouton', price: 14.00, category: 'Soups', dietary_tags: ['vegetarian'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000011', name: 'Croque Monsieur', description: 'Ham and Gruyère with béchamel', price: 18.00, category: 'Main Courses', dietary_tags: [] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000011', name: 'Crème Brûlée', description: 'Classic vanilla custard', price: 12.00, category: 'Desserts', dietary_tags: ['vegetarian', 'gluten-free'] },
-    
-    // Rasika (aaaa0000-0000-0000-0000-000000000012)
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000012', name: 'Palak Chaat', description: 'Crispy spinach with yogurt and tamarind', price: 14.00, category: 'Appetizers', dietary_tags: ['vegetarian', 'gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000012', name: 'Lamb Rogan Josh', description: 'Kashmiri braised lamb in aromatic gravy', price: 32.00, category: 'Main Courses', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000012', name: 'Butter Chicken', description: 'Tandoori chicken in tomato cream sauce', price: 28.00, category: 'Main Courses', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000012', name: 'Garlic Naan', description: 'Fresh-baked with garlic and butter', price: 6.00, category: 'Sides', dietary_tags: ['vegetarian'] },
-    
-    // Ben's Chili Bowl (aaaa0000-0000-0000-0000-000000000013)
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000013', name: 'Half Smoke', description: 'DC\'s signature smoked sausage with chili', price: 8.95, category: 'Main Courses', dietary_tags: [] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000013', name: 'Chili Dog', description: 'All-beef hot dog with Ben\'s famous chili', price: 7.95, category: 'Main Courses', dietary_tags: [] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000013', name: 'Chili Cheese Fries', description: 'Crispy fries with chili and cheese', price: 6.95, category: 'Sides', dietary_tags: ['vegetarian'] },
-    { restaurant_id: 'aaaa0000-0000-0000-0000-000000000013', name: 'Veggie Burger', description: 'House-made patty with all the fixings', price: 9.95, category: 'Main Courses', dietary_tags: ['vegetarian'] },
-    
-    // Taqueria Habanero (bbbb0000-0000-0000-0000-000000000014)
-    { restaurant_id: 'bbbb0000-0000-0000-0000-000000000014', name: 'Tacos de Lengua', description: 'Beef tongue with onion and cilantro', price: 4.00, category: 'Tacos & Burritos', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'bbbb0000-0000-0000-0000-000000000014', name: 'Pupusas', description: 'Salvadoran stuffed corn cakes with curtido', price: 3.50, category: 'Appetizers', dietary_tags: ['vegetarian', 'gluten-free'] },
-    { restaurant_id: 'bbbb0000-0000-0000-0000-000000000014', name: 'Torta Cubana', description: 'Mexican sandwich with multiple meats', price: 12.00, category: 'Main Courses', dietary_tags: [] },
-    { restaurant_id: 'bbbb0000-0000-0000-0000-000000000014', name: 'Horchata', description: 'Traditional rice drink with cinnamon', price: 4.00, category: 'Drinks', dietary_tags: ['vegetarian', 'vegan', 'gluten-free'] },
-    
-    // Sushi Ogawa (cccc0000-0000-0000-0000-000000000015)
-    { restaurant_id: 'cccc0000-0000-0000-0000-000000000015', name: 'Omakase', description: 'Chef\'s choice 12-piece tasting', price: 150.00, category: 'Sushi & Sashimi', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'cccc0000-0000-0000-0000-000000000015', name: 'Otoro', description: 'Fatty tuna belly, 2 pieces', price: 28.00, category: 'Sushi & Sashimi', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'cccc0000-0000-0000-0000-000000000015', name: 'Uni', description: 'Fresh sea urchin from Hokkaido', price: 24.00, category: 'Sushi & Sashimi', dietary_tags: ['gluten-free'] },
-    { restaurant_id: 'cccc0000-0000-0000-0000-000000000015', name: 'Miso Soup', description: 'Traditional with tofu and wakame', price: 5.00, category: 'Soups', dietary_tags: ['vegetarian', 'gluten-free'] }
+// Cocktail data matching mock_data.sql
+const cocktails = [
+    // The Velvet Room
+    { venue_id: '11111111-1111-1111-1111-111111111101', name: 'Old Fashioned', description: 'Bourbon, sugar, Angostura bitters, orange peel', price: 14.00, category: 'Classic', image_emoji: '🥃', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111101', name: 'Manhattan', description: 'Rye whiskey, sweet vermouth, Angostura bitters', price: 15.00, category: 'Classic', image_emoji: '🍸', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111101', name: 'Martini', description: 'Gin or vodka, dry vermouth, olive or lemon twist', price: 14.00, category: 'Classic', image_emoji: '🍸', is_popular: false },
+    { venue_id: '11111111-1111-1111-1111-111111111101', name: 'Negroni', description: 'Gin, Campari, sweet vermouth', price: 13.00, category: 'Classic', image_emoji: '🍹', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111101', name: 'Sazerac', description: 'Rye, absinthe, Peychauds bitters, sugar', price: 16.00, category: 'Classic', image_emoji: '🥃', is_popular: false },
+
+    // Copper & Oak
+    { venue_id: '11111111-1111-1111-1111-111111111102', name: 'Whiskey Sour', description: 'Bourbon, lemon juice, simple syrup, egg white', price: 15.00, category: 'Whiskey', image_emoji: '🍋', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111102', name: 'Boulevardier', description: 'Bourbon, Campari, sweet vermouth', price: 16.00, category: 'Whiskey', image_emoji: '🥃', is_popular: false },
+    { venue_id: '11111111-1111-1111-1111-111111111102', name: 'Penicillin', description: 'Scotch, lemon, honey-ginger, Islay float', price: 18.00, category: 'Whiskey', image_emoji: '💊', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111102', name: 'Paper Plane', description: 'Bourbon, Aperol, Amaro Nonino, lemon', price: 17.00, category: 'Modern', image_emoji: '✈️', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111102', name: 'Kentucky Mule', description: 'Bourbon, ginger beer, lime, mint', price: 14.00, category: 'Whiskey', image_emoji: '🫏', is_popular: false },
+
+    // The Gin Garden
+    { venue_id: '11111111-1111-1111-1111-111111111103', name: 'Gin & Tonic', description: 'Premium gin, Fever-Tree tonic, cucumber', price: 13.00, category: 'Classic', image_emoji: '🥒', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111103', name: 'Bee\'s Knees', description: 'Gin, honey syrup, lemon juice', price: 14.00, category: 'Classic', image_emoji: '🐝', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111103', name: 'Last Word', description: 'Gin, green Chartreuse, maraschino, lime', price: 16.00, category: 'Classic', image_emoji: '💬', is_popular: false },
+    { venue_id: '11111111-1111-1111-1111-111111111103', name: 'Aviation', description: 'Gin, maraschino, creme de violette, lemon', price: 15.00, category: 'Classic', image_emoji: '✈️', is_popular: false },
+    { venue_id: '11111111-1111-1111-1111-111111111103', name: 'Garden Collins', description: 'Gin, elderflower, cucumber, basil, soda', price: 14.00, category: 'Seasonal', image_emoji: '🌿', is_popular: true },
+
+    // Trader Vic's Hideaway
+    { venue_id: '11111111-1111-1111-1111-111111111104', name: 'Mai Tai', description: 'Aged rum, lime, orgeat, orange curacao', price: 14.00, category: 'Tiki', image_emoji: '🍹', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111104', name: 'Zombie', description: 'Three rums, lime, falernum, absinthe, grenadine', price: 16.00, category: 'Tiki', image_emoji: '🧟', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111104', name: 'Painkiller', description: 'Rum, pineapple, orange, coconut cream, nutmeg', price: 13.00, category: 'Tiki', image_emoji: '💊', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111104', name: 'Navy Grog', description: 'Three rums, lime, grapefruit, honey', price: 15.00, category: 'Tiki', image_emoji: '⚓', is_popular: false },
+    { venue_id: '11111111-1111-1111-1111-111111111104', name: 'Scorpion Bowl', description: 'Rum, brandy, orgeat, citrus - serves 2-4', price: 32.00, category: 'Tiki', image_emoji: '🦂', is_popular: true },
+
+    // Bamboo Lounge
+    { venue_id: '11111111-1111-1111-1111-111111111105', name: 'Jungle Bird', description: 'Rum, Campari, pineapple, lime, simple', price: 13.00, category: 'Tiki', image_emoji: '🦜', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111105', name: 'Singapore Sling', description: 'Gin, cherry heering, Benedictine, citrus', price: 15.00, category: 'Tiki', image_emoji: '🌺', is_popular: false },
+    { venue_id: '11111111-1111-1111-1111-111111111105', name: 'Hurricane', description: 'Light & dark rum, passion fruit, orange, lime', price: 12.00, category: 'Tiki', image_emoji: '🌀', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111105', name: 'Blue Hawaiian', description: 'Rum, blue curacao, pineapple, coconut', price: 13.00, category: 'Tiki', image_emoji: '🏝️', is_popular: false },
+
+    // Molecule
+    { venue_id: '11111111-1111-1111-1111-111111111106', name: 'Smoke Signal', description: 'Mezcal, activated charcoal, lime, agave, smoked glass', price: 22.00, category: 'Signature', image_emoji: '💨', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111106', name: 'Lavender Dream', description: 'Gin, lavender foam, butterfly pea, elderflower', price: 20.00, category: 'Signature', image_emoji: '💜', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111106', name: 'Golden Hour', description: 'Whiskey, saffron, honey caviar, orange mist', price: 24.00, category: 'Signature', image_emoji: '🌅', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111106', name: 'Forest Floor', description: 'Vodka, pine, mushroom, truffle oil droplets', price: 26.00, category: 'Signature', image_emoji: '🍄', is_popular: false },
+
+    // The Alchemist
+    { venue_id: '11111111-1111-1111-1111-111111111107', name: 'Farmers Market', description: 'Seasonal fruit shrub, vodka, herbs from our garden', price: 16.00, category: 'Seasonal', image_emoji: '🥕', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111107', name: 'Midnight Garden', description: 'Gin, blackberry, rosemary, elderflower', price: 17.00, category: 'Signature', image_emoji: '🌙', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111107', name: 'Autumn Leaves', description: 'Apple brandy, maple, cinnamon, walnut bitters', price: 18.00, category: 'Seasonal', image_emoji: '🍂', is_popular: false },
+    { venue_id: '11111111-1111-1111-1111-111111111107', name: 'Spring Awakening', description: 'Gin, cucumber, mint, St-Germain, prosecco', price: 16.00, category: 'Seasonal', image_emoji: '🌸', is_popular: true },
+
+    // The Rusty Nail
+    { venue_id: '11111111-1111-1111-1111-111111111108', name: 'Rusty Nail', description: 'Scotch, Drambuie', price: 8.00, category: 'Classic', image_emoji: '🔩', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111108', name: 'Whiskey Ginger', description: 'Well whiskey, ginger ale', price: 6.00, category: 'Classic', image_emoji: '🥃', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111108', name: 'Rum & Coke', description: 'Well rum, Coca-Cola', price: 6.00, category: 'Classic', image_emoji: '🥤', is_popular: false },
+    { venue_id: '11111111-1111-1111-1111-111111111108', name: 'PBR & Shot', description: 'Pabst Blue Ribbon, well whiskey', price: 7.00, category: 'Classic', image_emoji: '🍺', is_popular: true },
+
+    // Grape & Grain
+    { venue_id: '11111111-1111-1111-1111-111111111109', name: 'Aperol Spritz', description: 'Aperol, prosecco, soda, orange', price: 12.00, category: 'Classic', image_emoji: '🍊', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111109', name: 'Kir Royale', description: 'Champagne, creme de cassis', price: 14.00, category: 'Classic', image_emoji: '🍇', is_popular: false },
+    { venue_id: '11111111-1111-1111-1111-111111111109', name: 'Bellini', description: 'Prosecco, white peach puree', price: 13.00, category: 'Classic', image_emoji: '🍑', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111109', name: 'Mimosa', description: 'Champagne, fresh orange juice', price: 11.00, category: 'Classic', image_emoji: '🥂', is_popular: true },
+
+    // Agave Dreams
+    { venue_id: '11111111-1111-1111-1111-111111111110', name: 'Margarita', description: 'Blanco tequila, Cointreau, lime, salt rim', price: 14.00, category: 'Classic', image_emoji: '🍋', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111110', name: 'Paloma', description: 'Tequila, grapefruit soda, lime, salt', price: 12.00, category: 'Classic', image_emoji: '🍊', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111110', name: 'Mezcal Mule', description: 'Mezcal, ginger beer, lime, cucumber', price: 14.00, category: 'Modern', image_emoji: '🫏', is_popular: false },
+    { venue_id: '11111111-1111-1111-1111-111111111110', name: 'Oaxacan Old Fashioned', description: 'Mezcal, tequila, agave, mole bitters', price: 16.00, category: 'Modern', image_emoji: '🌵', is_popular: true },
+    { venue_id: '11111111-1111-1111-1111-111111111110', name: 'Tommy\'s Margarita', description: 'Tequila, lime, agave nectar', price: 13.00, category: 'Classic', image_emoji: '🍸', is_popular: true }
 ];
 
 async function insertData(table, data) {
@@ -335,7 +229,7 @@ async function insertData(table, data) {
         headers,
         body: JSON.stringify(data)
     });
-    
+
     if (!response.ok) {
         const error = await response.text();
         throw new Error(`Failed to insert into ${table}: ${response.status} ${error}`);
@@ -344,22 +238,22 @@ async function insertData(table, data) {
 }
 
 async function main() {
-    console.log('🍽️  Populating BiteVue Supabase database...\n');
-    
+    console.log('🍸 Populating Clnk Supabase database...\n');
+
     try {
-        // Insert restaurants
-        console.log(`📍 Inserting ${restaurants.length} restaurants...`);
-        await insertData('restaurants', restaurants);
-        console.log('✅ Restaurants inserted successfully!\n');
-        
-        // Insert dishes
-        console.log(`🍕 Inserting ${dishes.length} dishes...`);
-        await insertData('dishes', dishes);
-        console.log('✅ Dishes inserted successfully!\n');
-        
+        // Insert venues (bars)
+        console.log(`🏠 Inserting ${venues.length} venues...`);
+        await insertData('venues', venues);
+        console.log('✅ Venues inserted successfully!\n');
+
+        // Insert cocktails
+        console.log(`🍹 Inserting ${cocktails.length} cocktails...`);
+        await insertData('cocktails', cocktails);
+        console.log('✅ Cocktails inserted successfully!\n');
+
         console.log('🎉 Database populated successfully!');
-        console.log(`   - ${restaurants.length} restaurants`);
-        console.log(`   - ${dishes.length} dishes`);
+        console.log(`   - ${venues.length} venues (bars)`);
+        console.log(`   - ${cocktails.length} cocktails`);
     } catch (error) {
         console.error('❌ Error:', error.message);
         process.exit(1);

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Generate App Store screenshots for BiteVue
+# Generate App Store screenshots for Clnk
 # Usage: ./scripts/take-screenshots.sh
 
 set -e
@@ -16,7 +16,7 @@ declare -a DEVICES=(
     "iPad Pro 13-inch (M4)"  # iPad (if universal)
 )
 
-echo "📸 BiteVue Screenshot Generator"
+echo "📸 Clnk Screenshot Generator"
 echo "================================"
 echo ""
 
@@ -24,13 +24,13 @@ echo ""
 mkdir -p "$SCREENSHOTS_DIR"
 
 # Check if UI test target exists
-if ! grep -q "BiteVueUITests" "$PROJECT_DIR/BiteVue.xcodeproj/project.pbxproj" 2>/dev/null; then
+if ! grep -q "ClnkUITests" "$PROJECT_DIR/Clnk.xcodeproj/project.pbxproj" 2>/dev/null; then
     echo "⚠️  UI Test target not found in project."
     echo ""
     echo "To add it manually in Xcode:"
-    echo "1. Open BiteVue.xcodeproj"
+    echo "1. Open Clnk.xcodeproj"
     echo "2. File → New → Target → UI Testing Bundle"
-    echo "3. Name it 'BiteVueUITests'"
+    echo "3. Name it 'ClnkUITests'"
     echo "4. Copy ScreenshotTests.swift to the new target"
     echo "5. Re-run this script"
     echo ""
@@ -62,14 +62,14 @@ take_manual_screenshots() {
     sleep 3
     
     # Install and launch app (if built)
-    local app_path=$(find "$DERIVED_DATA" -name "BiteVue.app" -path "*/Debug-iphonesimulator/*" 2>/dev/null | head -1)
+    local app_path=$(find "$DERIVED_DATA" -name "Clnk.app" -path "*/Debug-iphonesimulator/*" 2>/dev/null | head -1)
     
     if [ -n "$app_path" ]; then
         echo "   Installing app..."
         xcrun simctl install "$udid" "$app_path" 2>/dev/null || true
         
         echo "   Launching app..."
-        xcrun simctl launch "$udid" com.bitevue.app 2>/dev/null || true
+        xcrun simctl launch "$udid" com.clnk.app 2>/dev/null || true
         sleep 5
         
         # Take screenshot
@@ -77,7 +77,7 @@ take_manual_screenshots() {
         xcrun simctl io "$udid" screenshot "$device_dir/01_main.png"
         echo "   ✅ Saved to $device_dir/01_main.png"
     else
-        echo "   ⚠️  App not built. Run: xcodebuild -scheme BiteVue -destination 'platform=iOS Simulator,name=$device_name' build"
+        echo "   ⚠️  App not built. Run: xcodebuild -scheme Clnk -destination 'platform=iOS Simulator,name=$device_name' build"
     fi
     
     echo ""
@@ -91,8 +91,8 @@ run_ui_tests() {
     echo "🧪 Running UI Tests on $device_name..."
     
     xcodebuild test \
-        -project "$PROJECT_DIR/BiteVue.xcodeproj" \
-        -scheme "BiteVueUITests" \
+        -project "$PROJECT_DIR/Clnk.xcodeproj" \
+        -scheme "ClnkUITests" \
         -destination "platform=iOS Simulator,name=$device_name" \
         -resultBundlePath "$SCREENSHOTS_DIR/TestResults_$safe_name" \
         2>&1 | xcpretty || true
@@ -113,10 +113,10 @@ echo "📍 Screenshots will be saved to: $SCREENSHOTS_DIR"
 echo ""
 
 # Build the app first
-echo "🔨 Building BiteVue..."
+echo "🔨 Building Clnk..."
 cd "$PROJECT_DIR"
-xcodebuild -project BiteVue.xcodeproj \
-    -scheme BiteVue \
+xcodebuild -project Clnk.xcodeproj \
+    -scheme Clnk \
     -destination 'platform=iOS Simulator,name=iPhone 16 Pro Max' \
     -configuration Debug \
     build 2>&1 | tail -3
@@ -134,7 +134,7 @@ echo ""
 echo "Screenshots saved to: $SCREENSHOTS_DIR"
 echo ""
 echo "For full automated screenshots, add the UI Test target to Xcode:"
-echo "  File → New → Target → UI Testing Bundle → BiteVueUITests"
-echo "  Then copy BiteVueUITests/ScreenshotTests.swift to the target"
+echo "  File → New → Target → UI Testing Bundle → ClnkUITests"
+echo "  Then copy ClnkUITests/ScreenshotTests.swift to the target"
 echo ""
 ls -la "$SCREENSHOTS_DIR" 2>/dev/null || true

@@ -18,14 +18,19 @@ struct RateDishView: View {
     @State private var showCamera = false
     @State private var showPhotoPicker = false
     @State private var photosPickerItems: [PhotosPickerItem] = []
+    @State private var sweet: Double = 0.5
+    @State private var salty: Double = 0.5
+    @State private var bitter: Double = 0.5
+    @State private var sour: Double = 0.5
+    @State private var showFlavorDials = false
     @FocusState private var isCommentFocused: Bool
-    
+
     private let maxPhotos = 4
-    
+
     var isValid: Bool {
         rating > 0
     }
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -36,7 +41,7 @@ struct RateDishView: View {
                 }
             }
             .background(AppTheme.backgroundSecondary)
-            .navigationTitle("Rate Dish")
+            .navigationTitle("Rate Cocktail")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { toolbarContent }
             .confirmationDialog("Add Photo", isPresented: $showPhotoOptions) {
@@ -75,6 +80,7 @@ struct RateDishView: View {
             VStack(spacing: 24) {
                 dishHeader
                 starRatingSection
+                flavorDialsSection
                 photoSection
                 commentSection
                 submitSection
@@ -84,7 +90,7 @@ struct RateDishView: View {
         }
         .scrollDismissesKeyboard(.interactively)
     }
-    
+
     // MARK: - Dish Header
     private var dishHeader: some View {
         VStack(spacing: 12) {
@@ -102,21 +108,21 @@ struct RateDishView: View {
                     .frame(width: 100, height: 100)
                     .clipShape(Circle())
             }
-            
+
             Text(dish.name)
                 .font(.title2.weight(.bold))
-            
+
             Text(restaurant.name)
                 .font(.subheadline)
                 .foregroundStyle(AppTheme.textSecondary)
         }
         .padding(.top, 8)
     }
-    
+
     // MARK: - Star Rating Section
     private var starRatingSection: some View {
         VStack(spacing: 16) {
-            Text("How would you rate this dish?")
+            Text("How would you rate this cocktail?")
                 .font(.headline)
             
             starButtons
@@ -153,6 +159,66 @@ struct RateDishView: View {
         .padding(.vertical, 8)
     }
     
+    // MARK: - Flavor Dials Section
+    private var flavorDialsSection: some View {
+        VStack(spacing: 12) {
+            Button {
+                withAnimation(AppTheme.springAnimation) {
+                    showFlavorDials.toggle()
+                }
+            } label: {
+                HStack {
+                    Text("Flavor Profile")
+                        .font(.headline)
+                    Spacer()
+                    Text("Optional")
+                        .font(.caption)
+                        .foregroundStyle(AppTheme.textTertiary)
+                    Image(systemName: showFlavorDials ? "chevron.up" : "chevron.down")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(AppTheme.textTertiary)
+                }
+            }
+            .buttonStyle(.plain)
+
+            if showFlavorDials {
+                VStack(spacing: 16) {
+                    flavorSlider(emoji: "🍬", label: "Sweet", value: $sweet)
+                    flavorSlider(emoji: "🧂", label: "Salty", value: $salty)
+                    flavorSlider(emoji: "🍋", label: "Sour", value: $sour)
+                    flavorSlider(emoji: "🫒", label: "Bitter", value: $bitter)
+                }
+                .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+        }
+        .padding(20)
+        .background(AppTheme.backgroundPrimary)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+    }
+
+    private func flavorSlider(emoji: String, label: String, value: Binding<Double>) -> some View {
+        VStack(spacing: 4) {
+            HStack {
+                Text("\(emoji) \(label)")
+                    .font(.subheadline.weight(.medium))
+                Spacer()
+                Text(String(format: "%.0f%%", value.wrappedValue * 100))
+                    .font(.caption.weight(.bold).monospacedDigit())
+                    .foregroundStyle(AppTheme.textSecondary)
+            }
+            HStack(spacing: 8) {
+                Text("None")
+                    .font(.caption2)
+                    .foregroundStyle(AppTheme.textTertiary)
+                Slider(value: value, in: 0...1)
+                    .tint(AppTheme.primary)
+                Text("Strong")
+                    .font(.caption2)
+                    .foregroundStyle(AppTheme.textTertiary)
+            }
+        }
+    }
+
     // MARK: - Photo Section
     private var photoSection: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -164,11 +230,11 @@ struct RateDishView: View {
                     .font(.caption)
                     .foregroundStyle(AppTheme.textTertiary)
             }
-            
+
             if !selectedImages.isEmpty {
                 selectedPhotosView
             }
-            
+
             if selectedImages.count < maxPhotos {
                 addPhotoButton
             }
@@ -177,7 +243,7 @@ struct RateDishView: View {
         .background(AppTheme.backgroundPrimary)
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
-    
+
     private var selectedPhotosView: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 12) {
@@ -187,7 +253,7 @@ struct RateDishView: View {
             }
         }
     }
-    
+
     private func photoThumbnail(image: UIImage, index: Int) -> some View {
         ZStack(alignment: .topTrailing) {
             Image(uiImage: image)
@@ -220,10 +286,10 @@ struct RateDishView: View {
                 Text(selectedImages.isEmpty ? "Add Photo" : "Add More")
             }
             .font(.subheadline.weight(.semibold))
-            .foregroundStyle(.orange)
+            .foregroundStyle(AppTheme.primary)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 14)
-            .background(Color.orange.opacity(0.1))
+            .background(AppTheme.primary.opacity(0.1))
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
@@ -256,7 +322,7 @@ struct RateDishView: View {
                 .scrollContentBackground(.hidden)
             
             if comment.isEmpty {
-                Text("Share your thoughts about this dish...")
+                Text("Share your thoughts about this cocktail...")
                     .foregroundStyle(AppTheme.textTertiary)
                     .padding(.top, 8)
                     .padding(.leading, 4)
@@ -267,19 +333,19 @@ struct RateDishView: View {
         .background(AppTheme.backgroundSecondary)
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
-    
+
     private var quickTags: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                QuickTagButton(text: "Delicious!", action: { appendTag("Delicious!") })
+                QuickTagButton(text: "Perfectly mixed!", action: { appendTag("Perfectly mixed!") })
                 QuickTagButton(text: "Worth the price", action: { appendTag("Worth the price.") })
-                QuickTagButton(text: "Great presentation", action: { appendTag("Great presentation.") })
+                QuickTagButton(text: "Beautiful garnish", action: { appendTag("Beautiful garnish.") })
                 QuickTagButton(text: "Will order again", action: { appendTag("Will definitely order again!") })
-                QuickTagButton(text: "Perfect portion", action: { appendTag("Perfect portion size.") })
+                QuickTagButton(text: "Perfect balance", action: { appendTag("Perfect balance.") })
             }
         }
     }
-    
+
     // MARK: - Submit Section
     private var submitSection: some View {
         VStack(spacing: 12) {
@@ -406,7 +472,11 @@ struct RateDishView: View {
                 userEmoji: user.avatarEmoji,
                 rating: rating,
                 comment: comment,
-                photos: photoIds
+                photos: photoIds,
+                sweet: showFlavorDials ? sweet : nil,
+                salty: showFlavorDials ? salty : nil,
+                bitter: showFlavorDials ? bitter : nil,
+                sour: showFlavorDials ? sour : nil
             )
             
             withAnimation(AppTheme.springAnimation) {
@@ -553,16 +623,26 @@ struct EditRatingView: View {
     @State private var showCamera = false
     @State private var showPhotoPicker = false
     @State private var photosPickerItems: [PhotosPickerItem] = []
+    @State private var sweet: Double
+    @State private var salty: Double
+    @State private var bitter: Double
+    @State private var sour: Double
+    @State private var showFlavorDials: Bool
     @FocusState private var isCommentFocused: Bool
-    
+
     private let maxPhotos = 4
-    
+
     init(rating: DishRating, dish: Dish, restaurant: Restaurant) {
         self.rating = rating
         self.dish = dish
         self.restaurant = restaurant
         _editedRating = State(initialValue: rating.rating)
         _editedComment = State(initialValue: rating.comment)
+        _sweet = State(initialValue: rating.sweet ?? 0.5)
+        _salty = State(initialValue: rating.salty ?? 0.5)
+        _bitter = State(initialValue: rating.bitter ?? 0.5)
+        _sour = State(initialValue: rating.sour ?? 0.5)
+        _showFlavorDials = State(initialValue: rating.sweet != nil || rating.salty != nil || rating.bitter != nil || rating.sour != nil)
     }
     
     var isValid: Bool {
@@ -622,6 +702,7 @@ struct EditRatingView: View {
             VStack(spacing: 24) {
                 dishHeader
                 starRatingSection
+                editFlavorDialsSection
                 photoSection
                 commentSection
                 submitSection
@@ -631,7 +712,7 @@ struct EditRatingView: View {
         }
         .scrollDismissesKeyboard(.interactively)
     }
-    
+
     // MARK: - Dish Header
     private var dishHeader: some View {
         VStack(spacing: 12) {
@@ -649,14 +730,14 @@ struct EditRatingView: View {
                     .frame(width: 100, height: 100)
                     .clipShape(Circle())
             }
-            
+
             Text(dish.name)
                 .font(.title2.weight(.bold))
-            
+
             Text(restaurant.name)
                 .font(.subheadline)
                 .foregroundStyle(AppTheme.textSecondary)
-            
+
             // Show original rating date
             Text("Originally rated on \(rating.date.formatted(.dateTime.month(.abbreviated).day().year()))")
                 .font(.caption)
@@ -664,7 +745,7 @@ struct EditRatingView: View {
         }
         .padding(.top, 8)
     }
-    
+
     // MARK: - Star Rating Section
     private var starRatingSection: some View {
         VStack(spacing: 16) {
@@ -705,6 +786,66 @@ struct EditRatingView: View {
         .padding(.vertical, 8)
     }
     
+    // MARK: - Flavor Dials Section (Edit)
+    private var editFlavorDialsSection: some View {
+        VStack(spacing: 12) {
+            Button {
+                withAnimation(AppTheme.springAnimation) {
+                    showFlavorDials.toggle()
+                }
+            } label: {
+                HStack {
+                    Text("Flavor Profile")
+                        .font(.headline)
+                    Spacer()
+                    Text("Optional")
+                        .font(.caption)
+                        .foregroundStyle(AppTheme.textTertiary)
+                    Image(systemName: showFlavorDials ? "chevron.up" : "chevron.down")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(AppTheme.textTertiary)
+                }
+            }
+            .buttonStyle(.plain)
+
+            if showFlavorDials {
+                VStack(spacing: 16) {
+                    editFlavorSlider(emoji: "🍬", label: "Sweet", value: $sweet)
+                    editFlavorSlider(emoji: "🧂", label: "Salty", value: $salty)
+                    editFlavorSlider(emoji: "🍋", label: "Sour", value: $sour)
+                    editFlavorSlider(emoji: "🫒", label: "Bitter", value: $bitter)
+                }
+                .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+        }
+        .padding(20)
+        .background(AppTheme.backgroundPrimary)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+    }
+
+    private func editFlavorSlider(emoji: String, label: String, value: Binding<Double>) -> some View {
+        VStack(spacing: 4) {
+            HStack {
+                Text("\(emoji) \(label)")
+                    .font(.subheadline.weight(.medium))
+                Spacer()
+                Text(String(format: "%.0f%%", value.wrappedValue * 100))
+                    .font(.caption.weight(.bold).monospacedDigit())
+                    .foregroundStyle(AppTheme.textSecondary)
+            }
+            HStack(spacing: 8) {
+                Text("None")
+                    .font(.caption2)
+                    .foregroundStyle(AppTheme.textTertiary)
+                Slider(value: value, in: 0...1)
+                    .tint(AppTheme.primary)
+                Text("Strong")
+                    .font(.caption2)
+                    .foregroundStyle(AppTheme.textTertiary)
+            }
+        }
+    }
+
     // MARK: - Photo Section
     private var photoSection: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -716,11 +857,11 @@ struct EditRatingView: View {
                     .font(.caption)
                     .foregroundStyle(AppTheme.textTertiary)
             }
-            
+
             if !selectedImages.isEmpty {
                 selectedPhotosView
             }
-            
+
             if selectedImages.count < maxPhotos {
                 addPhotoButton
             }
@@ -729,7 +870,7 @@ struct EditRatingView: View {
         .background(AppTheme.backgroundPrimary)
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
-    
+
     private var selectedPhotosView: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 12) {
@@ -739,7 +880,7 @@ struct EditRatingView: View {
             }
         }
     }
-    
+
     private func photoThumbnail(image: UIImage, index: Int) -> some View {
         ZStack(alignment: .topTrailing) {
             Image(uiImage: image)
@@ -747,7 +888,7 @@ struct EditRatingView: View {
                 .scaledToFill()
                 .frame(width: 70, height: 70)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
-            
+
             Button {
                 withAnimation {
                     if selectedImages.indices.contains(index) {
@@ -762,7 +903,7 @@ struct EditRatingView: View {
             .offset(x: 6, y: -6)
         }
     }
-    
+
     private var addPhotoButton: some View {
         Button {
             showPhotoOptions = true
@@ -772,14 +913,14 @@ struct EditRatingView: View {
                 Text(selectedImages.isEmpty ? "Add Photo" : "Add More")
             }
             .font(.subheadline.weight(.semibold))
-            .foregroundStyle(.orange)
+            .foregroundStyle(AppTheme.primary)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 14)
-            .background(Color.orange.opacity(0.1))
+            .background(AppTheme.primary.opacity(0.1))
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
-    
+
     // MARK: - Comment Section
     private var commentSection: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -791,7 +932,7 @@ struct EditRatingView: View {
                     .font(.caption)
                     .foregroundStyle(AppTheme.textTertiary)
             }
-            
+
             commentEditor
             quickTags
         }
@@ -799,16 +940,16 @@ struct EditRatingView: View {
         .background(AppTheme.backgroundPrimary)
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
-    
+
     private var commentEditor: some View {
         ZStack(alignment: .topLeading) {
             TextEditor(text: $editedComment)
                 .focused($isCommentFocused)
                 .frame(minHeight: 120)
                 .scrollContentBackground(.hidden)
-            
+
             if editedComment.isEmpty {
-                Text("Share your thoughts about this dish...")
+                Text("Share your thoughts about this cocktail...")
                     .foregroundStyle(AppTheme.textTertiary)
                     .padding(.top, 8)
                     .padding(.leading, 4)
@@ -823,15 +964,15 @@ struct EditRatingView: View {
     private var quickTags: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                QuickTagButton(text: "Delicious!", action: { appendTag("Delicious!") })
+                QuickTagButton(text: "Perfectly mixed!", action: { appendTag("Perfectly mixed!") })
                 QuickTagButton(text: "Worth the price", action: { appendTag("Worth the price.") })
-                QuickTagButton(text: "Great presentation", action: { appendTag("Great presentation.") })
+                QuickTagButton(text: "Beautiful garnish", action: { appendTag("Beautiful garnish.") })
                 QuickTagButton(text: "Will order again", action: { appendTag("Will definitely order again!") })
-                QuickTagButton(text: "Perfect portion", action: { appendTag("Perfect portion size.") })
+                QuickTagButton(text: "Perfect balance", action: { appendTag("Perfect balance.") })
             }
         }
     }
-    
+
     // MARK: - Submit Section
     private var submitSection: some View {
         VStack(spacing: 12) {
@@ -957,7 +1098,11 @@ struct EditRatingView: View {
                 restaurantId: restaurant.id,
                 rating: editedRating,
                 comment: editedComment,
-                photos: allPhotoIds
+                photos: allPhotoIds,
+                sweet: showFlavorDials ? sweet : nil,
+                salty: showFlavorDials ? salty : nil,
+                bitter: showFlavorDials ? bitter : nil,
+                sour: showFlavorDials ? sour : nil
             )
             
             withAnimation(AppTheme.springAnimation) {

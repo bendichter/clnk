@@ -1,7 +1,7 @@
 #!/bin/bash
 # Script to download food images from Unsplash
 
-ASSETS_DIR="/Users/bendichter/.openclaw/workspace/BiteVue/BiteVue/Assets.xcassets/DishImages"
+ASSETS_DIR="/Users/bendichter/.openclaw/workspace/Clnk/Clnk/Assets.xcassets/DishImages"
 
 download_image() {
     local name=$1

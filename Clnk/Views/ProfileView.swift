@@ -47,7 +47,7 @@ struct ProfileView: View {
                             // Edit Badge
                             ZStack {
                                 Circle()
-                                    .fill(.orange)
+                                    .fill(AppTheme.primary)
                                     .frame(width: 28, height: 28)
                                 
                                 Image(systemName: "pencil")
@@ -93,7 +93,7 @@ struct ProfileView: View {
                         icon: "star.fill",
                         value: "\(restaurantViewModel.userRatings.count)",
                         label: "Ratings",
-                        color: .orange
+                        color: AppTheme.primary
                     )
                     
                     StatCard(
@@ -187,7 +187,7 @@ struct ProfileView: View {
                         EmptyStateView(
                             icon: "star",
                             title: "No ratings yet",
-                            message: "Start rating dishes to see them here!"
+                            message: "Start rating cocktails to see them here!"
                         )
                         .padding(.vertical, 20)
                     } else {
@@ -213,7 +213,7 @@ struct ProfileView: View {
                                     Text(isLoadingMoreReviews ? "Loading..." : "Load More Reviews")
                                         .font(.subheadline.weight(.semibold))
                                 }
-                                .foregroundStyle(.orange)
+                                .foregroundStyle(AppTheme.primary)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 14)
                                 .background(AppTheme.backgroundSecondary)
@@ -275,7 +275,7 @@ struct ProfileView: View {
                     
                     Divider().padding(.leading, 56)
                     
-                    SettingsRow(icon: "info.circle", title: "About Great Plate", color: .gray) {
+                    SettingsRow(icon: "info.circle", title: "About Clnk", color: .gray) {
                         // About
                     }
                     
@@ -290,7 +290,7 @@ struct ProfileView: View {
                 .padding(.horizontal)
                 
                 // Version
-                Text("Great Plate v1.0.0")
+                Text("Clnk v1.0.0")
                     .font(.caption)
                     .foregroundStyle(AppTheme.textTertiary)
                     .padding(.vertical, 20)
@@ -410,7 +410,7 @@ struct ProfileReviewCard: View {
                     ForEach(1...5, id: \.self) { index in
                         Image(systemName: starImageName(for: index))
                             .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(index <= Int(rating.rating.rounded()) ? .orange : AppTheme.textTertiary.opacity(0.4))
+                            .foregroundStyle(index <= Int(rating.rating.rounded()) ? ClnkColors.Gold.shade400 : AppTheme.textTertiary.opacity(0.4))
                     }
                     
                     Text(String(format: "%.1f", rating.rating))
@@ -449,18 +449,18 @@ struct ProfileReviewCard: View {
                                     .foregroundStyle(AppTheme.textTertiary)
                                 Text(info.restaurant.name)
                                     .font(.subheadline.weight(.semibold))
-                                    .foregroundStyle(.orange)
+                                    .foregroundStyle(AppTheme.primary)
                             }
                             
                             Spacer()
                             
                             Image(systemName: "chevron.right")
                                 .font(.caption2.weight(.semibold))
-                                .foregroundStyle(.orange.opacity(0.7))
+                                .foregroundStyle(AppTheme.primary.opacity(0.7))
                         }
                     }
                     .buttonStyle(.plain)
-                    
+
                     // Dish name (tappable link)
                     NavigationLink {
                         DishDetailView(dish: info.dish, restaurant: info.restaurant)
@@ -482,7 +482,7 @@ struct ProfileReviewCard: View {
                             }
                             
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Dish")
+                                Text("Cocktail")
                                     .font(.caption2)
                                     .foregroundStyle(AppTheme.textTertiary)
                                 Text(info.dish.name)
@@ -514,7 +514,7 @@ struct ProfileReviewCard: View {
                         HStack(spacing: 6) {
                             Image(systemName: "quote.opening")
                                 .font(.caption2)
-                                .foregroundStyle(.orange)
+                                .foregroundStyle(AppTheme.primary)
                             Text("Review")
                                 .font(.caption2.weight(.medium))
                                 .foregroundStyle(AppTheme.textTertiary)
@@ -621,14 +621,14 @@ struct ReviewDetailView: View {
                                 
                                 Image(systemName: "chevron.right")
                                     .font(.caption.weight(.semibold))
-                                    .foregroundStyle(.orange)
+                                    .foregroundStyle(AppTheme.primary)
                             }
                             .padding(12)
                             .background(AppTheme.backgroundSecondary)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
                         .buttonStyle(.plain)
-                        
+
                         // Dish link
                         NavigationLink {
                             DishDetailView(dish: dish, restaurant: restaurant)
@@ -648,25 +648,25 @@ struct ReviewDetailView: View {
                                         .frame(width: 44, height: 44)
                                         .clipShape(Circle())
                                 }
-                                
+
                                 VStack(alignment: .leading, spacing: 2) {
-                                    Text("Dish")
+                                    Text("Cocktail")
                                         .font(.caption)
                                         .foregroundStyle(AppTheme.textTertiary)
                                     Text(dish.name)
                                         .font(.subheadline.weight(.semibold))
                                         .foregroundStyle(AppTheme.textPrimary)
                                 }
-                                
+
                                 Spacer()
-                                
+
                                 Text(dish.formattedPrice)
                                     .font(.subheadline.weight(.medium))
                                     .foregroundStyle(AppTheme.textSecondary)
-                                
+
                                 Image(systemName: "chevron.right")
                                     .font(.caption.weight(.semibold))
-                                    .foregroundStyle(.orange)
+                                    .foregroundStyle(AppTheme.primary)
                             }
                             .padding(12)
                             .background(AppTheme.backgroundSecondary)
@@ -683,7 +683,7 @@ struct ReviewDetailView: View {
                         VStack(alignment: .leading, spacing: 12) {
                             HStack {
                                 Image(systemName: "text.quote")
-                                    .foregroundStyle(.orange)
+                                    .foregroundStyle(AppTheme.primary)
                                 Text("Your Review")
                                     .font(.headline)
                             }
@@ -704,7 +704,7 @@ struct ReviewDetailView: View {
                         VStack(alignment: .leading, spacing: 12) {
                             HStack {
                                 Image(systemName: "photo.on.rectangle")
-                                    .foregroundStyle(.orange)
+                                    .foregroundStyle(AppTheme.primary)
                                 Text("Photos")
                                     .font(.headline)
                             }
@@ -965,7 +965,7 @@ struct AvatarPickerView: View {
                     Circle()
                         .fill(
                             LinearGradient(
-                                colors: [.orange.opacity(0.3), .red.opacity(0.3)],
+                                colors: [ClnkColors.Primary.shade500.opacity(0.3), ClnkColors.Accent.shade600.opacity(0.3)],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             )
@@ -994,13 +994,13 @@ struct AvatarPickerView: View {
                                     .frame(width: 50, height: 50)
                                     .background(
                                         selectedEmoji == emoji ?
-                                        Color.orange.opacity(0.3) :
+                                        AppTheme.primary.opacity(0.3) :
                                         AppTheme.backgroundSecondary
                                     )
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 12)
-                                            .stroke(selectedEmoji == emoji ? .orange : .clear, lineWidth: 2)
+                                            .stroke(selectedEmoji == emoji ? AppTheme.primary : .clear, lineWidth: 2)
                                     )
                             }
                         }

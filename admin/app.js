@@ -1,11 +1,11 @@
 // Clnk Admin Dashboard JavaScript
 
 // Supabase Configuration
-const SUPABASE_URL = 'https://kgfdwcsydjzioqdlovjy.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_C-zYfZQIRTa1JaTuIkVf1w_Sy_bh19K';
+const SUPABASE_URL = 'https://rbeuvvttiyxrdsgkrwaa.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_eg3URPxXfuPzsFol-kyAIg_fqlUhQ7P';
 
 // Simple admin password (in production, use Supabase Auth)
-const ADMIN_PASSWORD = 'bitevue2024';
+const ADMIN_PASSWORD = 'clnk2024';
 
 // Initialize Supabase client
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Authentication
 function checkAuth() {
-    const isAuthenticated = sessionStorage.getItem('bitevue_admin_auth') === 'true';
+    const isAuthenticated = sessionStorage.getItem('clnk_admin_auth') === 'true';
     
     if (isAuthenticated) {
         showDashboard();
@@ -43,7 +43,7 @@ function showDashboard() {
 }
 
 function logout() {
-    sessionStorage.removeItem('bitevue_admin_auth');
+    sessionStorage.removeItem('clnk_admin_auth');
     showLogin();
 }
 
@@ -56,7 +56,7 @@ function setupEventListeners() {
         const errorDiv = document.getElementById('login-error');
         
         if (password === ADMIN_PASSWORD) {
-            sessionStorage.setItem('bitevue_admin_auth', 'true');
+            sessionStorage.setItem('clnk_admin_auth', 'true');
             errorDiv.textContent = '';
             showDashboard();
         } else {
@@ -130,8 +130,8 @@ async function loadStats() {
     try {
         // Get counts from each table
         const [restaurants, dishes, ratings, users, reports, blocks] = await Promise.all([
-            supabase.from('restaurants').select('id', { count: 'exact', head: true }),
-            supabase.from('dishes').select('id', { count: 'exact', head: true }),
+            supabase.from('venues').select('id', { count: 'exact', head: true }),
+            supabase.from('cocktails').select('id', { count: 'exact', head: true }),
             supabase.from('ratings').select('id', { count: 'exact', head: true }),
             supabase.from('profiles').select('id', { count: 'exact', head: true }),
             supabase.from('reports').select('id', { count: 'exact', head: true }),

@@ -1,5 +1,5 @@
 {
-  "name": "bitevue",
+  "name": "clnk",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,16 +8,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bendichter/BiteVue.git"
+    "url": "git+https://github.com/bendichter/Clnk.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/bendichter/BiteVue/issues"
+    "url": "https://github.com/bendichter/Clnk/issues"
   },
-  "homepage": "https://github.com/bendichter/BiteVue#readme",
+  "homepage": "https://github.com/bendichter/Clnk#readme",
   "dependencies": {
     "dotenv": "^17.2.3"
   }

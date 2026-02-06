@@ -5,10 +5,10 @@ enum Config {
     // MARK: - Supabase Configuration
     
     /// Supabase project URL
-    static let supabaseURL = "https://kgfdwcsydjzioqdlovjy.supabase.co"
-    
+    static let supabaseURL = "https://rbeuvvttiyxrdsgkrwaa.supabase.co"
+
     /// Supabase anonymous (public) key - safe to include in client apps
-    static let supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtnZmR3Y3N5ZGp6aW9xZGxvdmp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk5OTczNzAsImV4cCI6MjA4NTU3MzM3MH0.uvtdiHxGpMiyOdH618Hr2nrPtb3GHOsoQqm_PpRT1N4"
+    static let supabaseAnonKey = "sb_publishable_eg3URPxXfuPzsFol-kyAIg_fqlUhQ7P"
     
     // MARK: - Storage Configuration
     

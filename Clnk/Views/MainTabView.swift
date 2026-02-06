@@ -67,7 +67,7 @@ struct MainTabView: View {
             }
             .tag(4)
         }
-        .tint(.orange)
+        .tint(AppTheme.primary)
     }
 }
 
@@ -110,7 +110,7 @@ struct SearchView: View {
                     // Top Rated Dishes
                     if !restaurantViewModel.topRatedDishes.isEmpty {
                         VStack(alignment: .leading, spacing: 16) {
-                            SectionHeader(title: "⭐️ Top Rated Dishes")
+                            SectionHeader(title: "⭐️ Top Rated Cocktails")
                                 .padding(.horizontal)
                             
                             VStack(spacing: 12) {
@@ -131,10 +131,10 @@ struct SearchView: View {
                     let matchingDishes = findMatchingDishes()
                     if matchingDishes.isEmpty {
                         VStack(spacing: 16) {
-                            Image(systemName: "fork.knife")
+                            Image(systemName: "wineglass")
                                 .font(.system(size: 48))
                                 .foregroundStyle(AppTheme.textTertiary)
-                            Text("No dishes found")
+                            Text("No cocktails found")
                                 .font(.headline)
                                 .foregroundStyle(AppTheme.textPrimary)
                             Text("Try a different search term")
@@ -145,7 +145,7 @@ struct SearchView: View {
                         .padding(.vertical, 60)
                     } else {
                         VStack(alignment: .leading, spacing: 12) {
-                            Text("\(matchingDishes.count) dish\(matchingDishes.count == 1 ? "" : "es") found")
+                            Text("\(matchingDishes.count) cocktail\(matchingDishes.count == 1 ? "" : "s") found")
                                 .font(.subheadline)
                                 .foregroundStyle(AppTheme.textSecondary)
                                 .padding(.horizontal)
@@ -627,7 +627,7 @@ struct TopRatedDishRow: View {
         switch rank {
         case 1: return .yellow
         case 2: return Color(white: 0.75)
-        case 3: return .orange
+        case 3: return ClnkColors.Gold.shade500
         default: return AppTheme.textTertiary
         }
     }
